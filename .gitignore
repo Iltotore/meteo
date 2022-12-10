@@ -1,3 +1,11 @@
+# IDE files
+.vscode
+.idea
+*.iml
+
+# Resources
+*.csv
+
 # Prerequisites
 *.d
 
