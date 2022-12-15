@@ -5,23 +5,23 @@
 #include "util.h"
 
 void printCell(LinkedList cell) {
-    if(cell->empty) printf("END\n");
+    if (cell->empty) printf("END\n");
     else {
         printf("%d", cell->head);
         printf("->");
         printCell(cell->tail);
-    } 
+    }
 }
 
 int last(LinkedList plist) {
-    if(plist->empty) error("Calling last item of empty list");
-    if(plist->tail->empty) return plist->head;
+    if (plist->empty) error("Calling last item of empty list");
+    if (plist->tail->empty) return plist->head;
     else return last(plist->tail);
 }
 
 LinkedList setHead(LinkedList plist, int a) {
     plist->head = a;
-    if(plist->empty) {
+    if (plist->empty) {
         plist->tail = emptyCell();
         plist->empty = false;
     }
@@ -51,7 +51,7 @@ LinkedList prepend(LinkedList plist, int a) {
 }
 
 LinkedList append(LinkedList plist, int a) {
-    if(plist->empty) return setHead(plist, a);
+    if (plist->empty) return setHead(plist, a);
     else {
         append(plist->tail, a);
         return plist; //Keep original head
@@ -59,8 +59,8 @@ LinkedList append(LinkedList plist, int a) {
 }
 
 LinkedList insertOrd(LinkedList plist, int a) {
-    if(plist->head > a) return prepend(plist, a);
-    if(plist->empty) return setHead(plist, a);
+    if (plist->head > a) return prepend(plist, a);
+    if (plist->empty) return setHead(plist, a);
     else {
         insertOrd(plist->tail, a);
         return plist;
@@ -68,66 +68,65 @@ LinkedList insertOrd(LinkedList plist, int a) {
 }
 
 LinkedList shift(LinkedList plist) {
-    if(plist->empty) return plist;
+    if (plist->empty) return plist;
     LinkedList oldTail = plist->tail;
     plist->head = oldTail->head;
     plist->tail = oldTail->tail;
     plist->empty = oldTail->empty;
-    if(oldTail->empty) safeFree(oldTail);
+    if (oldTail->empty) safeFree(oldTail);
     return plist;
 }
 
 LinkedList shiftValues(LinkedList plist, int placeholder) {
-    if(plist->empty) return plist;
-    
+    if (plist->empty) return plist;
+
     plist->head = plist->tail->empty ? placeholder : plist->tail->head;
-    
+
     shiftValues(plist->tail, placeholder);
 
     return plist;
 }
 
 LinkedList removeFirst(LinkedList plist, int a) {
-    if(plist->empty) return plist;
-    else if(plist->head == a) return shift(plist);
+    if (plist->empty) return plist;
+    else if (plist->head == a) return shift(plist);
     else {
         removeFirst(plist->tail, a);
         return plist;
-    } 
+    }
 }
 
 LinkedList removeAll(LinkedList plist, int a) {
-    if(plist->empty) return plist;
+    if (plist->empty) return plist;
     else {
-        if(plist->head == a) {
+        if (plist->head == a) {
             shift(plist);
             removeAll(plist, a);
-        }
-        else removeAll(plist->tail, a);
-        
+        } else removeAll(plist->tail, a);
+
         return plist;
     }
 }
 
 int length(LinkedList plist) {
-    if(plist->empty) return 0;
-    else return 1+length(plist->tail);
+    if (plist->empty) return 0;
+    else return 1 + length(plist->tail);
 }
 
 LinkedList getCell(LinkedList plist, int index) {
-    if(plist->empty) {
+    if (plist->empty) {
         printf("Index out of bound\n");
         exit(1);
-    } else if(index == 0) return plist;
-    else return getCell(plist->tail, index-1);
+    } else if (index == 0) return plist;
+    else return getCell(plist->tail, index - 1);
 }
 
 LinkedList reverse(LinkedList plist) {
-    if(plist->empty) return plist;
+    if (plist->empty) return plist;
     else {
         int left = 0;
-        int right = length(plist)-1;
-        while(left < right) {
+        int right = length(plist) - 1;
+        while (left < right) {
 
             LinkedList leftCell = getCell(plist, left);
             LinkedList rightCell = getCell(plist, right);

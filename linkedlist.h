@@ -1,4 +1,5 @@
 #include <stdbool.h>
+
 #ifndef linkedlist
 #define linkedlist
 
@@ -12,12 +13,12 @@
  * @param empty whether this cell is empty.
  */
 typedef struct CellR {
-  int head;
-  struct CellR* tail;
-  int empty;
+    int head;
+    struct CellR *tail;
+    int empty;
 } Cell;
 
-typedef Cell* LinkedList;
+typedef Cell *LinkedList;
 
 /**
  * Get the length of the given list.

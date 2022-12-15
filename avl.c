@@ -8,8 +8,8 @@
  * @param value the value of the new node.
  * @return a pointer to the newly created node which contains the given value.
  */
-AVL* createAVL(WeatherRow value) {
-    AVL* avl = safeMalloc(sizeof(AVL));
+AVL *createAVL(WeatherRow value) {
+    AVL *avl = safeMalloc(sizeof(AVL));
     avl->value = value;
     avl->left = NULL;
     avl->right = NULL;
@@ -18,8 +18,8 @@ AVL* createAVL(WeatherRow value) {
 }
 
 
-void printAVLInfixRec(AVL* avl) {
-    if(avl != NULL) {
+void printAVLInfixRec(AVL *avl) {
+    if (avl != NULL) {
         printAVLInfixRec(avl->left);
         printf("%d(%d) ", avl->value.id, avl->balance);
         printAVLInfixRec(avl->right);
@@ -31,7 +31,7 @@ void printAVLInfixRec(AVL* avl) {
  * 
  * @param avl the tree to visit.
  */
-void printAVLInfix(AVL* avl) {
+void printAVLInfix(AVL *avl) {
     printAVLInfixRec(avl);
     printf("\n");
 }
@@ -41,8 +41,8 @@ void printAVLInfix(AVL* avl) {
  * 
  * @param avl the tree tree to get the height from.
  */
-int heightAVL(AVL* avl) {
-    if(avl == NULL) return 0;
+int heightAVL(AVL *avl) {
+    if (avl == NULL) return 0;
     else {
         int leftHeight = heightAVL(avl->left);
         int rightHeight = heightAVL(avl->right);
@@ -56,28 +56,28 @@ int heightAVL(AVL* avl) {
  * @param avl the tree to balance.
  * @return the new root of the given AVL in which all nodes have a balance factor between -1 and 1.
  */
-AVL* balanceAVL(AVL* avl) {
-    if(avl->balance >= -1 && avl->balance <= 1) return avl;
-    else if(avl->balance == 2) return avl->right->balance == 1 ? rotateLeft(avl) : rotateDoubleLeft(avl);
+AVL *balanceAVL(AVL *avl) {
+    if (avl->balance >= -1 && avl->balance <= 1) return avl;
+    else if (avl->balance == 2) return avl->right->balance == 1 ? rotateLeft(avl) : rotateDoubleLeft(avl);
     else return avl->left->balance == -1 ? rotateRight(avl) : rotateDoubleRight(avl);
 }
 
-AVL* insertAVLRec(AVL* avl, WeatherRow value, int* h, Comparator comparator) {
-    if(avl == NULL) { //Création d'un AVL -> équilibre +- 1
+AVL *insertAVLRec(AVL *avl, WeatherRow value, int *h, Comparator comparator) {
+    if (avl == NULL) { //Création d'un AVL -> équilibre +- 1
         *h = 1;
         return createAVL(value);
-    } else if(comparator(value, avl->value) == Equal) { //Noeud déjà présent
+    } else if (comparator(value, avl->value) == Equal) { //Noeud déjà présent
         *h = 0;
         return avl;
     } else {
-        if(comparator(value, avl->value) == Less) { //Ajouter à gauche
+        if (comparator(value, avl->value) == Less) { //Ajouter à gauche
             avl->left = insertAVLRec(avl->left, value, h, comparator);
             *h = -*h;
         } else { //Ajouter à droite
             avl->right = insertAVLRec(avl->right, value, h, comparator);
         }
 
-        if(*h != 0) { //Si il y a eu ajout
+        if (*h != 0) { //Si il y a eu ajout
             avl->balance += *h;
             avl = balanceAVL(avl);
             *h = avl->balance == 0 ? 0 : 1; //Valeur absolue pour éviter la double négation avec l'ajout à gauche
@@ -94,8 +94,8 @@ AVL* insertAVLRec(AVL* avl, WeatherRow value, int* h, Comparator comparator) {
  * @return the new root of the given AVL containing the passed value, balanced.
  * @see balanceAVL
  */
-AVL* insertAVL(AVL* avl, WeatherRow value, Comparator comparator) {
-    int* h = safeMalloc(sizeof(int));
+AVL *insertAVL(AVL *avl, WeatherRow value, Comparator comparator) {
+    int *h = safeMalloc(sizeof(int));
     *h = 0;
     return insertAVLRec(avl, value, h, comparator);
 }
@@ -114,14 +114,14 @@ int min(int a, int b) {
  * @param avl the tree to rotate.
  * @return the new root of the given AVL, rotated.
  */
-AVL* rotateLeft(AVL* avl) { //Rotate the tree to the left
-    AVL* root = avl->right;
+AVL *rotateLeft(AVL *avl) { //Rotate the tree to the left
+    AVL *root = avl->right;
     avl->right = root->left;
     root->left = avl;
     int eq_a = avl->balance;
     int eq_root = root->balance;
     avl->balance = eq_a - max(eq_root, 0) - 1;
-    root->balance = min(eq_a-2, min(eq_a+eq_root-2, eq_root-1));
+    root->balance = min(eq_a - 2, min(eq_a + eq_root - 2, eq_root - 1));
     return root;
 }
 
@@ -131,14 +131,14 @@ AVL* rotateLeft(AVL* avl) { //Rotate the tree to the left
  * @param avl the tree to rotate.
  * @return the new root of the given AVL, rotated.
  */
-AVL* rotateRight(AVL* avl) { //Rotate the tree to the right
-    AVL* root = avl->left;
+AVL *rotateRight(AVL *avl) { //Rotate the tree to the right
+    AVL *root = avl->left;
     avl->left = root->right;
     root->right = avl;
     int eq_a = avl->balance;
     int eq_root = root->balance;
     avl->balance = eq_a - min(eq_root, 0) + 1;
-    root->balance = max(eq_a+2, max(eq_a+eq_root+2, eq_root+1));
+    root->balance = max(eq_a + 2, max(eq_a + eq_root + 2, eq_root + 1));
     return root;
 }
 
@@ -148,7 +148,7 @@ AVL* rotateRight(AVL* avl) { //Rotate the tree to the right
  * @param avl the tree to rotate.
  * @return the new root of the given AVL, rotated.
  */
-AVL* rotateDoubleLeft(AVL* avl) {
+AVL *rotateDoubleLeft(AVL *avl) {
     avl->right = rotateRight(avl->right);
     return rotateLeft(avl);
 }
@@ -159,7 +159,7 @@ AVL* rotateDoubleLeft(AVL* avl) {
  * @param avl the tree to rotate.
  * @return the new root of the given AVL, rotated.
  */
-AVL* rotateDoubleRight(AVL* avl) {
+AVL *rotateDoubleRight(AVL *avl) {
     avl->left = rotateLeft(avl->left);
     return rotateRight(avl);
 }

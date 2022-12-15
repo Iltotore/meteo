@@ -1,5 +1,6 @@
 #include <stdbool.h>
 #include "model.h"
+
 #ifndef tree
 #define tree
 
@@ -12,8 +13,8 @@
  */
 typedef struct _Node {
     WeatherRow value;
-    struct _Node* left;
-    struct _Node* right;
+    struct _Node *left;
+    struct _Node *right;
 } Node;
 
 /**
@@ -22,28 +23,28 @@ typedef struct _Node {
  * @param value the value of the new node.
  * @return a pointer to the newly created node.
  */
-Node* createNode(WeatherRow value);
+Node *createNode(WeatherRow value);
 
 /**
  * Print the given tree using prefix path.
  * 
  * @param node the tree to visit.
  */
-void printPrefix(Node* node);
+void printPrefix(Node *node);
 
 /**
  * Print the given tree using postfix path.
  * 
  * @param node the tree to visit.
  */
-void printPostfix(Node* node);
+void printPostfix(Node *node);
 
 /**
  * Print the given tree using infix path.
  * 
  * @param node the tree to visit.
  */
-void printInfix(Node* node);
+void printInfix(Node *node);
 
 /**
  * Check if the given node is empty.
@@ -51,7 +52,7 @@ void printInfix(Node* node);
  * @param node the node to test.
  * @return true if the node is NULL, false otherwise.
 */
-bool isEmpty(Node* node);
+bool isEmpty(Node *node);
 
 /**
  * Check if the given node is a leaf.
@@ -60,7 +61,7 @@ bool isEmpty(Node* node);
  * @return true if the node have neither right or left child.
  * @see hasLeft, hasRight
  */
-bool isLeaf(Node* node);
+bool isLeaf(Node *node);
 
 /**
  * Check if the given node has a left child.
@@ -68,7 +69,7 @@ bool isLeaf(Node* node);
  * @param node the node to test.
  * @return true if node->left is NULL.
  */
-bool hasLeft(Node* node);
+bool hasLeft(Node *node);
 
 /**
  * Check if the given node has a right child.
@@ -76,7 +77,7 @@ bool hasLeft(Node* node);
  * @param node the node to test.
  * @return true if node->right is NULL.
  */
-bool hasRight(Node* node);
+bool hasRight(Node *node);
 
 /**
  * Set the left child of the given node.
@@ -86,7 +87,7 @@ bool hasRight(Node* node);
  * @note exits if the node already has a left child.
  * @see addRight, removeLeft
  */
-void addLeft(Node* node, WeatherRow value);
+void addLeft(Node *node, WeatherRow value);
 
 /**
  * Set the right child of the given node.
@@ -96,7 +97,7 @@ void addLeft(Node* node, WeatherRow value);
  * @note exits if the node already has a right child.
  * @see addLeft, removeRight
  */
-void addRight(Node* node, WeatherRow value);
+void addRight(Node *node, WeatherRow value);
 
 /**
  * Set the root value of the given tree.
@@ -105,7 +106,7 @@ void addRight(Node* node, WeatherRow value);
  * @param value the root value.
  * @return this node, mutated, or a newly created one if node was NULL.
  */
-Node* setRoot(Node* node, WeatherRow value);
+Node *setRoot(Node *node, WeatherRow value);
 
 /**
  * Remove the left child of this node.
@@ -113,7 +114,7 @@ Node* setRoot(Node* node, WeatherRow value);
  * @param node the parent of the child to remove.
  * @see removeRight, addLeft
  */
-void removeLeft(Node* node);
+void removeLeft(Node *node);
 
 /**
  * Remove the right child of this node.
@@ -121,7 +122,7 @@ void removeLeft(Node* node);
  * @param node the parent of the child to remove.
  * @see removeLeft, addRight
  */
-void removeRight(Node* node);
+void removeRight(Node *node);
 
 /**
  * Count the leaves of the given tree.
@@ -130,14 +131,14 @@ void removeRight(Node* node);
  * @return the leaf count of the given tree.
  * @see isLeaf
  */
-int leafCount(Node* node);
+int leafCount(Node *node);
 
 /**
  * Get the height of the tree.
  * 
  * @param node the tree to get the height from.
  */
-int height(Node* node);
+int height(Node *node);
 
 /**
  * Check if the given BST contains the given value.
@@ -146,7 +147,7 @@ int height(Node* node);
  * @param value the value to search.
  * @return true if the tree contains value.
  */
-bool containsABR(Node* node, WeatherRow value, Comparator comparator);
+bool containsABR(Node *node, WeatherRow value, Comparator comparator);
 
 /**
  * Remove the given value from the given BST.
@@ -155,7 +156,7 @@ bool containsABR(Node* node, WeatherRow value, Comparator comparator);
  * @param value the value to remove.
  * @return the new root of the given BST.
  */
-Node* removeValue(Node* node, WeatherRow value, Comparator comparator);
+Node *removeValue(Node *node, WeatherRow value, Comparator comparator);
 
 /**
  * Insert the given value while still satsifying the BST criteria.
@@ -164,7 +165,7 @@ Node* removeValue(Node* node, WeatherRow value, Comparator comparator);
  * @param value the value to insert.
  * @return the new root of the given BST.
  */
-Node* insertABR(Node* node, WeatherRow value, Comparator comparator);
+Node *insertABR(Node *node, WeatherRow value, Comparator comparator);
 
 /**
  * Check if the given tree is a BST.
@@ -172,6 +173,6 @@ Node* insertABR(Node* node, WeatherRow value, Comparator comparator);
  * @param node the BST to check.
  * @return true if the given tree satsifies the BST criteria.
  */
-bool isABR(Node* node, Comparator comparator);
+bool isABR(Node *node, Comparator comparator);
 
 #endif

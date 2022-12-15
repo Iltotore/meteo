@@ -12,16 +12,16 @@
  * @param value the value of the new node.
  * @return a pointer to the newly created node.
  */
-Node* createNode(WeatherRow value) {
-    Node* node = safeMalloc(sizeof(Node));
+Node *createNode(WeatherRow value) {
+    Node *node = safeMalloc(sizeof(Node));
     (node->value) = value;
     node->left = NULL;
     node->right = NULL;
     return node;
 }
 
-void printPrefixRec(Node* node) {
-    if(node != NULL) {
+void printPrefixRec(Node *node) {
+    if (node != NULL) {
         printf("%d ", node->value.id);
         printPrefixRec(node->left);
         printPrefixRec(node->right);
@@ -33,13 +33,13 @@ void printPrefixRec(Node* node) {
  * 
  * @param node the tree to visit.
  */
-void printPrefix(Node* node) {
+void printPrefix(Node *node) {
     printPrefixRec(node);
     printf("\n");
 }
 
-void printPostfixRec(Node* node) {
-    if(node != NULL) {
+void printPostfixRec(Node *node) {
+    if (node != NULL) {
         printPostfixRec(node->left);
         printPostfixRec(node->right);
         printf("%d ", node->value.id);
@@ -51,13 +51,13 @@ void printPostfixRec(Node* node) {
  * 
  * @param node the tree to visit.
  */
-void printPostfix(Node* node) {
+void printPostfix(Node *node) {
     printPostfixRec(node);
     printf("\n");
 }
 
-void printInfixRec(Node* node) {
-    if(node != NULL) {
+void printInfixRec(Node *node) {
+    if (node != NULL) {
         printInfixRec(node->left);
         printf("%d ", node->value.id);
         printInfixRec(node->right);
@@ -69,7 +69,7 @@ void printInfixRec(Node* node) {
  * 
  * @param node the tree to visit.
  */
-void printInfix(Node* node) {
+void printInfix(Node *node) {
     printInfixRec(node);
     printf("\n");
 }
@@ -80,7 +80,7 @@ void printInfix(Node* node) {
  * @param node the node to test.
  * @return true if the node is NULL, false otherwise.
 */
-bool isEmpty(Node* node) {
+bool isEmpty(Node *node) {
     return node == NULL;
 }
 
@@ -91,7 +91,7 @@ bool isEmpty(Node* node) {
  * @return true if the node have neither right or left child.
  * @see hasLeft, hasRight
  */
-bool isLeaf(Node* node) {
+bool isLeaf(Node *node) {
     return node != NULL && node->left == NULL && node->right == NULL;
 }
 
@@ -101,7 +101,7 @@ bool isLeaf(Node* node) {
  * @param node the node to test.
  * @return true if node->left is NULL.
  */
-bool hasLeft(Node* node) {
+bool hasLeft(Node *node) {
     return node->left != NULL;
 }
 
@@ -111,7 +111,7 @@ bool hasLeft(Node* node) {
  * @param node the node to test.
  * @return true if node->right is NULL.
  */
-bool hasRight(Node* node) {
+bool hasRight(Node *node) {
     return node->right != NULL;
 }
 
@@ -123,8 +123,8 @@ bool hasRight(Node* node) {
  * @note exits if the node already has a left child.
  * @see addRight, removeLeft
  */
-void addLeft(Node* node, WeatherRow value) {
-    if(node->left != NULL) error("This node already has a left child!");
+void addLeft(Node *node, WeatherRow value) {
+    if (node->left != NULL) error("This node already has a left child!");
     node->left = createNode(value);
 }
 
@@ -136,8 +136,8 @@ void addLeft(Node* node, WeatherRow value) {
  * @note exits if the node already has a right child.
  * @see addLeft, removeRight
  */
-void addRight(Node* node, WeatherRow value) {
-    if(node->right != NULL) error("This node already has a right child!");
+void addRight(Node *node, WeatherRow value) {
+    if (node->right != NULL) error("This node already has a right child!");
     node->right = createNode(value);
 }
 
@@ -148,16 +148,16 @@ void addRight(Node* node, WeatherRow value) {
  * @param value the root value.
  * @return this node, mutated, or a newly created one if node was NULL.
  */
-Node* setRoot(Node* node, WeatherRow value) {
-    if(node == NULL) return createNode(value);
+Node *setRoot(Node *node, WeatherRow value) {
+    if (node == NULL) return createNode(value);
     else {
         node->value = value;
         return node;
     }
 }
 
-void freeNode(Node* node) {
-    if(node == NULL) return;
+void freeNode(Node *node) {
+    if (node == NULL) return;
     freeNode(node->left);
     freeNode(node->right);
     safeFree(node);
@@ -169,7 +169,7 @@ void freeNode(Node* node) {
  * @param node the parent of the child to remove.
  * @see removeRight, addLeft
  */
-void removeLeft(Node* node) {
+void removeLeft(Node *node) {
     freeNode(node->left);
     node->left = NULL;
 }
@@ -180,7 +180,7 @@ void removeLeft(Node* node) {
  * @param node the parent of the child to remove.
  * @see removeLeft, addRight
  */
-void removeRight(Node* node) {
+void removeRight(Node *node) {
     freeNode(node->right);
     node->right = NULL;
 }
@@ -192,9 +192,9 @@ void removeRight(Node* node) {
  * @return the leaf count of the given tree.
  * @see isLeaf
  */
-int leafCount(Node* node) {
-    if(node == NULL) return 0;
-    if(node->left == NULL && node->right == NULL) return 1;
+int leafCount(Node *node) {
+    if (node == NULL) return 0;
+    if (node->left == NULL && node->right == NULL) return 1;
     return leafCount(node->left) + leafCount(node->right);
 }
 
@@ -203,12 +203,12 @@ int leafCount(Node* node) {
  * 
  * @param node the tree to get the height from.
  */
-int height(Node* node) {
-    if(node == NULL) return 0;
+int height(Node *node) {
+    if (node == NULL) return 0;
     else {
         int leftHeight = height(node->left);
         int rightHeight = height(node->right);
-        return 1+(leftHeight > rightHeight ? leftHeight : rightHeight);
+        return 1 + (leftHeight > rightHeight ? leftHeight : rightHeight);
     }
 }
 
@@ -219,17 +219,17 @@ int height(Node* node) {
  * @param value the value to search.
  * @return true if the tree contains value.
  */
-bool containsABR(Node* node, WeatherRow value, Comparator comparator) {
-    if(node == NULL) return false;
+bool containsABR(Node *node, WeatherRow value, Comparator comparator) {
+    if (node == NULL) return false;
     else {
-        if(comparator(value, node->value) == Less) return containsABR(node->left, value, comparator);
-        else if(comparator(value, node->value) == Greater) return containsABR(node->right, value, comparator);
+        if (comparator(value, node->value) == Less) return containsABR(node->left, value, comparator);
+        else if (comparator(value, node->value) == Greater) return containsABR(node->right, value, comparator);
         else return true;
     }
 }
 
-Node* popMax(Node* node, WeatherRow* max) {
-    if(node == NULL) return NULL;
+Node *popMax(Node *node, WeatherRow *max) {
+    if (node == NULL) return NULL;
     else {
         *max = node->value;
         popMax(node->right, max);
@@ -244,22 +244,20 @@ Node* popMax(Node* node, WeatherRow* max) {
  * @param value the value to remove.
  * @return the new root of the given BST.
  */
-Node* removeValue(Node* node, WeatherRow value, Comparator comparator) {
-    if(node == NULL) return NULL;
-    else if(comparator(value, node->value) == Equal) {
-        if(node->left == NULL) return node->right;
+Node *removeValue(Node *node, WeatherRow value, Comparator comparator) {
+    if (node == NULL) return NULL;
+    else if (comparator(value, node->value) == Equal) {
+        if (node->left == NULL) return node->right;
         else {
             WeatherRow max;
-            Node* left = popMax(node->left, &max);
+            Node *left = popMax(node->left, &max);
             left->right = node->right;
             return left;
         }
-    }
-    else if(comparator(value, node->value) == Less) {
+    } else if (comparator(value, node->value) == Less) {
         node->left = removeValue(node->left, value, comparator);
         return node;
-    }
-    else if(comparator(value, node->value) == Greater) {
+    } else if (comparator(value, node->value) == Greater) {
         node->right = removeValue(node->right, value, comparator);
         return node;
     }
@@ -273,11 +271,11 @@ Node* removeValue(Node* node, WeatherRow value, Comparator comparator) {
  * @param value the value to insert.
  * @return the new root of the given BST.
  */
-Node* insertABR(Node* node, WeatherRow value, Comparator comparator) {
-    if(node == NULL) return createNode(value);
+Node *insertABR(Node *node, WeatherRow value, Comparator comparator) {
+    if (node == NULL) return createNode(value);
     else {
-        if(comparator(value, node->value) == Less) node->left = insertABR(node->left, value, comparator);
-        if(comparator(value, node->value) == Greater) node->right = insertABR(node->right, value, comparator);
+        if (comparator(value, node->value) == Less) node->left = insertABR(node->left, value, comparator);
+        if (comparator(value, node->value) == Greater) node->right = insertABR(node->right, value, comparator);
         return node;
     }
 }
@@ -288,8 +286,8 @@ Node* insertABR(Node* node, WeatherRow value, Comparator comparator) {
  * @param node the BST to check.
  * @return true if the given tree satsifies the BST criteria.
  */
-bool isABR(Node* node, Comparator comparator) {
-    if(node == NULL) return true;
+bool isABR(Node *node, Comparator comparator) {
+    if (node == NULL) return true;
     else {
         bool lessLeft = node->left == NULL || comparator(node->left->value, node->value) == Less;
         bool greaterRight = node->right == NULL || comparator(node->right->value, node->value) == Greater;
