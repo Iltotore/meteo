@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "tree.h"
+#include "model.h"
 #include "linkedlist.h"
 #include "util.h"
 
@@ -11,9 +12,9 @@
  * @param value the value of the new node.
  * @return a pointer to the newly created node.
  */
-Node* createNode(int value) {
+Node* createNode(WeatherRow value) {
     Node* node = safeMalloc(sizeof(Node));
-    node->value = value;
+    (node->value) = value;
     node->left = NULL;
     node->right = NULL;
     return node;
@@ -21,7 +22,7 @@ Node* createNode(int value) {
 
 void printPrefixRec(Node* node) {
     if(node != NULL) {
-        printf("%d ", node->value);
+        printf("%d ", node->value.id);
         printPrefixRec(node->left);
         printPrefixRec(node->right);
     }
@@ -41,7 +42,7 @@ void printPostfixRec(Node* node) {
     if(node != NULL) {
         printPostfixRec(node->left);
         printPostfixRec(node->right);
-        printf("%d ", node->value);
+        printf("%d ", node->value.id);
     }
 }
 
@@ -58,7 +59,7 @@ void printPostfix(Node* node) {
 void printInfixRec(Node* node) {
     if(node != NULL) {
         printInfixRec(node->left);
-        printf("%d ", node->value);
+        printf("%d ", node->value.id);
         printInfixRec(node->right);
     }
 }
@@ -122,7 +123,7 @@ bool hasRight(Node* node) {
  * @note exits if the node already has a left child.
  * @see addRight, removeLeft
  */
-void addLeft(Node* node, int value) {
+void addLeft(Node* node, WeatherRow value) {
     if(node->left != NULL) error("This node already has a left child!");
     node->left = createNode(value);
 }
@@ -135,7 +136,7 @@ void addLeft(Node* node, int value) {
  * @note exits if the node already has a right child.
  * @see addLeft, removeRight
  */
-void addRight(Node* node, int value) {
+void addRight(Node* node, WeatherRow value) {
     if(node->right != NULL) error("This node already has a right child!");
     node->right = createNode(value);
 }
@@ -147,7 +148,7 @@ void addRight(Node* node, int value) {
  * @param value the root value.
  * @return this node, mutated, or a newly created one if node was NULL.
  */
-Node* setRoot(Node* node, int value) {
+Node* setRoot(Node* node, WeatherRow value) {
     if(node == NULL) return createNode(value);
     else {
         node->value = value;
@@ -218,16 +219,16 @@ int height(Node* node) {
  * @param value the value to search.
  * @return true if the tree contains value.
  */
-bool containsABR(Node* node, int value) {
+bool containsABR(Node* node, WeatherRow value, Comparator comparator) {
     if(node == NULL) return false;
     else {
-        if(value < node->value) return containsABR(node->left, value);
-        else if(value > node->value) return containsABR(node->right, value);
+        if(comparator(value, node->value) == Less) return containsABR(node->left, value, comparator);
+        else if(comparator(value, node->value) == Greater) return containsABR(node->right, value, comparator);
         else return true;
     }
 }
 
-Node* popMax(Node* node, int* max) {
+Node* popMax(Node* node, WeatherRow* max) {
     if(node == NULL) return NULL;
     else {
         *max = node->value;
@@ -243,23 +244,23 @@ Node* popMax(Node* node, int* max) {
  * @param value the value to remove.
  * @return the new root of the given BST.
  */
-Node* removeValue(Node* node, int value) {
+Node* removeValue(Node* node, WeatherRow value, Comparator comparator) {
     if(node == NULL) return NULL;
-    else if(value == node->value) {
+    else if(comparator(value, node->value) == Equal) {
         if(node->left == NULL) return node->right;
         else {
-            int max;
+            WeatherRow max;
             Node* left = popMax(node->left, &max);
             left->right = node->right;
             return left;
         }
     }
-    else if(value < node->value) {
-        node->left = removeValue(node->left, value);
+    else if(comparator(value, node->value) == Less) {
+        node->left = removeValue(node->left, value, comparator);
         return node;
     }
-    else if(value > node->value) {
-        node->right = removeValue(node->right, value);
+    else if(comparator(value, node->value) == Greater) {
+        node->right = removeValue(node->right, value, comparator);
         return node;
     }
     return NULL;
@@ -272,11 +273,11 @@ Node* removeValue(Node* node, int value) {
  * @param value the value to insert.
  * @return the new root of the given BST.
  */
-Node* insertABR(Node* node, int value) {
+Node* insertABR(Node* node, WeatherRow value, Comparator comparator) {
     if(node == NULL) return createNode(value);
     else {
-        if(value < node->value) node->left = insertABR(node->left, value);
-        if(value > node->value) node->right = insertABR(node->right, value);
+        if(comparator(value, node->value) == Less) node->left = insertABR(node->left, value, comparator);
+        if(comparator(value, node->value) == Greater) node->right = insertABR(node->right, value, comparator);
         return node;
     }
 }
@@ -287,11 +288,11 @@ Node* insertABR(Node* node, int value) {
  * @param node the BST to check.
  * @return true if the given tree satsifies the BST criteria.
  */
-bool isABR(Node* node) {
+bool isABR(Node* node, Comparator comparator) {
     if(node == NULL) return true;
     else {
-        bool lessLeft = node->left == NULL || node->left->value < node->value;
-        bool greaterRight = node->right == NULL || node->right->value > node->value;
-        return lessLeft && greaterRight && isABR(node->left) && isABR(node->right); 
+        bool lessLeft = node->left == NULL || comparator(node->left->value, node->value) == Less;
+        bool greaterRight = node->right == NULL || comparator(node->right->value, node->value) == Greater;
+        return lessLeft && greaterRight && isABR(node->left, comparator) && isABR(node->right, comparator);
     }
 }

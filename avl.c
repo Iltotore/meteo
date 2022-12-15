@@ -8,7 +8,7 @@
  * @param value the value of the new node.
  * @return a pointer to the newly created node which contains the given value.
  */
-AVL* createAVL(int value) {
+AVL* createAVL(WeatherRow value) {
     AVL* avl = safeMalloc(sizeof(AVL));
     avl->value = value;
     avl->left = NULL;
@@ -21,7 +21,7 @@ AVL* createAVL(int value) {
 void printAVLInfixRec(AVL* avl) {
     if(avl != NULL) {
         printAVLInfixRec(avl->left);
-        printf("%d(%d) ", avl->value, avl->balance);
+        printf("%d(%d) ", avl->value.id, avl->balance);
         printAVLInfixRec(avl->right);
     }
 }
@@ -62,19 +62,19 @@ AVL* balanceAVL(AVL* avl) {
     else return avl->left->balance == -1 ? rotateRight(avl) : rotateDoubleRight(avl);
 }
 
-AVL* insertAVLRec(AVL* avl, int value, int* h) {
+AVL* insertAVLRec(AVL* avl, WeatherRow value, int* h, Comparator comparator) {
     if(avl == NULL) { //Création d'un AVL -> équilibre +- 1
         *h = 1;
         return createAVL(value);
-    } else if(value == avl->value) { //Noeud déjà présent
+    } else if(comparator(value, avl->value) == Equal) { //Noeud déjà présent
         *h = 0;
         return avl;
     } else {
-        if(value < avl->value) { //Ajouter à gauche
-            avl->left = insertAVLRec(avl->left, value, h);
+        if(comparator(value, avl->value) == Less) { //Ajouter à gauche
+            avl->left = insertAVLRec(avl->left, value, h, comparator);
             *h = -*h;
         } else { //Ajouter à droite
-            avl->right = insertAVLRec(avl->right, value, h);
+            avl->right = insertAVLRec(avl->right, value, h, comparator);
         }
 
         if(*h != 0) { //Si il y a eu ajout
@@ -94,10 +94,10 @@ AVL* insertAVLRec(AVL* avl, int value, int* h) {
  * @return the new root of the given AVL containing the passed value, balanced.
  * @see balanceAVL
  */
-AVL* insertAVL(AVL* avl, int value) {
+AVL* insertAVL(AVL* avl, WeatherRow value, Comparator comparator) {
     int* h = safeMalloc(sizeof(int));
     *h = 0;
-    return insertAVLRec(avl, value, h);
+    return insertAVLRec(avl, value, h, comparator);
 }
 
 int max(int a, int b) {

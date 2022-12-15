@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include "model.h"
 #ifndef avl_h
 #define avl_h
 
@@ -11,7 +12,7 @@
  * @param balance the balance factor of this node. Must be between -1 and 1 after balance.
  */
 typedef struct _AVL {
-    int value;
+    WeatherRow value;
     struct _AVL* left;
     struct _AVL* right;
     int balance;
@@ -23,7 +24,7 @@ typedef struct _AVL {
  * @param value the value of the new node.
  * @return a pointer to the newly created node which contains the given value.
  */
-AVL* createAVL(int value);
+AVL* createAVL(WeatherRow value);
 
 /**
  * Print the given AVL using infix path.
@@ -55,7 +56,7 @@ AVL* balanceAVL(AVL* avl);
  * @return the new root of the given AVL containing the passed value, balanced.
  * @see balanceAVL
  */
-AVL* insertAVL(AVL* avl, int value);
+AVL* insertAVL(AVL* avl, WeatherRow value, Comparator comparator);
 
 /**
  * Rotates from right to left (counter-clockwise) the given AVL.
