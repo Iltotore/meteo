@@ -53,4 +53,6 @@ typedef enum {
 
 typedef Comparison (*Comparator)(WeatherRow, WeatherRow);
 
+Comparison compareStationID(WeatherRow a, WeatherRow b);
+
 #endif
