@@ -28,6 +28,14 @@ typedef struct _AVL {
 AVL *createAVL(WeatherRow value);
 
 /**
+ * Executes the given callback to each node using infix path.
+ * @param avl the tree to visit.
+ * @param callback the callback to call.
+ * @param reversed use descending order if true.
+ */
+void forEachInfixAVL(AVL *avl, Callback callback, bool reversed);
+
+/**
  * Print the given AVL using infix path.
  * 
  * @param avl the tree to visit.

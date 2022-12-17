@@ -17,6 +17,19 @@ AVL *createAVL(WeatherRow value) {
     return avl;
 }
 
+/**
+ * Executes the given callback to each node using infix path.
+ * @param avl the tree to visit.
+ * @param callback the callback to call.
+ * @param reversed use descending order if true.
+ */
+void forEachInfixAVL(AVL *avl, Callback callback, bool reversed) {
+    if(avl != NULL) {
+        forEachInfixAVL(reversed ? avl->right : avl->left, callback, reversed);
+        callback(avl->value);
+        forEachInfixAVL(reversed ? avl->left : avl->right, callback, reversed);
+    }
+}
 
 void printAVLInfixRec(AVL *avl) {
     if (avl != NULL) {

@@ -20,6 +20,20 @@ Node *createNode(WeatherRow value) {
     return node;
 }
 
+/**
+ * Executes the given callback to each node using infix path.
+ * @param node the tree to visit.
+ * @param callback the callback to call.
+ * @param reversed use descending order if true.
+ */
+void forEachInfix(Node *node, Callback callback, bool reversed) {
+    if(node != NULL) {
+        forEachInfix(reversed ? node->right : node->left, callback, reversed);
+        callback(node->value);
+        forEachInfix(reversed ? node->left : node->right, callback, reversed);
+    }
+}
+
 void printPrefixRec(Node *node) {
     if (node != NULL) {
         printf("%d ", node->value.id);

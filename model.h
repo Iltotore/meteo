@@ -55,4 +55,6 @@ typedef Comparison (*Comparator)(WeatherRow, WeatherRow);
 
 Comparison compareStationID(WeatherRow a, WeatherRow b);
 
+typedef void (*Callback)(WeatherRow);
+
 #endif

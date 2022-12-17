@@ -26,6 +26,14 @@ typedef struct _Node {
 Node *createNode(WeatherRow value);
 
 /**
+ * Executes the given callback to each node using infix path.
+ * @param node the tree to visit.
+ * @param callback the callback to call.
+ * @param reversed use descending order if true.
+ */
+void forEachInfix(Node *node, Callback callback, bool reversed);
+
+/**
  * Print the given tree using prefix path.
  * 
  * @param node the tree to visit.
