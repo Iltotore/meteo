@@ -1,5 +1,5 @@
 #include "stdio.h"
-#include "tree.h"
+#include "doublelinkedlist.h"
 #include "stdlib.h"
 #include "time.h"
 #include "model.h"
@@ -12,17 +12,17 @@ int main() {
 
     srand(time(NULL));
 
-    Tree* node = NULL;
+    DoubleLinkedList* list = emptyList();
     for(int i = 0; i < 10; i++) {
         WeatherRow row;
         row.id = rand()%100;
-        node = insertBST(node, row, compareStationID);
+        list = insertOrd(list, row, compareStationID);
     }
 
-    printInfix(node);
-    forEachInfix(node, printRow, false);
+    printList(list);
+    forEach(list, printRow, false);
     printf("\n");
-    forEachInfix(node, printRow, true);
+    forEach(list, printRow, true);
     printf("\n");
 
     return 0;

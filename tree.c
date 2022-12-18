@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include "tree.h"
 #include "model.h"
-#include "linkedlist.h"
 #include "util.h"
 
 /**
