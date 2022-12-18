@@ -12,11 +12,11 @@ int main() {
 
     srand(time(NULL));
 
-    Node* node = NULL;
+    Tree* node = NULL;
     for(int i = 0; i < 10; i++) {
         WeatherRow row;
         row.id = rand()%100;
-        node = insertABR(node, row, compareStationID);
+        node = insertBST(node, row, compareStationID);
     }
 
     printInfix(node);

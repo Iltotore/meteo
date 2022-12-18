@@ -12,8 +12,8 @@
  * @param value the value of the new node.
  * @return a pointer to the newly created node.
  */
-Node *createNode(WeatherRow value) {
-    Node *node = safeMalloc(sizeof(Node));
+Tree *createNode(WeatherRow value) {
+    Tree *node = safeMalloc(sizeof(Tree));
     (node->value) = value;
     node->left = NULL;
     node->right = NULL;
@@ -21,156 +21,156 @@ Node *createNode(WeatherRow value) {
 }
 
 /**
- * Executes the given callback to each node using infix path.
- * @param node the tree to visit.
+ * Executes the given callback to each tree using infix path.
+ * @param tree the tree to visit.
  * @param callback the callback to call.
  * @param reversed use descending order if true.
  */
-void forEachInfix(Node *node, Callback callback, bool reversed) {
-    if(node != NULL) {
-        forEachInfix(reversed ? node->right : node->left, callback, reversed);
-        callback(node->value);
-        forEachInfix(reversed ? node->left : node->right, callback, reversed);
+void forEachInfix(Tree *tree, Callback callback, bool reversed) {
+    if(tree != NULL) {
+        forEachInfix(reversed ? tree->right : tree->left, callback, reversed);
+        callback(tree->value);
+        forEachInfix(reversed ? tree->left : tree->right, callback, reversed);
     }
 }
 
-void printPrefixRec(Node *node) {
-    if (node != NULL) {
-        printf("%d ", node->value.id);
-        printPrefixRec(node->left);
-        printPrefixRec(node->right);
+void printPrefixRec(Tree *tree) {
+    if (tree != NULL) {
+        printf("%d ", tree->value.id);
+        printPrefixRec(tree->left);
+        printPrefixRec(tree->right);
     }
 }
 
 /**
  * Print the given tree using prefix path.
  * 
- * @param node the tree to visit.
+ * @param tree the tree to visit.
  */
-void printPrefix(Node *node) {
-    printPrefixRec(node);
+void printPrefix(Tree *tree) {
+    printPrefixRec(tree);
     printf("\n");
 }
 
-void printPostfixRec(Node *node) {
-    if (node != NULL) {
-        printPostfixRec(node->left);
-        printPostfixRec(node->right);
-        printf("%d ", node->value.id);
+void printPostfixRec(Tree *tree) {
+    if (tree != NULL) {
+        printPostfixRec(tree->left);
+        printPostfixRec(tree->right);
+        printf("%d ", tree->value.id);
     }
 }
 
 /**
  * Print the given tree using postfix path.
  * 
- * @param node the tree to visit.
+ * @param tree the tree to visit.
  */
-void printPostfix(Node *node) {
-    printPostfixRec(node);
+void printPostfix(Tree *tree) {
+    printPostfixRec(tree);
     printf("\n");
 }
 
-void printInfixRec(Node *node) {
-    if (node != NULL) {
-        printInfixRec(node->left);
-        printf("%d ", node->value.id);
-        printInfixRec(node->right);
+void printInfixRec(Tree *tree) {
+    if (tree != NULL) {
+        printInfixRec(tree->left);
+        printf("%d ", tree->value.id);
+        printInfixRec(tree->right);
     }
 }
 
 /**
  * Print the given tree using infix path.
  * 
- * @param node the tree to visit.
+ * @param tree the tree to visit.
  */
-void printInfix(Node *node) {
-    printInfixRec(node);
+void printInfix(Tree *tree) {
+    printInfixRec(tree);
     printf("\n");
 }
 
 /**
- * Check if the given node is empty.
+ * Check if the given tree is empty.
  * 
- * @param node the node to test.
- * @return true if the node is NULL, false otherwise.
+ * @param tree the tree to test.
+ * @return true if the tree is NULL, false otherwise.
 */
-bool isEmpty(Node *node) {
-    return node == NULL;
+bool isEmpty(Tree *tree) {
+    return tree == NULL;
 }
 
 /**
- * Check if the given node is a leaf.
+ * Check if the given tree is a leaf.
  * 
- * @param node the node to test.
- * @return true if the node have neither right or left child.
+ * @param tree the tree to test.
+ * @return true if the tree have neither right or left child.
  * @see hasLeft, hasRight
  */
-bool isLeaf(Node *node) {
-    return node != NULL && node->left == NULL && node->right == NULL;
+bool isLeaf(Tree *tree) {
+    return tree != NULL && tree->left == NULL && tree->right == NULL;
 }
 
 /**
- * Check if the given node has a left child.
+ * Check if the given tree has a left child.
  * 
- * @param node the node to test.
- * @return true if node->left is NULL.
+ * @param tree the tree to test.
+ * @return true if tree->left is NULL.
  */
-bool hasLeft(Node *node) {
-    return node->left != NULL;
+bool hasLeft(Tree *tree) {
+    return tree->left != NULL;
 }
 
 /**
- * Check if the given node has a right child.
+ * Check if the given tree has a right child.
  * 
- * @param node the node to test.
- * @return true if node->right is NULL.
+ * @param tree the tree to test.
+ * @return true if tree->right is NULL.
  */
-bool hasRight(Node *node) {
-    return node->right != NULL;
+bool hasRight(Tree *tree) {
+    return tree->right != NULL;
 }
 
 /**
- * Set the left child of the given node.
+ * Set the left child of the given tree.
  * 
- * @param node the node to modify.
+ * @param tree the tree to modify.
  * @param value the value of the left child.
- * @note exits if the node already has a left child.
+ * @note exits if the tree already has a left child.
  * @see addRight, removeLeft
  */
-void addLeft(Node *node, WeatherRow value) {
-    if (node->left != NULL) error("This node already has a left child!");
-    node->left = createNode(value);
+void addLeft(Tree *tree, WeatherRow value) {
+    if (tree->left != NULL) error("This tree already has a left child!");
+    tree->left = createNode(value);
 }
 
 /**
- * Set the right child of the given node.
+ * Set the right child of the given tree.
  * 
- * @param node the node to modify.
+ * @param tree the tree to modify.
  * @param value the value of the right child.
- * @note exits if the node already has a right child.
+ * @note exits if the tree already has a right child.
  * @see addLeft, removeRight
  */
-void addRight(Node *node, WeatherRow value) {
-    if (node->right != NULL) error("This node already has a right child!");
-    node->right = createNode(value);
+void addRight(Tree *tree, WeatherRow value) {
+    if (tree->right != NULL) error("This tree already has a right child!");
+    tree->right = createNode(value);
 }
 
 /**
  * Set the root value of the given tree.
  * 
- * @param node the node to change its value.
+ * @param tree the tree to change its value.
  * @param value the root value.
- * @return this node, mutated, or a newly created one if node was NULL.
+ * @return this tree, mutated, or a newly created one if tree was NULL.
  */
-Node *setRoot(Node *node, WeatherRow value) {
-    if (node == NULL) return createNode(value);
+Tree *setRoot(Tree *tree, WeatherRow value) {
+    if (tree == NULL) return createNode(value);
     else {
-        node->value = value;
-        return node;
+        tree->value = value;
+        return tree;
     }
 }
 
-void freeNode(Node *node) {
+void freeNode(Tree *node) {
     if (node == NULL) return;
     freeNode(node->left);
     freeNode(node->right);
@@ -178,50 +178,50 @@ void freeNode(Node *node) {
 }
 
 /**
- * Remove the left child of this node.
+ * Remove the left child of this tree.
  * 
- * @param node the parent of the child to remove.
+ * @param tree the parent of the child to remove.
  * @see removeRight, addLeft
  */
-void removeLeft(Node *node) {
-    freeNode(node->left);
-    node->left = NULL;
+void removeLeft(Tree *tree) {
+    freeNode(tree->left);
+    tree->left = NULL;
 }
 
 /**
- * Remove the right child of this node.
+ * Remove the right child of this tree.
  * 
- * @param node the parent of the child to remove.
+ * @param tree the parent of the child to remove.
  * @see removeLeft, addRight
  */
-void removeRight(Node *node) {
-    freeNode(node->right);
-    node->right = NULL;
+void removeRight(Tree *tree) {
+    freeNode(tree->right);
+    tree->right = NULL;
 }
 
 /**
  * Count the leaves of the given tree.
  * 
- * @param node the tree to visit.
+ * @param tree the tree to visit.
  * @return the leaf count of the given tree.
  * @see isLeaf
  */
-int leafCount(Node *node) {
-    if (node == NULL) return 0;
-    if (node->left == NULL && node->right == NULL) return 1;
-    return leafCount(node->left) + leafCount(node->right);
+int leafCount(Tree *tree) {
+    if (tree == NULL) return 0;
+    if (tree->left == NULL && tree->right == NULL) return 1;
+    return leafCount(tree->left) + leafCount(tree->right);
 }
 
 /**
  * Get the height of the tree.
  * 
- * @param node the tree to get the height from.
+ * @param tree the tree to get the height from.
  */
-int height(Node *node) {
-    if (node == NULL) return 0;
+int height(Tree *tree) {
+    if (tree == NULL) return 0;
     else {
-        int leftHeight = height(node->left);
-        int rightHeight = height(node->right);
+        int leftHeight = height(tree->left);
+        int rightHeight = height(tree->right);
         return 1 + (leftHeight > rightHeight ? leftHeight : rightHeight);
     }
 }
@@ -229,20 +229,20 @@ int height(Node *node) {
 /**
  * Check if the given BST contains the given value.
  * 
- * @param node the BST to search in.
+ * @param tree the BST to search in.
  * @param value the value to search.
  * @return true if the tree contains value.
  */
-bool containsABR(Node *node, WeatherRow value, Comparator comparator) {
-    if (node == NULL) return false;
+bool containsBST(Tree *tree, WeatherRow value, Comparator comparator) {
+    if (tree == NULL) return false;
     else {
-        if (comparator(value, node->value) == Less) return containsABR(node->left, value, comparator);
-        else if (comparator(value, node->value) == Greater) return containsABR(node->right, value, comparator);
+        if (comparator(value, tree->value) == Less) return containsBST(tree->left, value, comparator);
+        else if (comparator(value, tree->value) == Greater) return containsBST(tree->right, value, comparator);
         else return true;
     }
 }
 
-Node *popMax(Node *node, WeatherRow *max) {
+Tree *popMax(Tree *node, WeatherRow *max) {
     if (node == NULL) return NULL;
     else {
         *max = node->value;
@@ -254,26 +254,26 @@ Node *popMax(Node *node, WeatherRow *max) {
 /**
  * Remove the given value from the given BST.
  * 
- * @param node the BST to remove from.
+ * @param tree the BST to remove from.
  * @param value the value to remove.
  * @return the new root of the given BST.
  */
-Node *removeValue(Node *node, WeatherRow value, Comparator comparator) {
-    if (node == NULL) return NULL;
-    else if (comparator(value, node->value) == Equal) {
-        if (node->left == NULL) return node->right;
+Tree *removeValue(Tree *tree, WeatherRow value, Comparator comparator) {
+    if (tree == NULL) return NULL;
+    else if (comparator(value, tree->value) == Equal) {
+        if (tree->left == NULL) return tree->right;
         else {
             WeatherRow max;
-            Node *left = popMax(node->left, &max);
-            left->right = node->right;
+            Tree *left = popMax(tree->left, &max);
+            left->right = tree->right;
             return left;
         }
-    } else if (comparator(value, node->value) == Less) {
-        node->left = removeValue(node->left, value, comparator);
-        return node;
-    } else if (comparator(value, node->value) == Greater) {
-        node->right = removeValue(node->right, value, comparator);
-        return node;
+    } else if (comparator(value, tree->value) == Less) {
+        tree->left = removeValue(tree->left, value, comparator);
+        return tree;
+    } else if (comparator(value, tree->value) == Greater) {
+        tree->right = removeValue(tree->right, value, comparator);
+        return tree;
     }
     return NULL;
 }
@@ -281,30 +281,30 @@ Node *removeValue(Node *node, WeatherRow value, Comparator comparator) {
 /**
  * Insert the given value while still satsifying the BST criteria.
  * 
- * @param node the BST to insert into.
+ * @param tree the BST to insert into.
  * @param value the value to insert.
  * @return the new root of the given BST.
  */
-Node *insertABR(Node *node, WeatherRow value, Comparator comparator) {
-    if (node == NULL) return createNode(value);
+Tree *insertBST(Tree *tree, WeatherRow value, Comparator comparator) {
+    if (tree == NULL) return createNode(value);
     else {
-        if (comparator(value, node->value) == Less) node->left = insertABR(node->left, value, comparator);
-        if (comparator(value, node->value) == Greater) node->right = insertABR(node->right, value, comparator);
-        return node;
+        if (comparator(value, tree->value) == Less) tree->left = insertBST(tree->left, value, comparator);
+        if (comparator(value, tree->value) == Greater) tree->right = insertBST(tree->right, value, comparator);
+        return tree;
     }
 }
 
 /**
  * Check if the given tree is a BST.
  * 
- * @param node the BST to check.
+ * @param tree the BST to check.
  * @return true if the given tree satsifies the BST criteria.
  */
-bool isABR(Node *node, Comparator comparator) {
-    if (node == NULL) return true;
+bool isBST(Tree *tree, Comparator comparator) {
+    if (tree == NULL) return true;
     else {
-        bool lessLeft = node->left == NULL || comparator(node->left->value, node->value) == Less;
-        bool greaterRight = node->right == NULL || comparator(node->right->value, node->value) == Greater;
-        return lessLeft && greaterRight && isABR(node->left, comparator) && isABR(node->right, comparator);
+        bool lessLeft = tree->left == NULL || comparator(tree->left->value, tree->value) == Less;
+        bool greaterRight = tree->right == NULL || comparator(tree->right->value, tree->value) == Greater;
+        return lessLeft && greaterRight && isBST(tree->left, comparator) && isBST(tree->right, comparator);
     }
 }
