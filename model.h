@@ -25,7 +25,7 @@
  */
 typedef struct {
     int id;
-    char *date;
+    time_t date;
     int *seaPressure; //Pointer represent optional values (aka can be NULL)
     int *windDirection;
     float *windSpeed;
@@ -53,10 +53,29 @@ typedef enum {
 
 typedef Comparison (*Comparator)(WeatherRow, WeatherRow);
 
+/**
+ * Compares the station's ID of two WeatherRow
+ */
+
 Comparison compareStationID(WeatherRow a, WeatherRow b);
+
+/**
+ * Compares the height of two WeatherRow
+ */
 
 Comparison compareHeight(WeatherRow a, WeatherRow b);
 
+/**
+ * Compares the moisture of two WeatherRow
+ */
+Comparison compareMoisture(WeatherRow a, WeatherRow b);
+
+/**
+ * Compares the measure date of two WeatherRow
+ */
+Comparison compareTime3(WeatherRow a, WeatherRow b);
+
+Comparison compareTime2(WeatherRow a, WeatherRow b);
 
 typedef void (*Callback)(WeatherRow);
 
