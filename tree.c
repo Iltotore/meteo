@@ -34,7 +34,7 @@ void forEachInfix(Tree *tree, Callback callback, bool reversed) {
 }
 
 void printPrefixRec(Tree *tree) {
-    if (tree != NULL) {
+    if(tree != NULL) {
         printf("%d ", tree->value.id);
         printPrefixRec(tree->left);
         printPrefixRec(tree->right);
@@ -52,7 +52,7 @@ void printPrefix(Tree *tree) {
 }
 
 void printPostfixRec(Tree *tree) {
-    if (tree != NULL) {
+    if(tree != NULL) {
         printPostfixRec(tree->left);
         printPostfixRec(tree->right);
         printf("%d ", tree->value.id);
@@ -70,7 +70,7 @@ void printPostfix(Tree *tree) {
 }
 
 void printInfixRec(Tree *tree) {
-    if (tree != NULL) {
+    if(tree != NULL) {
         printInfixRec(tree->left);
         printf("%d ", tree->value.id);
         printInfixRec(tree->right);
@@ -137,7 +137,7 @@ bool hasRight(Tree *tree) {
  * @see addRight, removeLeft
  */
 void addLeft(Tree *tree, WeatherRow value) {
-    if (tree->left != NULL) error("This tree already has a left child!");
+    if(tree->left != NULL) error("This tree already has a left child!");
     tree->left = createNode(value);
 }
 
@@ -150,7 +150,7 @@ void addLeft(Tree *tree, WeatherRow value) {
  * @see addLeft, removeRight
  */
 void addRight(Tree *tree, WeatherRow value) {
-    if (tree->right != NULL) error("This tree already has a right child!");
+    if(tree->right != NULL) error("This tree already has a right child!");
     tree->right = createNode(value);
 }
 
@@ -162,7 +162,7 @@ void addRight(Tree *tree, WeatherRow value) {
  * @return this tree, mutated, or a newly created one if tree was NULL.
  */
 Tree *setRoot(Tree *tree, WeatherRow value) {
-    if (tree == NULL) return createNode(value);
+    if(tree == NULL) return createNode(value);
     else {
         tree->value = value;
         return tree;
@@ -170,7 +170,7 @@ Tree *setRoot(Tree *tree, WeatherRow value) {
 }
 
 void freeNode(Tree *node) {
-    if (node == NULL) return;
+    if(node == NULL) return;
     freeNode(node->left);
     freeNode(node->right);
     safeFree(node);
@@ -206,8 +206,8 @@ void removeRight(Tree *tree) {
  * @see isLeaf
  */
 int leafCount(Tree *tree) {
-    if (tree == NULL) return 0;
-    if (tree->left == NULL && tree->right == NULL) return 1;
+    if(tree == NULL) return 0;
+    if(tree->left == NULL && tree->right == NULL) return 1;
     return leafCount(tree->left) + leafCount(tree->right);
 }
 
@@ -217,7 +217,7 @@ int leafCount(Tree *tree) {
  * @param tree the tree to get the height from.
  */
 int height(Tree *tree) {
-    if (tree == NULL) return 0;
+    if(tree == NULL) return 0;
     else {
         int leftHeight = height(tree->left);
         int rightHeight = height(tree->right);
@@ -233,16 +233,16 @@ int height(Tree *tree) {
  * @return true if the tree contains value.
  */
 bool containsBST(Tree *tree, WeatherRow value, Comparator comparator) {
-    if (tree == NULL) return false;
+    if(tree == NULL) return false;
     else {
-        if (comparator(value, tree->value) == Less) return containsBST(tree->left, value, comparator);
-        else if (comparator(value, tree->value) == Greater) return containsBST(tree->right, value, comparator);
+        if(comparator(value, tree->value) == Less) return containsBST(tree->left, value, comparator);
+        else if(comparator(value, tree->value) == Greater) return containsBST(tree->right, value, comparator);
         else return true;
     }
 }
 
 Tree *popMax(Tree *node, WeatherRow *max) {
-    if (node == NULL) return NULL;
+    if(node == NULL) return NULL;
     else {
         *max = node->value;
         popMax(node->right, max);
@@ -258,19 +258,19 @@ Tree *popMax(Tree *node, WeatherRow *max) {
  * @return the new root of the given BST.
  */
 Tree *removeValue(Tree *tree, WeatherRow value, Comparator comparator) {
-    if (tree == NULL) return NULL;
-    else if (comparator(value, tree->value) == Equal) {
-        if (tree->left == NULL) return tree->right;
+    if(tree == NULL) return NULL;
+    else if(comparator(value, tree->value) == Equal) {
+        if(tree->left == NULL) return tree->right;
         else {
             WeatherRow max;
             Tree *left = popMax(tree->left, &max);
             left->right = tree->right;
             return left;
         }
-    } else if (comparator(value, tree->value) == Less) {
+    } else if(comparator(value, tree->value) == Less) {
         tree->left = removeValue(tree->left, value, comparator);
         return tree;
-    } else if (comparator(value, tree->value) == Greater) {
+    } else if(comparator(value, tree->value) == Greater) {
         tree->right = removeValue(tree->right, value, comparator);
         return tree;
     }
@@ -285,10 +285,10 @@ Tree *removeValue(Tree *tree, WeatherRow value, Comparator comparator) {
  * @return the new root of the given BST.
  */
 Tree *insertBST(Tree *tree, WeatherRow value, Comparator comparator) {
-    if (tree == NULL) return createNode(value);
+    if(tree == NULL) return createNode(value);
     else {
-        if (comparator(value, tree->value) == Less) tree->left = insertBST(tree->left, value, comparator);
-        if (comparator(value, tree->value) == Greater) tree->right = insertBST(tree->right, value, comparator);
+        if(comparator(value, tree->value) == Less) tree->left = insertBST(tree->left, value, comparator);
+        if(comparator(value, tree->value) == Greater) tree->right = insertBST(tree->right, value, comparator);
         return tree;
     }
 }
@@ -300,7 +300,7 @@ Tree *insertBST(Tree *tree, WeatherRow value, Comparator comparator) {
  * @return true if the given tree satsifies the BST criteria.
  */
 bool isBST(Tree *tree, Comparator comparator) {
-    if (tree == NULL) return true;
+    if(tree == NULL) return true;
     else {
         bool lessLeft = tree->left == NULL || comparator(tree->left->value, tree->value) == Less;
         bool greaterRight = tree->right == NULL || comparator(tree->right->value, tree->value) == Greater;

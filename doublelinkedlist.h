@@ -33,7 +33,7 @@ typedef struct {
 } DoubleLinkedList;
 
 /**
- * Executes the given callback for each element.
+ * Execute the given callback for each element.
  *
  * @param list the list to iterate.
  * @param callback the callback to call.

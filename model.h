@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include "time.h"
 
 #ifndef METEO_MODEL_H
@@ -79,6 +80,6 @@ Comparison compareTime2(WeatherRow a, WeatherRow b);
 
 typedef void (*Callback)(WeatherRow);
 
-
+typedef WeatherRow (*Reduce)(WeatherRow, WeatherRow);
 
 #endif

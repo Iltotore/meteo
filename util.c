@@ -6,7 +6,7 @@
 //Safely allocate the given size. The program exits on failure.
 void *safeMalloc(size_t size) {
     void *pointer = malloc(size);
-    if (pointer == NULL) {
+    if(pointer == NULL) {
         printf("Memory allocation error.\n");
         exit(-1);
     }
@@ -15,7 +15,7 @@ void *safeMalloc(size_t size) {
 
 //Safely free the given pointer. The program exists on failure.
 void safeFree(void *ptr) {
-    if (ptr == NULL) {
+    if(ptr == NULL) {
         error("Tried to free NULL");
     }
     free(ptr);
@@ -29,8 +29,8 @@ void error(char *message) {
 //Return the textual length of the given integer.
 int lengthOfInt(int n) {
     int i = 0;
-    if (n < 0) i++;
-    while (n != 0) {
+    if(n < 0) i++;
+    while(n != 0) {
         i++;
         n /= 10;
     }
@@ -42,7 +42,7 @@ void clear(FILE *stream) {
     int nh;
     do {
         nh = fgetc(stream);
-    } while (nh != EOF && nh != '\n');
+    } while(nh != EOF && nh != '\n');
 }
 
 //Renvoie true si la chaine de caractère `str` contient la chaine `part`
@@ -51,8 +51,8 @@ bool strcontains(char *str, char *part) {
     int partLength = strlen(part);
     int matching = 0;
 
-    for (int i = 0; i < strLength - partLength || matching == partLength; i++) {
-        if (str[i] == part[matching]) matching++;
+    for(int i = 0; i < strLength - partLength || matching == partLength; i++) {
+        if(str[i] == part[matching]) matching++;
         else matching = 0;
     }
 
@@ -64,9 +64,9 @@ bool strContainsAtLeast(char *str, char *chars) {
     int strLength = strlen(str);
     int charCount = strlen(chars);
 
-    for (int i = 0; i < strLength; i++) {
-        for (int j = 0; j < charCount; j++) {
-            if (str[i] == chars[j]) return true;
+    for(int i = 0; i < strLength; i++) {
+        for(int j = 0; j < charCount; j++) {
+            if(str[i] == chars[j]) return true;
         }
     }
 

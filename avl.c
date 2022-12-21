@@ -32,7 +32,7 @@ void forEachInfixAVL(AVL *avl, Callback callback, bool reversed) {
 }
 
 void printAVLInfixRec(AVL *avl) {
-    if (avl != NULL) {
+    if(avl != NULL) {
         printAVLInfixRec(avl->left);
         printf("%d(%d) ", avl->value.id, avl->balance);
         printAVLInfixRec(avl->right);
@@ -55,7 +55,7 @@ void printAVLInfix(AVL *avl) {
  * @param avl the tree tree to get the height from.
  */
 int heightAVL(AVL *avl) {
-    if (avl == NULL) return 0;
+    if(avl == NULL) return 0;
     else {
         int leftHeight = heightAVL(avl->left);
         int rightHeight = heightAVL(avl->right);
@@ -70,27 +70,27 @@ int heightAVL(AVL *avl) {
  * @return the new root of the given AVL in which all nodes have a balance factor between -1 and 1.
  */
 AVL *balanceAVL(AVL *avl) {
-    if (avl->balance >= -1 && avl->balance <= 1) return avl;
-    else if (avl->balance == 2) return avl->right->balance == 1 ? rotateLeft(avl) : rotateDoubleLeft(avl);
+    if(avl->balance >= -1 && avl->balance <= 1) return avl;
+    else if(avl->balance == 2) return avl->right->balance == 1 ? rotateLeft(avl) : rotateDoubleLeft(avl);
     else return avl->left->balance == -1 ? rotateRight(avl) : rotateDoubleRight(avl);
 }
 
 AVL *insertAVLRec(AVL *avl, WeatherRow value, int *h, Comparator comparator) {
-    if (avl == NULL) { //Création d'un AVL -> équilibre +- 1
+    if(avl == NULL) { //Création d'un AVL -> équilibre +- 1
         *h = 1;
         return createAVL(value);
-    } else if (comparator(value, avl->value) == Equal) { //Noeud déjà présent
+    } else if(comparator(value, avl->value) == Equal) { //Noeud déjà présent
         *h = 0;
         return avl;
     } else {
-        if (comparator(value, avl->value) == Less) { //Ajouter à gauche
+        if(comparator(value, avl->value) == Less) { //Ajouter à gauche
             avl->left = insertAVLRec(avl->left, value, h, comparator);
             *h = -*h;
         } else { //Ajouter à droite
             avl->right = insertAVLRec(avl->right, value, h, comparator);
         }
 
-        if (*h != 0) { //Si il y a eu ajout
+        if(*h != 0) { //Si il y a eu ajout
             avl->balance += *h;
             avl = balanceAVL(avl);
             *h = avl->balance == 0 ? 0 : 1; //Valeur absolue pour éviter la double négation avec l'ajout à gauche
