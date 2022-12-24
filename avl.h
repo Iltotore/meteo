@@ -14,6 +14,7 @@
  */
 typedef struct _AVL {
     WeatherRow value;
+    int occurrences;
     struct _AVL *left;
     struct _AVL *right;
     int balance;
@@ -34,6 +35,15 @@ AVL *createAVL(WeatherRow value);
  * @param reversed use descending order if true.
  */
 void forEachInfixAVL(AVL *avl, Callback callback, bool reversed);
+
+/**
+ * Map values with their count.
+ *
+ * @param avl the avl to map.
+ * @param mapper the function to apply.
+ * @return this tre for chaining.
+ */
+AVL *mapCountInfixAVL(AVL *avl, Mapper mapper);
 
 /**
  * Print the given AVL using infix path.
@@ -62,10 +72,12 @@ AVL *balanceAVL(AVL *avl);
  * 
  * @param avl the tree to insert into.
  * @param value the value to insert.
+ * @param comparator the ordering used to sort values.
+ * @param reducer the reduction policy applied to duplicates (when the comparator returns Equal).
  * @return the new root of the given AVL containing the passed value, balanced.
  * @see balanceAVL
  */
-AVL *insertAVL(AVL *avl, WeatherRow value, Comparator comparator);
+AVL *insertAVL(AVL *avl, WeatherRow value, Comparator comparator, Reducer reducer);
 
 /**
  * Rotates from right to left (counter-clockwise) the given AVL.

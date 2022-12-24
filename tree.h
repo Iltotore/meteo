@@ -13,6 +13,7 @@
  */
 typedef struct _Tree {
     WeatherRow value;
+    int occurrences;
     struct _Tree *left;
     struct _Tree *right;
 } Tree;
@@ -32,6 +33,15 @@ Tree *createNode(WeatherRow value);
  * @param reversed use descending order if true.
  */
 void forEachInfix(Tree *tree, Callback callback, bool reversed);
+
+/**
+ * Map values with their count.
+ *
+ * @param tree the tree to map.
+ * @param mapper the function to apply.
+ * @return this tre for chaining.
+ */
+Tree *mapCountInfix(Tree *tree, Mapper mapper);
 
 /**
  * Print the given tree using prefix path.
@@ -167,13 +177,15 @@ bool containsBST(Tree *tree, WeatherRow value, Comparator comparator);
 Tree *removeValue(Tree *tree, WeatherRow value, Comparator comparator);
 
 /**
- * Insert the given value while still satsifying the BST criteria.
+ * Insert the given value while still satisfying the BST criteria.
  * 
  * @param tree the BST to insert into.
  * @param value the value to insert.
+ * @param comparator the ordering used to sort values.
+ * @param reducer the reduction policy applied to duplicates (when the comparator returns Equal).
  * @return the new root of the given BST.
  */
-Tree *insertBST(Tree *tree, WeatherRow value, Comparator comparator);
+Tree *insertBST(Tree *tree, WeatherRow value, Comparator comparator, Reducer reducer); //TODO Reducer
 
 /**
  * Check if the given tree is a BST.

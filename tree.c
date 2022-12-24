@@ -13,7 +13,8 @@
  */
 Tree *createNode(WeatherRow value) {
     Tree *node = safeMalloc(sizeof(Tree));
-    (node->value) = value;
+    node->value = value;
+    node->occurrences = 1;
     node->left = NULL;
     node->right = NULL;
     return node;
@@ -30,6 +31,23 @@ void forEachInfix(Tree *tree, Callback callback, bool reversed) {
         forEachInfix(reversed ? tree->right : tree->left, callback, reversed);
         callback(tree->value);
         forEachInfix(reversed ? tree->left : tree->right, callback, reversed);
+    }
+}
+
+/**
+ * Map values with their count.
+ *
+ * @param tree the tree to map.
+ * @param mapper the function to apply.
+ * @return this tree for chaining.
+ */
+Tree *mapCountInfix(Tree *tree, Mapper mapper) {
+    if(tree == NULL) return NULL;
+    else {
+        tree->left = mapCountInfix(tree->left, mapper);
+        tree->value = mapper(tree->occurrences, tree->value);
+        tree->right = mapCountInfix(tree->right, mapper);
+        return tree;
     }
 }
 
@@ -282,13 +300,19 @@ Tree *removeValue(Tree *tree, WeatherRow value, Comparator comparator) {
  * 
  * @param tree the BST to insert into.
  * @param value the value to insert.
+ * @param comparator the ordering used to sort values.
+ * @param reducer the reduction policy applied to duplicates (when the comparator returns Equal).
  * @return the new root of the given BST.
  */
-Tree *insertBST(Tree *tree, WeatherRow value, Comparator comparator) {
+Tree *insertBST(Tree *tree, WeatherRow value, Comparator comparator, Reducer reducer) {
     if(tree == NULL) return createNode(value);
     else {
-        if(comparator(value, tree->value) == Less) tree->left = insertBST(tree->left, value, comparator);
-        if(comparator(value, tree->value) == Greater) tree->right = insertBST(tree->right, value, comparator);
+        if(comparator(value, tree->value) == Less) tree->left = insertBST(tree->left, value, comparator, reducer);
+        else if(comparator(value, tree->value) == Greater) tree->right = insertBST(tree->right, value, comparator, reducer);
+        else {
+            tree->value = reducer(tree->value, value);
+            tree->occurrences += 1;
+        }
         return tree;
     }
 }

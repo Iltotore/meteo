@@ -5,6 +5,21 @@
 #include "util.h"
 
 /**
+ * Create a new cell.
+ *
+ * @param row the value of the new cell.
+ * @return a newly created cell containing `row`.
+ */
+Cell *createCell(WeatherRow row) {
+    Cell *cell = safeMalloc(sizeof(Cell));
+    cell->value = row;
+    cell->occurrences = 1;
+    cell->tail = NULL;
+    cell->parent = NULL;
+    return cell;
+}
+
+/**
  * Implementation for `forEach`
  */
 void forEachCell(Cell *cell, Callback callback, bool reversed) {
@@ -25,6 +40,27 @@ void forEachCell(Cell *cell, Callback callback, bool reversed) {
 void forEach(DoubleLinkedList *list, Callback callback, bool reversed) {
     if(reversed) forEachCell(list->last, callback, reversed);
     else forEachCell(list->head, callback, reversed);
+}
+
+Cell *mapCountCell(Cell *cell, Mapper mapper) {
+    if(cell == NULL) return NULL;
+    else {
+        cell->value = mapper(cell->occurrences, cell->value);
+        cell->tail = mapCountCell(cell->tail, mapper);
+        return cell;
+    }
+}
+
+/**
+ * Map values with their count.
+ *
+ * @param list the list to map.
+ * @param mapper the function to apply.
+ * @return this list for chaining.
+ */
+DoubleLinkedList *mapCount(DoubleLinkedList *list, Mapper mapper) {
+    mapCountCell(list->head, mapper);
+    return list;
 }
 
 /**
@@ -59,20 +95,6 @@ DoubleLinkedList *emptyList() {
     list->last = NULL;
     list->length = 0;
     return list;
-}
-
-/**
- * Create a new cell.
- *
- * @param row the value of the new cell.
- * @return a newly created cell containing `row`.
- */
-Cell *createCell(WeatherRow row) {
-    Cell *cell = safeMalloc(sizeof(Cell));
-    cell->value = row;
-    cell->tail = NULL;
-    cell->parent = NULL;
-    return cell;
 }
 
 /**
@@ -121,20 +143,24 @@ DoubleLinkedList *append(DoubleLinkedList *list, WeatherRow a) {
  * @param last the pointer to the `last` field of the modified DoubleLinkedList.
  * @return the new head of the modified list.
  */
-Cell *insertOrdCell(Cell *cell, WeatherRow a, Comparator comparator, Cell **last) {
+Cell *insertOrdCell(Cell *cell, WeatherRow a, Comparator comparator, Reducer reducer, Cell **last) {
     if(cell == NULL) {
         Cell *newCell = createCell(a);
         *last = newCell;
         return newCell;
     } else {
         Comparison comp = comparator(cell->value, a);
-        if(comp == Greater || comp == Equal) {
+        if(comp == Greater) {
             Cell *newCell = createCell(a);
             newCell->tail = cell;
             cell->parent = newCell;
             return newCell;
+        } else if(comp == Equal) {
+            cell->value = reducer(cell->value, a);
+            cell->occurrences += 1;
+            return cell;
         } else {
-            cell->tail = insertOrdCell(cell->tail, a, comparator, last);
+            cell->tail = insertOrdCell(cell->tail, a, comparator, reducer, last);
             cell->tail->parent = cell;
             return cell;
         }
@@ -146,14 +172,16 @@ Cell *insertOrdCell(Cell *cell, WeatherRow a, Comparator comparator, Cell **last
  *
  * @param list the list to insert into.
  * @param a the value to insert.
+ * @param comparator the ordering used to sort values.
+ * @param reducer the reduction policy applied to duplicates (when the comparator returns Equal).
  * @return this list for chaining.
  */
-DoubleLinkedList *insertOrd(DoubleLinkedList *list, WeatherRow a, Comparator comparator) {
+DoubleLinkedList *insertOrd(DoubleLinkedList *list, WeatherRow a, Comparator comparator, Reducer reducer) {
     if(list->head == NULL) {
         list->head = createCell(a);
         list->last = list->head;
     } else {
-        list->head = insertOrdCell(list->head, a, comparator, &(list->last));
+        list->head = insertOrdCell(list->head, a, comparator, reducer, &(list->last));
     }
     list->length += 1;
     return list;

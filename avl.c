@@ -11,6 +11,7 @@
 AVL *createAVL(WeatherRow value) {
     AVL *avl = safeMalloc(sizeof(AVL));
     avl->value = value;
+    avl->occurrences = 1;
     avl->left = NULL;
     avl->right = NULL;
     avl->balance = 0;
@@ -28,6 +29,23 @@ void forEachInfixAVL(AVL *avl, Callback callback, bool reversed) {
         forEachInfixAVL(reversed ? avl->right : avl->left, callback, reversed);
         callback(avl->value);
         forEachInfixAVL(reversed ? avl->left : avl->right, callback, reversed);
+    }
+}
+
+/**
+ * Map values with their count.
+ *
+ * @param avl the avl to map.
+ * @param mapper the function to apply.
+ * @return this tre for chaining.
+ */
+AVL *mapCountInfixAVL(AVL *avl, Mapper mapper) {
+    if(avl == NULL) return NULL;
+    else {
+        avl->left = mapCountInfixAVL(avl->left, mapper);
+        avl->value = mapper(avl->occurrences, avl->value);
+        avl->right = mapCountInfixAVL(avl->right, mapper);
+        return avl;
     }
 }
 
@@ -75,19 +93,21 @@ AVL *balanceAVL(AVL *avl) {
     else return avl->left->balance == -1 ? rotateRight(avl) : rotateDoubleRight(avl);
 }
 
-AVL *insertAVLRec(AVL *avl, WeatherRow value, int *h, Comparator comparator) {
+AVL *insertAVLRec(AVL *avl, WeatherRow value, int *h, Comparator comparator, Reducer reducer) {
     if(avl == NULL) { //Création d'un AVL -> équilibre +- 1
         *h = 1;
         return createAVL(value);
     } else if(comparator(value, avl->value) == Equal) { //Noeud déjà présent
         *h = 0;
+        avl->value = reducer(avl->value, value);
+        avl->occurrences += 1;
         return avl;
     } else {
         if(comparator(value, avl->value) == Less) { //Ajouter à gauche
-            avl->left = insertAVLRec(avl->left, value, h, comparator);
+            avl->left = insertAVLRec(avl->left, value, h, comparator, reducer);
             *h = -*h;
         } else { //Ajouter à droite
-            avl->right = insertAVLRec(avl->right, value, h, comparator);
+            avl->right = insertAVLRec(avl->right, value, h, comparator, reducer);
         }
 
         if(*h != 0) { //Si il y a eu ajout
@@ -107,10 +127,10 @@ AVL *insertAVLRec(AVL *avl, WeatherRow value, int *h, Comparator comparator) {
  * @return the new root of the given AVL containing the passed value, balanced.
  * @see balanceAVL
  */
-AVL *insertAVL(AVL *avl, WeatherRow value, Comparator comparator) {
+AVL *insertAVL(AVL *avl, WeatherRow value, Comparator comparator, Reducer reducer) {
     int *h = safeMalloc(sizeof(int));
     *h = 0;
-    return insertAVLRec(avl, value, h, comparator);
+    return insertAVLRec(avl, value, h, comparator, reducer);
 }
 
 int max(int a, int b) {

@@ -8,11 +8,13 @@
  * A double linked node.
  * 
  * @param value the value of this cell.
+ * @param occurrences the number of times this cell occurred (before reduction).
  * @param tail the next cell. Might be NULL.
  * @param parent the precedent cell. Might be NULL.
  */
 typedef struct _Cell {
     WeatherRow value;
+    int occurrences;
     struct _Cell *tail;
     struct _Cell *parent;
 } Cell;
@@ -42,6 +44,15 @@ typedef struct {
 void forEach(DoubleLinkedList *list, Callback callback, bool reversed);
 
 /**
+ * Map values with their count.
+ *
+ * @param list the list to map.
+ * @param mapper the function to apply.
+ * @return this list for chaining.
+ */
+DoubleLinkedList *mapCount(DoubleLinkedList *list, Mapper mapper);
+
+/**
  * Print the given list.
  * 
  * @param list the list to print.
@@ -51,7 +62,7 @@ void printList(DoubleLinkedList *list);
 
 /**
  * Create an empty list.
- * 
+ *
  * @return an empty list with no tail.
  */
 DoubleLinkedList *emptyList();
@@ -79,8 +90,10 @@ DoubleLinkedList *append(DoubleLinkedList *list, WeatherRow a);
  * 
  * @param list the list to insert into.
  * @param a the value to insert.
+ * @param comparator the ordering used to sort values.
+ * @param reducer the reduction policy applied to duplicates (when the comparator returns Equal).
  * @return this list for chaining.
  */
-DoubleLinkedList *insertOrd(DoubleLinkedList *list, WeatherRow a, Comparator comparator);
+DoubleLinkedList *insertOrd(DoubleLinkedList *list, WeatherRow a, Comparator comparator, Reducer reducer);
 
 #endif

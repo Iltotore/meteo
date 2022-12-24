@@ -80,6 +80,8 @@ Comparison compareTime2(WeatherRow a, WeatherRow b);
 
 typedef void (*Callback)(WeatherRow);
 
-typedef WeatherRow (*Reduce)(WeatherRow, WeatherRow);
+typedef WeatherRow (*Reducer)(WeatherRow, WeatherRow);
+
+typedef WeatherRow (*Mapper)(int, WeatherRow);
 
 #endif
