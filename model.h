@@ -82,6 +82,26 @@ typedef void (*Callback)(WeatherRow);
 
 typedef WeatherRow (*Reducer)(WeatherRow, WeatherRow);
 
+WeatherRow maxTemperature(WeatherRow a, WeatherRow b);
+
+WeatherRow minTemperature(WeatherRow a, WeatherRow b);
+
+WeatherRow minTemperatureMax(WeatherRow a, WeatherRow b);
+
+WeatherRow maxTemperatureMax(WeatherRow a, WeatherRow b);
+
+
+WeatherRow maxTemperatureMin(WeatherRow a, WeatherRow b);
+
+WeatherRow minTemperatureMin(WeatherRow a, WeatherRow b);
+
+WeatherRow maxMoisture(WeatherRow a, WeatherRow b);
+
+WeatherRow maxStationPressure(WeatherRow a, WeatherRow b);
+
+WeatherRow minStationPressure(WeatherRow a, WeatherRow b);
+
+
 typedef WeatherRow (*Mapper)(int, WeatherRow);
 
 #endif

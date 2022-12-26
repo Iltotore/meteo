@@ -29,3 +29,37 @@ Comparison compareTime2(WeatherRow a, WeatherRow b) {
     else if(a.date > b.date) return Greater;
     return Less;
 }
+
+WeatherRow maxTemperature(WeatherRow a, WeatherRow b){
+    return *a.temperature > *a.temperature ? a : b ;
+}
+
+WeatherRow minTemperature(WeatherRow a, WeatherRow b){
+    return *a.temperature < *a.temperature ? a : b ;
+}
+
+WeatherRow maxTemperaturemax(WeatherRow a, WeatherRow b){
+    return *a.temperatureMax > *b.temperatureMax ? a : b ;
+}
+
+WeatherRow minTemperatureMax(WeatherRow a, WeatherRow b){
+    return *a.temperatureMax < *b.temperatureMax ? a : b ;
+}
+WeatherRow maxTemperatureMin(WeatherRow a, WeatherRow b){
+    return *a.temperatureMin > *b.temperatureMin ? a : b ;
+}
+
+WeatherRow minTemperatureMin(WeatherRow a, WeatherRow b){
+     return a.temperatureMin < b.temperatureMin ? a : b;
+}
+
+WeatherRow maxStationPressure(WeatherRow a, WeatherRow b){
+    return *a.stationPressure > *b.stationPressure ? a : b ;
+}
+
+WeatherRow minStationPressure(WeatherRow a, WeatherRow b){
+    return *a.stationPressure < *b.stationPressure ? a : b ;
+}
+
+
+
