@@ -62,4 +62,76 @@ WeatherRow minStationPressure(WeatherRow a, WeatherRow b){
 }
 
 
+WeatherRow sumWindSpeed(WeatherRow a, WeatherRow b){
+      WeatherRow result = a;
+    *a.windSpeed += *b.windSpeed;
+    return result;
+}
 
+WeatherRow averageWindSpeed(int count, WeatherRow value){
+      WeatherRow result = value;
+    *result.windSpeed /= count;
+    return result;
+}
+
+WeatherRow sumWindDirection(WeatherRow a, WeatherRow b){
+     WeatherRow result = a;
+    *a.windDirection += *b.windDirection;
+    return result;
+}
+
+WeatherRow averageWindDirection(int count, WeatherRow value){
+    WeatherRow result = value;
+    *result.windDirection /= count;
+    return result;
+    
+}
+
+WeatherRow sumTemperature(WeatherRow a, WeatherRow b){
+    WeatherRow result = a;
+    *a.temperature += *b.temperature;
+    return result;
+}
+
+WeatherRow averageTemperature(int count, WeatherRow value){
+    WeatherRow result = value;
+    *result.temperature /= count;
+    return result;
+}
+
+WeatherRow sumTemparatureMax(WeatherRow a, WeatherRow b){
+    WeatherRow result = a;
+    *a.temperatureMax += *b.temperatureMax;
+    return result;
+}
+
+WeatherRow averageTemperatureMax(int count, WeatherRow value){
+    WeatherRow result = value;
+    *result.temperatureMax /= count;
+    return result;
+}
+
+WeatherRow sumTemparatureMin(WeatherRow a, WeatherRow b){
+    WeatherRow result = a;
+    *a.temperatureMin += *b.temperatureMin;
+    return result;
+
+}
+
+WeatherRow averageTemperatureMin(int count, WeatherRow value){
+     WeatherRow result = value;
+    *result.temperatureMin /= count;
+    return result;
+}
+
+WeatherRow sumStationPressure(WeatherRow a, WeatherRow b){
+    WeatherRow result = a;
+    *a.stationPressure += *b.stationPressure;
+    return result;
+}
+
+WeatherRow averageStationPressure(int count, WeatherRow value){
+    WeatherRow result = value;
+    *result.stationPressure /= count;
+    return result;    
+}

@@ -101,7 +101,32 @@ WeatherRow maxStationPressure(WeatherRow a, WeatherRow b);
 
 WeatherRow minStationPressure(WeatherRow a, WeatherRow b);
 
-
 typedef WeatherRow (*Mapper)(int, WeatherRow);
+
+WeatherRow sumWindSpeed(WeatherRow a, WeatherRow b);
+
+WeatherRow averageWindSpeed(int count, WeatherRow value);
+
+WeatherRow sumWindDirection(WeatherRow a, WeatherRow b);
+
+WeatherRow averageWindDirection(int count, WeatherRow value);
+
+WeatherRow sumTemperature(WeatherRow a, WeatherRow b);
+
+WeatherRow averageTemperature(int count, WeatherRow value);
+
+WeatherRow sumTemparatureMax(WeatherRow a, WeatherRow b);
+
+WeatherRow averageTemperatureMax(int count, WeatherRow value);
+
+WeatherRow sumTemparatureMin(WeatherRow a, WeatherRow b);
+
+WeatherRow averageTemperatureMin(int count, WeatherRow value);
+
+WeatherRow sumStationPressure(WeatherRow a, WeatherRow b);
+
+WeatherRow averageStationPressure(int count, WeatherRow value);
+
+
 
 #endif

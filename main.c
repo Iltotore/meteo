@@ -20,17 +20,6 @@ WeatherRow maxMoisture(WeatherRow a, WeatherRow b) {
     return *a.moisture >= *b.moisture ? a : b;
 }
 
-WeatherRow sumWindSpeed(WeatherRow a, WeatherRow b) {
-    WeatherRow result = a;
-    *a.windSpeed += *b.windSpeed;
-    return result;
-}
-
-WeatherRow averageWindSpeed(int count, WeatherRow value) {
-    WeatherRow result = value;
-    *result.windSpeed /= count;
-    return result;
-}
 
 int main() {
 
