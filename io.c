@@ -19,7 +19,7 @@ WeatherRow readLine(FILE *file) {
  *
  * @param callback the callback to consume for each WeatherRow.
  */
-void readLines(FILE *file, Callback callback) {
+void readLines(FILE *file, Callback callback, Reader reader) {
     while(!feof(file)) {
         callback(readLine(file));
     }
