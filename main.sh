@@ -1,8 +1,62 @@
 #!/usr/bin/env bash
-RUN_CMD=./app.out
-COMPILE_CMD=make
+run_cmd=./app.out
+compile_cmd=make
 
-read -r -d '' HELP_MSG << EOM
+filter_columns() {
+  file="$1"
+  columns="$2"
+
+  cut "$file" -d ";" -f "$columns"
+}
+
+show_help() {
+  echo "$help_msg"
+  exit $1
+}
+
+wrong_usage() {
+  echo "Wrong usage: $1"
+  echo ""
+  show_help 1
+}
+
+set_latitude() {
+
+  if [[ -v longitude ]]
+  then
+    wrong_usage "Latitude cannot be set multiple times"
+  fi
+
+  latitude=["$1" "$2"]
+}
+
+set_longitude() {
+
+  if [[ -v longitude ]]
+  then
+    wrong_usage "Longitude cannot be set multiple times"
+  fi
+
+  longitude=["$1" "$2"]
+}
+
+set_region() {
+
+  if [[ -v region ]]
+  then
+    wrong_usage "Only a single region should be specified"
+  fi
+
+  if [[ -v latitude || -v longitude ]]
+  then
+    wrong_usage "Cannot use region and -g/-a together"
+  fi
+
+  set_latitude "$1" "$2"
+  set_longitude "$3" "$4"
+}
+
+read -r -d '' help_msg << EOM
 Usage: $0 <arguments>
 
 Mandatory arguments:
@@ -44,7 +98,106 @@ Miscellaneous:
 
 EOM
 
-if [ $# -eq 0 ] || [ "$1" == "--help" ]
+if [ $# -eq 0 ]
 then
-  echo "$HELP_MSG"
+  show_help 1
+fi
+
+while [[ $# -gt 0 ]]
+do
+  case "$1" in
+    # Help
+    --help)
+      show_help 0
+      ;;
+
+    # Mandatory
+    -f|--input)
+      input="$2"
+      shift
+      ;;
+
+    -o|--output)
+      output="$2"
+      shift
+      ;;
+
+    # Misc optional
+    -r)
+      reverse=""
+      ;;
+
+    # Columns
+    -t)
+      temperature="$2"
+      shift
+      ;;
+
+    -p)
+      pressure="$2"
+      shift
+      ;;
+
+    -w)
+      wind=""
+      ;;
+
+    -m)
+      moisture=""
+      ;;
+
+    -h)
+      height=""
+      ;;
+
+    # Regions
+    # TODO coords
+    -F)
+      set_region 0 0 0 0
+      ;;
+
+    -G)
+      set_region 0 0 0 0
+      ;;
+
+    -S)
+      set_region 0 0 0 0
+      ;;
+
+    -A)
+      set_region 0 0 0 0
+      ;;
+
+    -O)
+      set_region 0 0 0 0
+      ;;
+
+    -Q)
+      set_region 0 0 0 0
+      ;;
+
+    -g)
+      set_longitude "$2" "$3"
+      shift
+      shift
+      ;;
+
+    -a)
+      set_latitude "$2" "$3"
+      shift
+      shift
+      ;;
+
+  esac
+  shift
+done
+
+if [[ ! -v input ]]
+then
+  wrong_usage "Missing argument -f"
+fi
+
+if [[ ! -v output ]]
+then
+  wrong_usage "Missing argument -o"
 fi
