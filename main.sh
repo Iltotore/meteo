@@ -10,6 +10,21 @@ filter_columns() {
   cut "$file" -d ";" -f "$columns"
 }
 
+filter_coords() {
+  filter='1'
+  if [[ -v latitude ]]
+  then
+    filter="$filter && \$10 >= ${latitude[0]} && \$10 <= ${latitude[1]}"
+  fi
+  if [[ -v longitude ]]
+  then
+    filter="$filter && \$11 >= ${longitude[0]} && \$11 <= ${longitude[1]}"
+  fi
+
+  result=$(head "$input" | awk "$filter" FS='[;,]')
+  echo "$result"
+}
+
 show_help() {
   echo "$help_msg"
   exit "$1"
@@ -252,3 +267,4 @@ then
   wrong_usage "Missing argument -o"
 fi
 
+filter_coords > test.csv
