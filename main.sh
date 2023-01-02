@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+executed="$0"
 run_cmd=./app.out
 compile_cmd=make
 
@@ -11,33 +12,60 @@ filter_columns() {
 
 show_help() {
   echo "$help_msg"
-  exit $1
+  exit "$1"
 }
 
 wrong_usage() {
-  echo "Wrong usage: $1"
-  echo ""
-  show_help 1
+  echo -e "\e[31mWrong usage: $1\e[0m"
+  echo "Use $executed --help for further information"
+  exit 1
+}
+
+not_empty() {
+  if [[ -z "$2" ]]
+  then
+    wrong_usage "$1 option should not be empty"
+  fi
+}
+
+valid_mode() {
+  not_empty "$1" "$2"
+
+  if [[ "$2" -ne 1 && "$2" -ne 2 && "$2" -ne 3 ]]
+  then
+    wrong_usage "Invalid mode '$2' for option $1. Should be 1, 2 or 3"
+  fi
 }
 
 set_latitude() {
+
+  if [[ -v region ]]
+  then
+    wrong_usage "Cannot use region and -g/-a together"
+  fi
 
   if [[ -v longitude ]]
   then
     wrong_usage "Latitude cannot be set multiple times"
   fi
 
-  latitude=["$1" "$2"]
+  latitude=("$1" "$2")
 }
 
 set_longitude() {
+
+  if [[ -v region ]]
+  then
+    wrong_usage "Cannot use region and -g/-a together"
+  fi
 
   if [[ -v longitude ]]
   then
     wrong_usage "Longitude cannot be set multiple times"
   fi
 
-  longitude=["$1" "$2"]
+
+  longitude=("$1" "$2")
 }
 
 set_region() {
@@ -52,8 +80,19 @@ set_region() {
     wrong_usage "Cannot use region and -g/-a together"
   fi
 
+  region=""
+
   set_latitude "$1" "$2"
   set_longitude "$3" "$4"
+}
+
+check_var() {
+
+  if [[ -v "$2" ]]
+  then
+    wrong_usage "Argument $1 cannot be set multiple times"
+  fi
+
 }
 
 read -r -d '' help_msg << EOM
@@ -113,67 +152,79 @@ do
 
     # Mandatory
     -f|--input)
+      check_var "-f/--input" "input"
+      not_empty "-f" "$2"
       input="$2"
       shift
       ;;
 
     -o|--output)
+      check_var "-o/--output" "output"
+      not_empty "-o" "$2"
       output="$2"
       shift
       ;;
 
     # Misc optional
-    -r)
+    -r|--reverse)
+      check_var "-r/--reverse" "reverse"
       reverse=""
       ;;
 
     # Columns
     -t)
+      check_var "-t" "temperature"
+      valid_mode "-t" "$2"
       temperature="$2"
       shift
       ;;
 
     -p)
+      check_var "-p" "pressure"
+      valid_mode "-p" "$2"
       pressure="$2"
       shift
       ;;
 
     -w)
+      check_var "-w" "wind"
       wind=""
       ;;
 
     -m)
+      check_var "-m" "moisture"
       moisture=""
       ;;
 
     -h)
+      check_var "-h" "height"
       height=""
       ;;
 
     # Regions
     # TODO coords
     -F)
-      set_region 0 0 0 0
+      set_region '43.347901' '-1.846217' '50.589122' '3.913466'
       ;;
 
     -G)
-      set_region 0 0 0 0
+      set_region '2.227946' '-54.509905' '5.489382' '-51.445417'
       ;;
 
     -S)
-      set_region 0 0 0 0
+      set_region '46.733125' '-56.436296' '47.125133' '-56.128474'
       ;;
 
     -A)
-      set_region 0 0 0 0
+      set_region '14.385966' '-61.829015' '16.545873' '-60.839586'
       ;;
 
     -O)
-      set_region 0 0 0 0
+      set_region '-57.545313' '45.737867' '-1.812442' '97.803858'
       ;;
 
     -Q)
-      set_region 0 0 0 0
+      set_region '-84.748452' '-155.994220' '-66.394761' '175.229298'
       ;;
 
     -g)
@@ -201,3 +252,4 @@ if [[ ! -v output ]]
 then
   wrong_usage "Missing argument -o"
 fi
+
