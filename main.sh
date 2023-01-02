@@ -107,8 +107,8 @@ Mandatory arguments:
     --tab: Using a double linked list.
 
 Columns (at least one must be passed):
-  -t<mode>: Temperature. See below.
-  -p<mode>: Pressure. See below.
+  -t <mode>: Temperature. See below.
+  -p <mode>: Pressure. See below.
   -w: Average wind speed and direction by station number in ascending order.
   -m: Max moisture by station in descending order.
   -h: Height in descending order.
@@ -202,7 +202,6 @@ do
       ;;
 
     # Regions
-    # TODO coords
     -F)
       set_region '43.347901' '-1.846217' '50.589122' '3.913466'
       ;;
