@@ -1,4 +1,6 @@
+#include <stdio.h>
 #include "model.h"
+
 
 Comparison compareStationID(WeatherRow a, WeatherRow b) {
     if(a.id == b.id) return Equal;
@@ -134,4 +136,25 @@ WeatherRow averageStationPressure(int count, WeatherRow value){
     WeatherRow result = value;
     *result.stationPressure /= count;
     return result;    
+}
+
+WeatherRow emptyRow(){
+    WeatherRow a;
+    a.id=-1;
+    a.date= NULL;
+    a.seaPressure=NULL;
+    a.windDirection=NULL;
+    a.windSpeed=NULL;
+    a.moisture=NULL;
+    a.stationPressure=NULL;
+    a.pressureVariation=NULL;
+    a.precipitation=NULL;
+    a.coordX=NULL;
+    a.coordY=NULL;
+    a.temperature=NULL;
+    a.temperatureMin=0;
+    a.height=NULL;
+    a.townCode=NULL;
+    return a;
+
 }

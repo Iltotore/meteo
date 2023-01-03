@@ -1,5 +1,5 @@
 #include <stdbool.h>
-#include "time.h"
+#include <time.h>
 
 #ifndef METEO_MODEL_H
 #define METEO_MODEL_H
@@ -26,7 +26,7 @@
  */
 typedef struct {
     int id;
-    time_t date;
+    struct tm *date;
     int *seaPressure; //Pointer represent optional values (aka can be NULL)
     int *windDirection;
     float *windSpeed;
@@ -34,13 +34,13 @@ typedef struct {
     int *stationPressure;
     float *pressureVariation;
     int *precipitation;
-    float coordX;
-    float coordY;
+    float *coordX;
+    float *coordY;
     float *temperature;
     float *temperatureMin;
     float *temperatureMax;
     int *height;
-    int townCode;
+    int *townCode;
 } WeatherRow;
 
 /**
@@ -126,6 +126,8 @@ WeatherRow averageTemperatureMin(int count, WeatherRow value);
 WeatherRow sumStationPressure(WeatherRow a, WeatherRow b);
 
 WeatherRow averageStationPressure(int count, WeatherRow value);
+
+WeatherRow emptyRow();
 
 
 
