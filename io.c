@@ -24,3 +24,18 @@ void readLines(FILE *file, Callback callback, Reader reader) {
         callback(readLine(file));
     }
 }
+WeatherRow readTemperature(FILE *file){
+    WeatherRow a=emptyRow();
+    char date[26];
+    fscanf(file, "%d;%25c;%f;%f;%f\n",&a.id,date,a.temperature,a.temperatureMax,a.temperatureMin);
+   // *a.date=;
+   return a;
+}
+
+WeatherRow readPressure(FILE *file);{}
+
+WeatherRow readWind(FILE *file);{}
+
+WeatherRow readMoisture(FILE *file);{}
+
+WeatherRow readHeight(FILE *file){}

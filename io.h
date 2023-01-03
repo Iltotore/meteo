@@ -19,4 +19,16 @@ typedef WeatherRow (*Reader)(FILE *file);
  */
 void readLines(FILE *file, Callback callback, Reader reader);
 
+WeatherRow readTemperature(FILE *file);
+
+WeatherRow readPressure(FILE *file);
+
+WeatherRow readWind(FILE *file);
+
+WeatherRow readMoisture(FILE *file);
+
+WeatherRow readHeight(FILE *file);
+
+
 #endif
+
