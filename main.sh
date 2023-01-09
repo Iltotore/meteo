@@ -253,6 +253,14 @@ do
       shift
       ;;
 
+    -*)
+      wrong_usage "The option $1 does not exist"
+      ;;
+
+    *)
+      wrong_usage "Value $1 is set without option"
+      ;;
+      
   esac
   shift
 done
@@ -267,4 +275,4 @@ then
   wrong_usage "Missing argument -o"
 fi
 
-filter_coords > test.csv
+filter_coords
