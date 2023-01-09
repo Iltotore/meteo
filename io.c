@@ -25,26 +25,46 @@ void readLines(FILE *file, Callback callback, Reader reader) {
     }
 }
 
+struct tm *parseTime(char* c){
+    return NULL;
+}
+
 WeatherRow readTemperature(FILE *file){
     WeatherRow a=emptyRow();
     char date[26];
     fscanf(file, "%d;%25c;%f;%f;%f\n",&a.id,date,a.temperature,a.temperatureMax,a.temperatureMin);
-   // *a.date=;
-   return a;
+    a.date= parseTime(date);
+    return a;
 }
 
 WeatherRow readPressure(FILE *file){
-    return emptyRow();
+   WeatherRow a=emptyRow();
+   char date[26];
+   fscanf(file, "%d;%25c;%d;%d\n",&a.id,date,a.seaPressure,a.stationPressure);
+   a.date= parseTime(date);
+   return a;
 }
 
 WeatherRow readWind(FILE *file){
-    return emptyRow();
+   WeatherRow a=emptyRow();
+   char date[26];
+   fscanf(file, "%d;%25c;%d;%f\n",&a.id,date,a.windDirection,a.windSpeed);
+   a.date= parseTime(date);
+   return a;
 }
 
 WeatherRow readMoisture(FILE *file){
-    return emptyRow();
+   WeatherRow a=emptyRow();
+   char date[26];
+   fscanf(file, "%d;%25c;%d\n",&a.id,date,a.moisture);
+   a.date= parseTime(date);
+   return a;
 }
 
 WeatherRow readHeight(FILE *file){
-    return emptyRow();
+    WeatherRow a=emptyRow();
+   char date[26];
+   fscanf(file, "%d;%25c;%d\n",&a.id,date,a.height);
+   a.date= parseTime(date);
+   return a;
 }
