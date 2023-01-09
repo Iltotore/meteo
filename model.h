@@ -72,43 +72,80 @@ Comparison compareHeight(WeatherRow a, WeatherRow b);
 Comparison compareMoisture(WeatherRow a, WeatherRow b);
 
 /**
+ * Compares the measure date of two WeatherRow 
+ */
+Comparison compareDateThenStation(WeatherRow a, WeatherRow b);
+/**
  * Compares the measure date of two WeatherRow
  */
 Comparison compareTime3(WeatherRow a, WeatherRow b);
 
-Comparison compareTime2(WeatherRow a, WeatherRow b);
 
 typedef void (*Callback)(WeatherRow);
 
 typedef WeatherRow (*Reducer)(WeatherRow, WeatherRow);
-
+/**
+ * Compares two temperatures and returns the greater
+ */
 WeatherRow maxTemperature(WeatherRow a, WeatherRow b);
-
+/**
+ * Compares two temperatures and returns the lower
+ */
 WeatherRow minTemperature(WeatherRow a, WeatherRow b);
-
+/**
+ * Compares two maxTemperature and returns the lower
+ */
 WeatherRow minTemperatureMax(WeatherRow a, WeatherRow b);
-
+/**
+ * Compares two maxTemperature and returns the greater
+ */
 WeatherRow maxTemperatureMax(WeatherRow a, WeatherRow b);
 
-
+/**
+ * Compares two minTemperature and returns the greater
+ */
 WeatherRow maxTemperatureMin(WeatherRow a, WeatherRow b);
 
+/**
+ * Compares two minTemperature and returns the lower
+ */
 WeatherRow minTemperatureMin(WeatherRow a, WeatherRow b);
 
+/**
+ * Compares two moistures and returns the greater
+ */
 WeatherRow maxMoisture(WeatherRow a, WeatherRow b);
 
+/**
+ * Compares two stationPressure and returns the greater
+ */
 WeatherRow maxStationPressure(WeatherRow a, WeatherRow b);
 
+/**
+ * Compares two stationPressure and returns the lower
+ */
 WeatherRow minStationPressure(WeatherRow a, WeatherRow b);
 
 typedef WeatherRow (*Mapper)(int, WeatherRow);
 
+/**
+ * Sums two windSpeed
+ */
 WeatherRow sumWindSpeed(WeatherRow a, WeatherRow b);
 
+/**
+ *Calculates the average of two windSpeeed
+ */
 WeatherRow averageWindSpeed(int count, WeatherRow value);
 
+/**
+ * Sums two windDirection
+ */
 WeatherRow sumWindDirection(WeatherRow a, WeatherRow b);
 
+/**
+ *Calculates the average of two windSpeeed
+ */
 WeatherRow averageWindDirection(int count, WeatherRow value);
 
 WeatherRow sumTemperature(WeatherRow a, WeatherRow b);

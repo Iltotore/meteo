@@ -26,7 +26,7 @@ Comparison compareTime3(WeatherRow a, WeatherRow b) {
     return Less;
 }
 
-Comparison compareTime2(WeatherRow a, WeatherRow b) {
+Comparison compareDateThenStation(WeatherRow a, WeatherRow b) {
     if(a.date == b.date) return Equal;
     else if(a.date > b.date) return Greater;
     return Less;
