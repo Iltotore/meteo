@@ -75,6 +75,7 @@ Comparison compareMoisture(WeatherRow a, WeatherRow b);
  * Compares the measure date of two WeatherRow 
  */
 Comparison compareDateThenStation(WeatherRow a, WeatherRow b);
+
 /**
  * Compares the measure date of two WeatherRow
  */
@@ -84,18 +85,22 @@ Comparison compareTime3(WeatherRow a, WeatherRow b);
 typedef void (*Callback)(WeatherRow);
 
 typedef WeatherRow (*Reducer)(WeatherRow, WeatherRow);
+
 /**
  * Compares two temperatures and returns the greater
  */
 WeatherRow maxTemperature(WeatherRow a, WeatherRow b);
+
 /**
  * Compares two temperatures and returns the lower
  */
 WeatherRow minTemperature(WeatherRow a, WeatherRow b);
+
 /**
  * Compares two maxTemperature and returns the lower
  */
 WeatherRow minTemperatureMax(WeatherRow a, WeatherRow b);
+
 /**
  * Compares two maxTemperature and returns the greater
  */
@@ -148,20 +153,44 @@ WeatherRow sumWindDirection(WeatherRow a, WeatherRow b);
  */
 WeatherRow averageWindDirection(int count, WeatherRow value);
 
+/**
+ * Sums two temperature
+ */
 WeatherRow sumTemperature(WeatherRow a, WeatherRow b);
 
+/**
+ *Calculates the average of two temperature
+ */
 WeatherRow averageTemperature(int count, WeatherRow value);
 
+/**
+ * Sums two temperatureMax
+ */
 WeatherRow sumTemparatureMax(WeatherRow a, WeatherRow b);
 
+/**
+ *Calculates the average of two temperatureMax
+ */
 WeatherRow averageTemperatureMax(int count, WeatherRow value);
 
+/**
+ * Sums two temperatureMax
+ */
 WeatherRow sumTemparatureMin(WeatherRow a, WeatherRow b);
 
+/**
+ *Calculates the average of two temperatureMin
+ */
 WeatherRow averageTemperatureMin(int count, WeatherRow value);
 
+/**
+ * Sums two stationPressure
+ */
 WeatherRow sumStationPressure(WeatherRow a, WeatherRow b);
 
+/**
+ *Calculates the average of two stationPressure
+ */
 WeatherRow averageStationPressure(int count, WeatherRow value);
 
 WeatherRow emptyRow();
