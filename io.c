@@ -24,6 +24,7 @@ void readLines(FILE *file, Callback callback, Reader reader) {
         callback(readLine(file));
     }
 }
+
 WeatherRow readTemperature(FILE *file){
     WeatherRow a=emptyRow();
     char date[26];
@@ -32,10 +33,18 @@ WeatherRow readTemperature(FILE *file){
    return a;
 }
 
-WeatherRow readPressure(FILE *file);{}
+WeatherRow readPressure(FILE *file){
+    return emptyRow();
+}
 
-WeatherRow readWind(FILE *file);{}
+WeatherRow readWind(FILE *file){
+    return emptyRow();
+}
 
-WeatherRow readMoisture(FILE *file);{}
+WeatherRow readMoisture(FILE *file){
+    return emptyRow();
+}
 
-WeatherRow readHeight(FILE *file){}
+WeatherRow readHeight(FILE *file){
+    return emptyRow();
+}

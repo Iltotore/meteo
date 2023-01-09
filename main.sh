@@ -14,11 +14,11 @@ filter_coords() {
   filter='1'
   if [[ -v latitude ]]
   then
-    filter="$filter && \$10 >= ${latitude[0]} && \$10 <= ${latitude[1]}"
+    filter="$filter && \$10 >= ${latitude[0]} && \$10 <= ${longitude[1]}"
   fi
   if [[ -v longitude ]]
   then
-    filter="$filter && \$11 >= ${longitude[0]} && \$11 <= ${longitude[1]}"
+    filter="$filter && \$11 >= ${latitude[0]} && \$11 <= ${latitude[1]}"
   fi
 
   result=$(head "$input" | awk "$filter" FS='[;,]')
@@ -95,10 +95,10 @@ set_region() {
     wrong_usage "Cannot use region and -g/-a together"
   fi
 
-  region=""
-
   set_latitude "$1" "$2"
   set_longitude "$3" "$4"
+
+  region=""
 }
 
 check_var() {
@@ -218,27 +218,27 @@ do
 
     # Regions
     -F)
-      set_region '43.347901' '-1.846217' '50.589122' '3.913466'
+      set_region '-1.846217' '43.347901' '3.913466' '50.589122'
       ;;
 
     -G)
-      set_region '2.227946' '-54.509905' '5.489382' '-51.445417'
+      set_region '-54.509905' '2.227946' '-51.445417' '5.489382'
       ;;
 
     -S)
-      set_region '46.733125' '-56.436296' '47.125133' '-56.128474'
+      set_region '-56.436296' '46.733125' '-56.128474' '47.125133'
       ;;
 
     -A)
-      set_region '14.385966' '-61.829015' '16.545873' '-60.839586'
+      set_region '-61.829015' '14.385966' '-60.839586' '16.545873'
       ;;
 
     -O)
-      set_region '-57.545313' '45.737867' '-1.812442' '97.803858'
+      set_region '45.737867' '-57.545313' '97.803858' '-1.812442'
       ;;
 
     -Q)
-      set_region '-84.748452' '-155.994220' '-66.394761' '175.229298'
+      set_region '-155.994220' '-84.748452' '175.229298' '-66.394761'
       ;;
 
     -g)
