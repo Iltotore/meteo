@@ -166,7 +166,7 @@ WeatherRow averageTemperature(int count, WeatherRow value);
 /**
  * Sums two temperatureMax
  */
-WeatherRow sumTemparatureMax(WeatherRow a, WeatherRow b);
+WeatherRow sumTemperatureMax(WeatherRow a, WeatherRow b);
 
 /**
  *Calculates the average of two temperatureMax
