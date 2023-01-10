@@ -1,4 +1,5 @@
 #include "stdio.h"
+#include <string.h>
 #include "doublelinkedlist.h"
 #include "tree.h"
 #include "avl.h"
@@ -21,9 +22,21 @@ WeatherRow maxMoisture(WeatherRow a, WeatherRow b) {
 }
 
 
-int main() {
-
+int main(int argc, char **argv) {
+  //int a;
     srand(time(NULL));
+    /*
+    a=strmp(argv[1],"avl");
+    if(a==0) range avl
+    else{
+        a=strmp(argv[1],"tree");
+        if(a==0) range bst (abr)
+    }
+    else{ 
+        a=strmp(argv[1],"array");
+        if(a==0) range array(tableau)
+    }
+    */
 
 
 
