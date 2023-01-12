@@ -4,10 +4,8 @@ run_cmd=./app.out
 compile_cmd=make
 
 filter_columns() {
-  file="$1"
-  columns="$2"
 
-  cut "$file" -d ";" -f "$columns"
+  cut -d ";" -f "$1"
 }
 
 filter_coords() {
@@ -275,4 +273,29 @@ then
   wrong_usage "Missing argument -o"
 fi
 
-filter_coords
+filtered=filter_coords
+
+if [[ -v temperature ]]
+then
+  "$filtered" | filter_columns '1,2,11,12,13' > test.csv
+fi
+
+if [[ -v pressure ]]
+then
+  "$filtered" | filter_columns '1,2,3,7' > test.csv
+fi
+
+if [[ -v wind ]]
+then
+  "$filtered" | filter_columns '1,2,4,5' > test.csv
+fi
+
+if [[ -v moisture ]]
+then
+  "$filtered" | filter_columns '1,2,6' > test.csv
+fi
+
+if [[ -v height ]]
+then
+  "$filtered" | filter_columns '1,2,14' > test.csv
+fi
