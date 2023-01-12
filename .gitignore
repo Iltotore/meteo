@@ -3,6 +3,12 @@
 .idea
 *.iml
 
+#Scripting
+.scala-build
+.metals
+scala-cli.json
+*.sc
+
 # Resources
 *.csv
 
