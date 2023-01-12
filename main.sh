@@ -4,7 +4,6 @@ run_cmd=./app.out
 compile_cmd=make
 
 filter_columns() {
-
   cut -d ";" -f "$1"
 }
 
@@ -12,14 +11,14 @@ filter_coords() {
   filter='1'
   if [[ -v latitude ]]
   then
-    filter="$filter && \$10 >= ${latitude[0]} && \$10 <= ${longitude[1]}"
+    filter="$filter && \$10 >= ${latitude[0]} && \$10 <= ${latitude[1]}"
   fi
   if [[ -v longitude ]]
   then
-    filter="$filter && \$11 >= ${latitude[0]} && \$11 <= ${latitude[1]}"
+    filter="$filter && \$11 >= ${longitude[0]} && \$11 <= ${longitude[1]}"
   fi
 
-  result=$(head "$input" | awk "$filter" FS='[;,]')
+  result=$(tail -n +2 "$input" | head -n 10 | awk "$filter" FS='[;,]')
   echo "$result"
 }
 
@@ -37,7 +36,12 @@ wrong_usage() {
 not_empty() {
   if [[ -z "$2" ]]
   then
-    wrong_usage "$1 option should not be empty"
+    if [[ -v "$3" ]]
+    then
+      wrong_usage "$1 option should have $3 values passed"
+    else
+      wrong_usage "$1 option should not be empty"
+    fi
   fi
 }
 
@@ -216,36 +220,41 @@ do
 
     # Regions
     -F)
-      set_region '-1.846217' '43.347901' '3.913466' '50.589122'
+    
+      set_region '43.347901' '50.589122' '-1.846217' '3.913466'
       ;;
 
     -G)
-      set_region '-54.509905' '2.227946' '-51.445417' '5.489382'
+      set_region '2.227946' '5.489382' '-54.509905' '-51.445417'
       ;;
 
     -S)
-      set_region '-56.436296' '46.733125' '-56.128474' '47.125133'
+      set_region '46.733125' '47.125133' '-56.436296' '-56.128474'
       ;;
 
     -A)
-      set_region '-61.829015' '14.385966' '-60.839586' '16.545873'
+      set_region '14.385966' '16.545873' '-61.829015' '-60.839586'
       ;;
 
     -O)
-      set_region '45.737867' '-57.545313' '97.803858' '-1.812442'
+      set_region '-57.545313' '-1.812442' '45.737867' '97.803858'
       ;;
 
     -Q)
-      set_region '-155.994220' '-84.748452' '175.229298' '-66.394761'
+      set_region '-84.748452' '-66.394761' '-155.994220' '175.229298'
       ;;
 
     -g)
+      not_empty "-g" "$2" '2'
+      not_empty "-g" "$3" '2'
       set_longitude "$2" "$3"
       shift
       shift
       ;;
 
     -a)
+      not_empty "-a" "$2"
+      not_empty "-a" "$3"
       set_latitude "$2" "$3"
       shift
       shift
