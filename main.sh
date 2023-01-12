@@ -3,6 +3,10 @@ executed="$0"
 run_cmd=./app.out
 compile_cmd=make
 
+file_for() {
+  echo "filtered_$1_${input}"
+}
+
 filter_columns() {
   cut -d ";" -f "$1"
 }
@@ -282,29 +286,44 @@ then
   wrong_usage "Missing argument -o"
 fi
 
+if [[ ! -v temperature && ! -v pressure && ! -v wind && ! -v height && ! -v moisture ]]
+then
+  wrong_usage "At least one field must be selected"
+fi
+
+compilation=$(make 2>&1)
+
+if [[ "$?" -ne 0 ]]
+then
+  echo -e "\e[31mCannot compile C program:\e[0m"
+  echo -e "\e[31m${compilation}\e[0m"
+  exit 4
+fi
+
+
 filtered=filter_coords
 
 if [[ -v temperature ]]
 then
-  "$filtered" | filter_columns '1,2,11,12,13' > test.csv
+  "$filtered" | filter_columns '1,2,11,12,13' > "$(file_for 'temperature')"
 fi
 
 if [[ -v pressure ]]
 then
-  "$filtered" | filter_columns '1,2,3,7' > test.csv
+  "$filtered" | filter_columns '1,2,3,7' > "$(file_for 'pressure')"
 fi
 
 if [[ -v wind ]]
 then
-  "$filtered" | filter_columns '1,2,4,5' > test.csv
+  "$filtered" | filter_columns '1,2,4,5,10' > "$(file_for 'wind')"
 fi
 
 if [[ -v moisture ]]
 then
-  "$filtered" | filter_columns '1,2,6' > test.csv
+  "$filtered" | filter_columns '1,2,6' > "$(file_for 'moisture')"
 fi
 
 if [[ -v height ]]
 then
-  "$filtered" | filter_columns '1,2,14' > test.csv
+  "$filtered" | filter_columns '1,2,14' > "$(file_for 'height')"
 fi
