@@ -1,5 +1,6 @@
 #!/usr/bin/gnuplot -persist
 
+set datafile separator ";"
 set title "Wind direction and speed"
 set border 4095 front lt black linewidth 1.000 dashtype solid
 set xlabel "Longitude" 
