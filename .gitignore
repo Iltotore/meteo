@@ -4,8 +4,9 @@
 *.iml
 
 #Scripting
-.scala-build
+.bsp
 .metals
+.scala-build
 scala-cli.json
 *.sc
 
