@@ -1,6 +1,9 @@
+#define _GNU_SOURCE 1
 #include <stdio.h>
+#include <time.h>
 #include "io.h"
 #include "model.h"
+#include "util.h"
 
 /**
  * Read a single CSV line.
@@ -26,7 +29,9 @@ void readLines(FILE *file, Callback callback, Reader reader) {
 }
 
 struct tm *parseTime(char* c){
-    return NULL;
+    struct tm *date = safeMalloc(sizeof(struct tm));
+    strptime(c, "%FT%T%z", date);
+    return date;
 }
 
 WeatherRow readTemperature(FILE *file){
