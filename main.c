@@ -23,21 +23,33 @@ WeatherRow maxMoisture(WeatherRow a, WeatherRow b) {
 
 
 int main(int argc, char **argv) {
-  //int a;
+    int a;
     srand(time(NULL));
-    /*
-    a=strmp(argv[1],"avl");
-    if(a==0) range avl
+    
+    a=strcmp(argv[1],"avl");
+    if(a==0) printf("Je vais faire l'affichage d'avl\n");
+    else if (strcmp(argv[1], "tree")==0){
+        printf("Je vais faire l'affichage d'un abr\n");
+    }
+    else if(strcmp(argv[1], "array")==0){
+            printf("Je vais faire l'affichage d'un tableau\n");
+    }
     else{
-        a=strmp(argv[1],"tree");
-        if(a==0) range bst (abr)
+        printf("L'argument n'est pas valide !");
     }
-    else{ 
-        a=strmp(argv[1],"array");
-        if(a==0) range array(tableau)
-    }
-    */
+    
 
+    if(strcmp(argv[2],"t")==0)printf("Je vais faire l'affichage selon la temperature");
+    else if(strcmp(argv[2],"p")==0)printf("Je vais faire l'affichage selon la pression");
+    else if(strcmp(argv[2],"w")==0)printf("Je vais faire l'affichage selon le vent");
+    else if (strcmp(argv[2],"h")==0) printf("Je vais faire l'affichage selon la wind");
+    else if (strcmp(argv[2],"m")==0) printf("Je vais faire l'affichage selon l'humidité");
+    
+    else printf("L'argument n'est pas valide !");
+
+    if (strcmp(argv[3],"1")==0)printf("Je vais faire l'affichage à l'envers");
+    else if(strcmp(argv[3],"2")==0) printf("Je vais faire l'affichage à l'endroit");
+    else printf("L'argument n'est pas valide !"); 
 
 
     return 0;
