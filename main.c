@@ -23,32 +23,43 @@ WeatherRow maxMoisture(WeatherRow a, WeatherRow b) {
 
 
 int main(int argc, char **argv) {
-    int a;
     srand(time(NULL));
-    
-    a=strcmp(argv[1],"avl");
-    if(a==0) printf("Je vais faire l'affichage d'avl\n");
-    else if (strcmp(argv[1], "tree")==0){
-        printf("Je vais faire l'affichage d'un abr\n");
-    }
-    else if(strcmp(argv[1], "array")==0){
-            printf("Je vais faire l'affichage d'un tableau\n");
-    }
-    else{
-        printf("L'argument n'est pas valide !");
-    }
-    
 
-    if(strcmp(argv[2],"t")==0)printf("Je vais faire l'affichage selon la temperature");
-    else if(strcmp(argv[2],"p")==0)printf("Je vais faire l'affichage selon la pression");
-    else if(strcmp(argv[2],"w")==0)printf("Je vais faire l'affichage selon le vent");
-    else if (strcmp(argv[2],"h")==0) printf("Je vais faire l'affichage selon la wind");
-    else if (strcmp(argv[2],"m")==0) printf("Je vais faire l'affichage selon l'humidité");
+    char* nfile=argv[1];
+    FILE* file= fopen(nfile, "r");
+
+    if(nfile == NULL) {
+        printf("It's absolutely impossible to open the file !\n");
+        return 2;
+  }
+   
+
+    SortMode sortMode=argv[2];
+    
+    switch(argv[2]) {
+        case List :
+           
+           break ;
+    }
+
+    if(strcmp(argv[3],"t")==0)printf("Je vais faire l'affichage selon la temperature");
+
+    else if(strcmp(argv[3],"p")==0)printf("Je vais faire l'affichage selon la pression");
+
+    else if(strcmp(argv[3],"w")==0)printf("Je vais faire l'affichage selon le vent");
+
+    else if (strcmp(argv[3],"h")==0) printf("Je vais faire l'affichage selon l'altitude");
+
+    else if (strcmp(argv[3],"m")==0) {
+
+    }
     
     else printf("L'argument n'est pas valide !");
 
     if (strcmp(argv[3],"1")==0)printf("Je vais faire l'affichage à l'envers");
+
     else if(strcmp(argv[3],"2")==0) printf("Je vais faire l'affichage à l'endroit");
+
     else printf("L'argument n'est pas valide !"); 
 
 

@@ -44,6 +44,15 @@ typedef struct {
 } WeatherRow;
 
 /**
+ * The type of sorting chosen
+ */
+typedef enum SortMode {
+    List = "array",
+    BST = "bst",
+    AVL = "avl"
+}
+
+/**
  * The result of a comparison between two values
  */
 typedef enum {
