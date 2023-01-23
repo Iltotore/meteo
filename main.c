@@ -7,10 +7,6 @@
 #include "time.h"
 #include "model.h"
 
-void printRow(WeatherRow row) {
-    printf("id: %d, wind: %f\n", row.id, *row.windSpeed);
-}
-
 Comparison compareStationIDDesc(WeatherRow a, WeatherRow b) {
     if(a.id == b.id) return Equal;
     else if(a.id > b.id) return Less;
@@ -25,13 +21,13 @@ WeatherRow maxMoisture(WeatherRow a, WeatherRow b) {
 int main(int argc, char **argv) {
     srand(time(NULL));
 
-    char* nfile=argv[1];
+    /*char* nfile=argv[1];
     FILE* file= fopen(nfile, "r");
 
     if(nfile == NULL) {
         printf("It's absolutely impossible to open the file !\n");
         return 2;
-  }
+    }
    
 
     SortMode sortMode=argv[2];
@@ -40,7 +36,7 @@ int main(int argc, char **argv) {
         case List :
            
            break ;
-    }
+    }*/
 
     if(strcmp(argv[3],"t")==0)printf("Je vais faire l'affichage selon la temperature");
 

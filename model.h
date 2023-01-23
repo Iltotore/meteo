@@ -28,8 +28,8 @@ typedef struct {
     int id;
     struct tm *date;
     int *seaPressure; //Pointer represent optional values (aka can be NULL)
-    int *windDirection;
-    float *windSpeed;
+    float *windX;
+    float *windY;
     int *moisture;
     int *stationPressure;
     float *pressureVariation;
@@ -46,11 +46,9 @@ typedef struct {
 /**
  * The type of sorting chosen
  */
-typedef enum SortMode {
-    List = "array",
-    BST = "bst",
-    AVL = "avl"
-}
+typedef enum {
+    LIST_MODE, BST_MODE, AVL_MODE
+} SortMode;
 
 /**
  * The result of a comparison between two values

@@ -1,7 +1,7 @@
 #define _GNU_SOURCE 1
 #include <stdio.h>
 #include <time.h>
-#include <time.h>
+#include <math.h>
 #include "io.h"
 #include "model.h"
 #include "util.h"
@@ -44,35 +44,42 @@ WeatherRow readTemperature(FILE *file){
 }
 
 WeatherRow readPressure(FILE *file){
-   WeatherRow a=emptyRow();
-   char date[26];
-   fscanf(file, "%d;%25c;%d;%d\n",&a.id,date,a.seaPressure,a.stationPressure);
-   a.date= parseTime(date);
-   return a;
+    WeatherRow a=emptyRow();
+    char date[26];
+    fscanf(file, "%d;%25c;%d;%d\n",&a.id,date,a.seaPressure,a.stationPressure);
+    a.date= parseTime(date);
+    return a;
 }
 
 WeatherRow readWind(FILE *file){
-   WeatherRow a=emptyRow();
-   char date[26];
-   fscanf(file, "%d;%25c;%d;%f\n",&a.id,date,a.windDirection,a.windSpeed);
-   a.date= parseTime(date);
-   return a;
+    WeatherRow a=emptyRow();
+    char date[26];
+    int windDir;
+    float windSpeed;
+    float pi = acosf(-1);
+
+    fscanf(file, "%d;%25c;%d;%f\n",&a.id,date,&windDir,&windSpeed);
+    a.date = parseTime(date);
+    *a.windX = cosf(windDir*pi/180)*windSpeed;
+    *a.windY = sinf(windDir*pi/180)*windSpeed;
+
+    return a;
 }
 
 WeatherRow readMoisture(FILE *file){
-   WeatherRow a=emptyRow();
-   char date[26];
-   fscanf(file, "%d;%25c;%d\n",&a.id,date,a.moisture);
-   a.date= parseTime(date);
-   return a;
+    WeatherRow a=emptyRow();
+    char date[26];
+    fscanf(file, "%d;%25c;%d\n",&a.id,date,a.moisture);
+    a.date= parseTime(date);
+    return a;
 }
 
 WeatherRow readHeight(FILE *file){
     WeatherRow a=emptyRow();
-   char date[26];
-   fscanf(file, "%d;%25c;%d\n",&a.id,date,a.height);
-   a.date= parseTime(date);
-   return a;
+    char date[26];
+    fscanf(file, "%d;%25c;%d\n",&a.id,date,a.height);
+    a.date= parseTime(date);
+    return a;
 }
 
 void writeTemperature1(FILE *file, WeatherRow row) { //TODO Order ?
@@ -101,10 +108,7 @@ void writePressure2(FILE *file, WeatherRow row);
 void writePressure3(FILE *file, WeatherRow row);
 
 void writeWind(FILE *file, WeatherRow row) {
-    float x = 0; //TODO use XY coords for direction in WeatherRow
-    float y = 0;
-
-    printf("%d;%f;%f;%f;%f\n", row.id, *row.coordX, *row.coordY, x, y);
+    printf("%d;%f;%f;%f;%f\n", row.id, *row.coordX, *row.coordY, *row.windX, *row.windY);
 }
 
 void writeMoisture(FILE *file, WeatherRow row) {

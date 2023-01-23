@@ -63,30 +63,18 @@ WeatherRow minStationPressure(WeatherRow a, WeatherRow b){
     return *a.stationPressure < *b.stationPressure ? a : b ;
 }
 
-
-WeatherRow sumWindSpeed(WeatherRow a, WeatherRow b){
-      WeatherRow result = a;
-    *a.windSpeed += *b.windSpeed;
-    return result;
-}
-
-WeatherRow averageWindSpeed(int count, WeatherRow value){
-      WeatherRow result = value;
-    *result.windSpeed /= count;
-    return result;
-}
-
-WeatherRow sumWindDirection(WeatherRow a, WeatherRow b){
+WeatherRow sumWind(WeatherRow a, WeatherRow b){
      WeatherRow result = a;
-    *a.windDirection += *b.windDirection;
+    *a.windX += *b.windX;
+    *a.windY += *b.windY;
     return result;
 }
 
-WeatherRow averageWindDirection(int count, WeatherRow value){
+WeatherRow averageWind(int count, WeatherRow value){
     WeatherRow result = value;
-    *result.windDirection /= count;
+    *result.windX /= count;
+    *result.windY /= count;
     return result;
-    
 }
 
 WeatherRow sumTemperature(WeatherRow a, WeatherRow b){
@@ -143,8 +131,8 @@ WeatherRow emptyRow(){
     a.id=-1;
     a.date= NULL;
     a.seaPressure=NULL;
-    a.windDirection=NULL;
-    a.windSpeed=NULL;
+    a.windX=NULL;
+    a.windY=NULL;
     a.moisture=NULL;
     a.stationPressure=NULL;
     a.pressureVariation=NULL;
