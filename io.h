@@ -13,6 +13,14 @@
 typedef WeatherRow (*Reader)(FILE *file);
 
 /**
+ * Write a single CSV line.
+ *
+ * @param file the file to write into.
+ * @return a new WeatherRow instance built from the read data.
+ */
+typedef void (*Writer)(FILE *file, WeatherRow row);
+
+/**
  * Read all lines and execute the given callback for each.
  *
  * @param callback the callback to consume for each WeatherRow.
@@ -29,6 +37,23 @@ WeatherRow readMoisture(FILE *file);
 
 WeatherRow readHeight(FILE *file);
 
+void writeTemperature1(FILE *file, WeatherRow row);
+
+void writeTemperature2(FILE *file, WeatherRow row);
+
+void writeTemperature3(FILE *file, WeatherRow row);
+
+void writePressure1(FILE *file, WeatherRow row);
+
+void writePressure2(FILE *file, WeatherRow row);
+
+void writePressure3(FILE *file, WeatherRow row);
+
+void writeWind(FILE *file, WeatherRow row);
+
+void writeMoisture(FILE *file, WeatherRow row);
+
+void writeHeight(FILE *file, WeatherRow row);
 
 #endif
 

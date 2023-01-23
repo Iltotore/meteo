@@ -1,6 +1,7 @@
 #define _GNU_SOURCE 1
 #include <stdio.h>
 #include <time.h>
+#include <time.h>
 #include "io.h"
 #include "model.h"
 #include "util.h"
@@ -72,4 +73,44 @@ WeatherRow readHeight(FILE *file){
    fscanf(file, "%d;%25c;%d\n",&a.id,date,a.height);
    a.date= parseTime(date);
    return a;
+}
+
+void writeTemperature1(FILE *file, WeatherRow row) { //TODO Order ?
+    fprintf(file, "%d;%f;%f;%f\n", row.id, *row.temperature, *row.temperatureMin, *row.temperatureMax);
+}
+
+void writeTemperature2(FILE *file, WeatherRow row) {
+    fprintf(file, "%d;%ld;%f\n", row.id, mktime(row.date), *row.temperature);
+}
+
+void writeTemperature3(FILE *file, WeatherRow row) {
+    struct tm date = *row.date;
+    date.tm_hour = 0;
+    date.tm_min = 0;
+    date.tm_sec = 0;
+    fprintf(file, "%d;%ld", row.id, mktime(&date));
+
+    //TODO hours
+    //for(int h = 0; h < 23; h++) fprintf(";%d", )
+}
+
+void writePressure1(FILE *file, WeatherRow row);
+
+void writePressure2(FILE *file, WeatherRow row);
+
+void writePressure3(FILE *file, WeatherRow row);
+
+void writeWind(FILE *file, WeatherRow row) {
+    float x = 0; //TODO use XY coords for direction in WeatherRow
+    float y = 0;
+
+    printf("%d;%f;%f;%f;%f\n", row.id, *row.coordX, *row.coordY, x, y);
+}
+
+void writeMoisture(FILE *file, WeatherRow row) {
+    fprintf(file, "%f;%f;%d\n", *row.coordX, *row.coordY, *row.moisture);
+}
+
+void writeHeight(FILE *file, WeatherRow row) {
+    fprintf(file, "%f;%f;%d\n", *row.coordX, *row.coordY, *row.height);
 }
