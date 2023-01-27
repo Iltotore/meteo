@@ -107,6 +107,16 @@ set_region() {
   region=""
 }
 
+set_sorting_mode() {
+
+  if [[ -v sorting_mode ]]
+  then
+    wrong_usage "Only a single sorting mode should be specified"
+  fi
+
+  sorting_mode="$1"
+}
+
 check_var() {
 
   if [[ -v "$2" ]]
@@ -264,6 +274,18 @@ do
       shift
       ;;
 
+    --avl)
+      set_sorting_mode 'avl'
+      ;;
+
+    --abr)
+      set_sorting_mode 'abr'
+      ;;
+
+    --tab)
+      set_sorting_mode 'tab'
+      ;;
+
     -*)
       wrong_usage "The option $1 does not exist"
       ;;
@@ -291,15 +313,19 @@ then
   wrong_usage "At least one field must be selected"
 fi
 
+if [[ ! -v sorting_mode ]]
+then
+  set_sorting_mode 'avl'
+fi
+
 compilation=$(make 2>&1)
 
-if [[ "$?" -ne 0 ]]
+if [[ "$?" ]]
 then
   echo -e "\e[31mCannot compile C program:\e[0m"
   echo -e "\e[31m${compilation}\e[0m"
   exit 4
 fi
-
 
 filtered=filter_coords
 
