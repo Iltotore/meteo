@@ -90,15 +90,11 @@ void writeTemperature2(FILE *file, WeatherRow row) {
     fprintf(file, "%d;%ld;%f\n", row.id, mktime(row.date), *row.temperature);
 }
 
-void writeTemperature3(FILE *file, WeatherRow row) {
-    struct tm date = *row.date;
-    date.tm_hour = 0;
-    date.tm_min = 0;
-    date.tm_sec = 0;
-    fprintf(file, "%d;%ld", row.id, mktime(&date));
+void writeTemperature3(FILE *file, int id, struct tm *date, int hours[24]) {
+    fprintf(file, "%d;%ld", id, mktime(date));
 
     //TODO hours
-    //for(int h = 0; h < 23; h++) fprintf(";%d", )
+    for(int h = 0; h < 23; h++) fprintf(file, ";%d", hours[h]);
 }
 
 void writePressure1(FILE *file, WeatherRow row);

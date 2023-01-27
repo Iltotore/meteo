@@ -41,7 +41,7 @@ void writeTemperature1(FILE *file, WeatherRow row);
 
 void writeTemperature2(FILE *file, WeatherRow row);
 
-void writeTemperature3(FILE *file, WeatherRow row);
+void writeTemperature3(FILE *file, int id, struct tm *date, int hours[24]);
 
 void writePressure1(FILE *file, WeatherRow row);
 
