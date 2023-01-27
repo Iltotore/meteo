@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
 executed="$0"
-run_cmd=./app.out
-compile_cmd=make
+run_cmd=$(./app.out)
+compile_cmd=$(make)
 
-file_for() {
-  echo "filtered_$1_${input}"
+filtered_file_for() {
+  echo "filtered_$1_$input"
+}
+
+sorted_file_for() {
+  echo "sorted_$1_$output"
 }
 
 filter_columns() {
@@ -117,6 +121,10 @@ set_sorting_mode() {
   sorting_mode="$1"
 }
 
+sort_file() {
+  "$run_cmd $1 $sorting_mode $2 $reverse"
+}
+
 check_var() {
 
   if [[ -v "$2" ]]
@@ -199,7 +207,7 @@ do
     # Misc optional
     -r|--reverse)
       check_var "-r/--reverse" "reverse"
-      reverse=""
+      reverse="true"
       ;;
 
     # Columns
@@ -331,25 +339,40 @@ filtered=filter_coords
 
 if [[ -v temperature ]]
 then
-  "$filtered" | filter_columns '1,2,11,12,13' > "$(file_for 'temperature')"
+  filtered_file="$(filtered_file_for 'temperature')"
+  sorted_file="$(sorted_file_for 'temperature')"
+  "$filtered" | filter_columns '1,2,11,12,13' > "filtered_file"
+  sort_file "$filtered_file" "-t$temperature" > "$sorted_file"
 fi
 
 if [[ -v pressure ]]
 then
-  "$filtered" | filter_columns '1,2,3,7' > "$(file_for 'pressure')"
+  filtered_file="$(filtered_file_for 'pressure')"
+  sorted_file="$(sorted_file_for 'pressure')"
+  "$filtered" | filter_columns '1,2,3,7' > "$(filtered_file_for 'pressure')"
+  sort_file "$filtered_file" "-p$pressure" > "$sorted_file"
 fi
 
 if [[ -v wind ]]
 then
-  "$filtered" | filter_columns '1,2,4,5,10' > "$(file_for 'wind')"
+  filtered_file="$(filtered_file_for 'wind')"
+  sorted_file="$(sorted_file_for 'wind')"
+  "$filtered" | filter_columns '1,2,4,5,10' > "$(filtered_file_for 'wind')"
+  sort_file "$filtered_file" "-w" > "$sorted_file"
 fi
 
 if [[ -v moisture ]]
 then
-  "$filtered" | filter_columns '1,2,6' > "$(file_for 'moisture')"
+  filtered_file="$(filtered_file_for 'moisture')"
+  sorted_file="$(sorted_file_for 'moisture')"
+  "$filtered" | filter_columns '1,2,6' > "$(filtered_file_for 'moisture')"
+  sort_file "$filtered_file" "-m" > "$sorted_file"
 fi
 
 if [[ -v height ]]
 then
-  "$filtered" | filter_columns '1,2,14' > "$(file_for 'height')"
+  filtered_file="$(filtered_file_for 'height')"
+  sorted_file="$(sorted_file_for 'height')"
+  "$filtered" | filter_columns '1,2,14' > "$(filtered_file_for 'height')"
+  sort_file "$filtered_file" "-h" > "$sorted_file"
 fi
