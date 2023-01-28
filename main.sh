@@ -326,6 +326,11 @@ then
   set_sorting_mode 'avl'
 fi
 
+if [[ ! -v reverse ]]
+then
+  reverse="false"
+fi
+
 compilation=$(make 2>&1)
 
 if [[ "$?" ]]
