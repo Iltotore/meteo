@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include "model.h"
+#include "avl.h"
+#include "tree.h"
+#include "doublelinkedlist.h"
 
 #ifndef METEO_IO_H
 #define METEO_IO_H
@@ -21,11 +24,31 @@ typedef WeatherRow (*Reader)(FILE *file);
 typedef void (*Writer)(FILE *file, WeatherRow row);
 
 /**
- * Read all lines and execute the given callback for each.
+ * Read all lines and add them to an AVL.
  *
- * @param callback the callback to consume for each WeatherRow.
+ * @param reader the line reading logic.
+ * @param comparator the ordering used to sort values.
+ * @param reducer the reduction policy applied to duplicates (when the comparator returns Equal).
  */
-void readLines(FILE *file, Callback callback, Reader reader);
+AVL *readLinesAVL(FILE *file, Reader reader, Comparator comparator, Reducer reducer);
+
+/**
+ * Read all lines and add them to an BST.
+ *
+ * @param reader the line reading logic.
+ * @param comparator the ordering used to sort values.
+ * @param reducer the reduction policy applied to duplicates (when the comparator returns Equal).
+ */
+Tree *readLinesBST(FILE *file, Reader reader, Comparator comparator, Reducer reducer);
+
+/**
+ * Read all lines and add them to a DoubleLinkedList.
+ *
+ * @param reader the line reading logic.
+ * @param comparator the ordering used to sort values.
+ * @param reducer the reduction policy applied to duplicates (when the comparator returns Equal).
+ */
+DoubleLinkedList *readLinesList(FILE *file, Reader reader, Comparator comparator, Reducer reducer);
 
 WeatherRow readTemperature(FILE *file);
 

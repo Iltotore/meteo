@@ -19,14 +19,48 @@ WeatherRow readLine(FILE *file) {
 }
 
 /**
- * Read all lines and execute the given callback for each.
+ * Read all lines and add them to an AVL.
  *
- * @param callback the callback to consume for each WeatherRow.
+ * @param reader the line reading logic.
+ * @param comparator the ordering used to sort values.
+ * @param reducer the reduction policy applied to duplicates (when the comparator returns Equal).
  */
-void readLines(FILE *file, Callback callback, Reader reader) {
-    while(!feof(file)) {
-        callback(readLine(file));
-    }
+AVL *readLinesAVL(FILE *file, Reader reader, Comparator comparator, Reducer reducer) {
+    AVL *avl = NULL;
+
+    while(!feof(file)) avl = insertAVL(avl, reader(file), comparator, reducer);
+
+    return avl;
+}
+
+/**
+ * Read all lines and add them to a BST.
+ *
+ * @param reader the line reading logic.
+ * @param comparator the ordering used to sort values.
+ * @param reducer the reduction policy applied to duplicates (when the comparator returns Equal).
+ */
+Tree *readLinesBST(FILE *file, Reader reader, Comparator comparator, Reducer reducer) {
+    Tree *tree = NULL;
+
+    while(!feof(file)) tree = insertBST(tree, reader(file), comparator, reducer);
+
+    return tree;
+}
+
+/**
+ * Read all lines and add them to a DoubleLinkedList.
+ *
+ * @param reader the line reading logic.
+ * @param comparator the ordering used to sort values.
+ * @param reducer the reduction policy applied to duplicates (when the comparator returns Equal).
+ */
+DoubleLinkedList *readLinesList(FILE *file, Reader reader, Comparator comparator, Reducer reducer) {
+    DoubleLinkedList *list = emptyList();
+
+    while(!feof(file)) list = insertOrd(list, reader(file), comparator, reducer);
+
+    return list;
 }
 
 struct tm *parseTime(char* c){
