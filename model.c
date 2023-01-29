@@ -20,13 +20,13 @@ Comparison compareMoisture(WeatherRow a, WeatherRow b) {
     return Greater;
 }
 
-Comparison compareTime3(WeatherRow a, WeatherRow b) {
+Comparison compareDateThenStation(WeatherRow a, WeatherRow b) {
     if(a.date == b.date) return compareStationID(a, b);
     else if(a.date > b.date) return Greater;
     return Less;
 }
 
-Comparison compareDateThenStation(WeatherRow a, WeatherRow b) {
+Comparison compareDate(WeatherRow a, WeatherRow b) {
     if(a.date == b.date) return Equal;
     else if(a.date > b.date) return Greater;
     return Less;
@@ -124,6 +124,10 @@ WeatherRow averageStationPressure(int count, WeatherRow value){
     WeatherRow result = value;
     *result.stationPressure /= count;
     return result;    
+}
+
+WeatherRow ignore(WeatherRow a, WeatherRow b){
+    return a;
 }
 
 WeatherRow emptyRow(){
