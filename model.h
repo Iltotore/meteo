@@ -141,24 +141,14 @@ WeatherRow minStationPressure(WeatherRow a, WeatherRow b);
 typedef WeatherRow (*Mapper)(int, WeatherRow);
 
 /**
- * Sums two windSpeed
+ * Sums two wind speed and direction
  */
-WeatherRow sumWindSpeed(WeatherRow a, WeatherRow b);
+WeatherRow sumWind(WeatherRow a, WeatherRow b);
 
 /**
- *Calculates the average of two windSpeeed
+ * Calculates the average of two wind speed and direction
  */
-WeatherRow averageWindSpeed(int count, WeatherRow value);
-
-/**
- * Sums two windDirection
- */
-WeatherRow sumWindDirection(WeatherRow a, WeatherRow b);
-
-/**
- *Calculates the average of two windSpeeed
- */
-WeatherRow averageWindDirection(int count, WeatherRow value);
+WeatherRow averageWind(int count, WeatherRow value);
 
 /**
  * Sums two temperature
