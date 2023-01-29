@@ -155,7 +155,7 @@ bool hasRight(Tree *tree) {
  * @see addRight, removeLeft
  */
 void addLeft(Tree *tree, WeatherRow value) {
-    if(tree->left != NULL) error("This tree already has a left child!");
+    if(tree->left != NULL) error("This tree already has a left child",4);
     tree->left = createNode(value);
 }
 
@@ -168,7 +168,7 @@ void addLeft(Tree *tree, WeatherRow value) {
  * @see addLeft, removeRight
  */
 void addRight(Tree *tree, WeatherRow value) {
-    if(tree->right != NULL) error("This tree already has a right child!");
+    if(tree->right != NULL) error("This tree already has a right child",4);
     tree->right = createNode(value);
 }
 

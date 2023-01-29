@@ -7,8 +7,7 @@
 void *safeMalloc(size_t size) {
     void *pointer = malloc(size);
     if(pointer == NULL) {
-        printf("Memory allocation error.\n");
-        exit(-1);
+        error("Memory allocation error", 4);
     }
     return pointer;
 }
@@ -16,14 +15,14 @@ void *safeMalloc(size_t size) {
 //Safely free the given pointer. The program exists on failure.
 void safeFree(void *ptr) {
     if(ptr == NULL) {
-        error("Tried to free NULL");
+        error("Tried to free NULL",4);
     }
     free(ptr);
 }
 
-void error(char *message) {
+void error(char *message, int code) {
     printf("\e[0;31mError: %s\e[0;0m\n", message);
-    exit(1);
+    exit(code);
 }
 
 //Return the textual length of the given integer.
