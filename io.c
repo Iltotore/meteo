@@ -63,6 +63,30 @@ DoubleLinkedList *readLinesList(FILE *file, Reader reader, Comparator comparator
     return list;
 }
 
+/**
+ * Write all entries to a file.
+ *
+ * @param file the file to write into.
+ * @param avl the enties to write
+ */
+void writeLinesAVL(FILE *file, AVL *avl) {}
+
+/**
+ * Write all entries to a file.
+ *
+ * @param file the file to write into.
+ * @param tree the enties to write
+ */
+void writeLinesBST(FILE *file, Tree *tree) {}
+
+/**
+ * Write all entries to a file.
+ *
+ * @param file the file to write into.
+ * @param list the enties to write
+ */
+void writeLinesList(FILE *file, DoubleLinkedList *list) {}
+
 struct tm *parseTime(char* c){
     struct tm *date = safeMalloc(sizeof(struct tm));
     strptime(c, "%FT%T%z", date);
