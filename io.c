@@ -158,11 +158,11 @@ void writeTemperature3(FILE *file, int id, struct tm *date, int hours[24]) {
     for(int h = 0; h < 23; h++) fprintf(file, ";%d", hours[h]);
 }
 
-void writePressure1(FILE *file, WeatherRow row);
+void writePressure1(FILE *file, WeatherRow row) {}
 
-void writePressure2(FILE *file, WeatherRow row);
+void writePressure2(FILE *file, WeatherRow row) {}
 
-void writePressure3(FILE *file, WeatherRow row);
+void writePressure3(FILE *file, WeatherRow row) {}
 
 void writeWind(FILE *file, WeatherRow row) {
     printf("%d;%f;%f;%f;%f\n", row.id, *row.coordX, *row.coordY, *row.windX, *row.windY);
