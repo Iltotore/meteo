@@ -28,10 +28,14 @@ typedef struct {
     int id;
     struct tm *date;
     int *seaPressure; //Pointer represent optional values (aka can be NULL)
+    int *seaPressureMin;
+    int *seaPressureMax;
     float *windX;
     float *windY;
     int *moisture;
     int *stationPressure;
+    int *stationPressureMin;
+    int *stationPressureMax;
     float *pressureVariation;
     int *precipitation;
     float *coordX;
@@ -94,49 +98,9 @@ typedef void (*Callback)(WeatherRow);
 typedef WeatherRow (*Reducer)(WeatherRow, WeatherRow);
 
 /**
- * Compares two temperatures and returns the greater
- */
-WeatherRow maxTemperature(WeatherRow a, WeatherRow b);
-
-/**
- * Compares two temperatures and returns the lower
- */
-WeatherRow minTemperature(WeatherRow a, WeatherRow b);
-
-/**
- * Compares two maxTemperature and returns the lower
- */
-WeatherRow minTemperatureMax(WeatherRow a, WeatherRow b);
-
-/**
- * Compares two maxTemperature and returns the greater
- */
-WeatherRow maxTemperatureMax(WeatherRow a, WeatherRow b);
-
-/**
- * Compares two minTemperature and returns the greater
- */
-WeatherRow maxTemperatureMin(WeatherRow a, WeatherRow b);
-
-/**
- * Compares two minTemperature and returns the lower
- */
-WeatherRow minTemperatureMin(WeatherRow a, WeatherRow b);
-
-/**
  * Compares two moistures and returns the greater
  */
 WeatherRow maxMoisture(WeatherRow a, WeatherRow b);
-
-/**
- * Compares two stationPressure and returns the greater
- */
-WeatherRow maxStationPressure(WeatherRow a, WeatherRow b);
-
-/**
- * Compares two stationPressure and returns the lower
- */
-WeatherRow minStationPressure(WeatherRow a, WeatherRow b);
 
 typedef WeatherRow (*Mapper)(int, WeatherRow);
 
@@ -151,7 +115,12 @@ WeatherRow sumWind(WeatherRow a, WeatherRow b);
 WeatherRow averageWind(int count, WeatherRow value);
 
 /**
- * Sums two temperature
+ * Returns min, max and sum (for average) of temperatures
+ */
+WeatherRow reduceTemperature1(WeatherRow a, WeatherRow b);
+
+/**
+ * Sums two temperatures
  */
 WeatherRow sumTemperature(WeatherRow a, WeatherRow b);
 
@@ -161,24 +130,9 @@ WeatherRow sumTemperature(WeatherRow a, WeatherRow b);
 WeatherRow averageTemperature(int count, WeatherRow value);
 
 /**
- * Sums two temperatureMax
+ * Returns min, max and sum (for average) of pressures
  */
-WeatherRow sumTemperatureMax(WeatherRow a, WeatherRow b);
-
-/**
- *Calculates the average of two temperatureMax
- */
-WeatherRow averageTemperatureMax(int count, WeatherRow value);
-
-/**
- * Sums two temperatureMax
- */
-WeatherRow sumTemparatureMin(WeatherRow a, WeatherRow b);
-
-/**
- *Calculates the average of two temperatureMin
- */
-WeatherRow averageTemperatureMin(int count, WeatherRow value);
+WeatherRow reducePressure1(WeatherRow a, WeatherRow b);
 
 /**
  * Sums two stationPressure

@@ -32,29 +32,6 @@ Comparison compareDate(WeatherRow a, WeatherRow b) {
     return Less;
 }
 
-WeatherRow maxTemperature(WeatherRow a, WeatherRow b){
-    return *a.temperature > *a.temperature ? a : b ;
-}
-
-WeatherRow minTemperature(WeatherRow a, WeatherRow b){
-    return *a.temperature < *a.temperature ? a : b ;
-}
-
-WeatherRow maxTemperaturemax(WeatherRow a, WeatherRow b){
-    return *a.temperatureMax > *b.temperatureMax ? a : b ;
-}
-
-WeatherRow minTemperatureMax(WeatherRow a, WeatherRow b){
-    return *a.temperatureMax < *b.temperatureMax ? a : b ;
-}
-WeatherRow maxTemperatureMin(WeatherRow a, WeatherRow b){
-    return *a.temperatureMin > *b.temperatureMin ? a : b ;
-}
-
-WeatherRow minTemperatureMin(WeatherRow a, WeatherRow b){
-     return a.temperatureMin < b.temperatureMin ? a : b;
-}
-
 WeatherRow maxStationPressure(WeatherRow a, WeatherRow b){
     return *a.stationPressure > *b.stationPressure ? a : b ;
 }
@@ -64,66 +41,49 @@ WeatherRow minStationPressure(WeatherRow a, WeatherRow b){
 }
 
 WeatherRow sumWind(WeatherRow a, WeatherRow b){
-     WeatherRow result = a;
     *a.windX += *b.windX;
     *a.windY += *b.windY;
-    return result;
+    return a;
 }
 
 WeatherRow averageWind(int count, WeatherRow value){
-    WeatherRow result = value;
-    *result.windX /= count;
-    *result.windY /= count;
-    return result;
+    *value.windX /= count;
+    *value.windY /= count;
+    return value;
 }
 
-WeatherRow sumTemperature(WeatherRow a, WeatherRow b){
-    WeatherRow result = a;
+WeatherRow reduceTemperature1(WeatherRow a, WeatherRow b) {
+    *a.temperatureMin = *a.temperatureMin <= *b.temperatureMin ? *a.temperatureMin : *b.temperatureMin;
+    *a.temperatureMax = *a.temperatureMax >= *b.temperatureMax ? *a.temperatureMax : *b.temperatureMax;
     *a.temperature += *b.temperature;
-    return result;
+    return a;
+}
+
+WeatherRow sumTemperature(WeatherRow a, WeatherRow b) {
+    *a.temperature += *b.temperature;
+    return a;
 }
 
 WeatherRow averageTemperature(int count, WeatherRow value){
-    WeatherRow result = value;
-    *result.temperature /= count;
-    return result;
+    *value.temperature /= count;
+    return value;
 }
 
-WeatherRow sumTemparatureMax(WeatherRow a, WeatherRow b){
-    WeatherRow result = a;
-    *a.temperatureMax += *b.temperatureMax;
-    return result;
-}
-
-WeatherRow averageTemperatureMax(int count, WeatherRow value){
-    WeatherRow result = value;
-    *result.temperatureMax /= count;
-    return result;
-}
-
-WeatherRow sumTemparatureMin(WeatherRow a, WeatherRow b){
-    WeatherRow result = a;
-    *a.temperatureMin += *b.temperatureMin;
-    return result;
-
-}
-
-WeatherRow averageTemperatureMin(int count, WeatherRow value){
-     WeatherRow result = value;
-    *result.temperatureMin /= count;
-    return result;
+WeatherRow reducePressure1(WeatherRow a, WeatherRow b) {
+    *a.stationPressureMin = *a.stationPressureMin <= *b.stationPressureMin ? *a.stationPressureMin : *b.stationPressureMin;
+    *a.stationPressureMax = *a.stationPressureMax >= *b.stationPressureMax ? *a.stationPressureMax : *b.stationPressureMax;
+    *a.stationPressure += *b.stationPressure;
+    return a;
 }
 
 WeatherRow sumStationPressure(WeatherRow a, WeatherRow b){
-    WeatherRow result = a;
     *a.stationPressure += *b.stationPressure;
-    return result;
+    return a;
 }
 
 WeatherRow averageStationPressure(int count, WeatherRow value){
-    WeatherRow result = value;
-    *result.stationPressure /= count;
-    return result;    
+    *value.stationPressure /= count;
+    return value;
 }
 
 WeatherRow ignore(WeatherRow a, WeatherRow b){

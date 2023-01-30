@@ -108,6 +108,10 @@ WeatherRow readPressure(FILE *file){
     WeatherRow a=emptyRow();
     char date[26];
     fscanf(file, "%d;%25c;%d;%d\n",&a.id,date,a.seaPressure,a.stationPressure);
+    *a.seaPressureMin = *a.seaPressure;
+    *a.seaPressureMax = *a.seaPressure;
+    *a.stationPressureMin = *a.stationPressure;
+    *a.stationPressureMax = *a.stationPressure;
     a.date= parseTime(date);
     return a;
 }
