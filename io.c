@@ -121,6 +121,9 @@ struct tm *parseTime(char* c){
 WeatherRow readTemperature(FILE *file){
     WeatherRow a=emptyRow();
     char date[26];
+    a.temperatureMax=safeMalloc(sizeof(float));
+    a.temperatureMin=safeMalloc(sizeof(float));
+    a.temperature=safeMalloc(sizeof(float));
     fscanf(file, "%d;%25c;%f;%f;%f\n",&a.id,date,a.temperature,a.temperatureMax,a.temperatureMin);
     a.date= parseTime(date);
     return a;
@@ -129,6 +132,10 @@ WeatherRow readTemperature(FILE *file){
 WeatherRow readPressure(FILE *file){
     WeatherRow a=emptyRow();
     char date[26];
+    a.seaPressure=safeMalloc(sizeof(int));
+    a.seaPressureMax=safeMalloc(sizeof(int));
+    a.seaPressureMin=safeMalloc(sizeof(int));
+    a.stationPressure=safeMalloc(sizeof(int));
     fscanf(file, "%d;%25c;%d;%d\n",&a.id,date,a.seaPressure,a.stationPressure);
     *a.seaPressureMin = *a.seaPressure;
     *a.seaPressureMax = *a.seaPressure;
@@ -147,6 +154,8 @@ WeatherRow readWind(FILE *file){
 
     fscanf(file, "%d;%25c;%d;%f\n",&a.id,date,&windDir,&windSpeed);
     a.date = parseTime(date);
+    a.windX=safeMalloc(sizeof(float));
+    a.windY=safeMalloc(sizeof(float));
     *a.windX = cosf(windDir*pi/180)*windSpeed;
     *a.windY = sinf(windDir*pi/180)*windSpeed;
 
@@ -156,6 +165,7 @@ WeatherRow readWind(FILE *file){
 WeatherRow readMoisture(FILE *file){
     WeatherRow a=emptyRow();
     char date[26];
+    a.moisture=safeMalloc(sizeof(int));
     fscanf(file, "%d;%25c;%d\n",&a.id,date,a.moisture);
     a.date= parseTime(date);
     return a;
@@ -164,6 +174,7 @@ WeatherRow readMoisture(FILE *file){
 WeatherRow readHeight(FILE *file){
     WeatherRow a=emptyRow();
     char date[26];
+    a.height=safeMalloc(sizeof(int));
     fscanf(file, "%d;%25c;%d\n",&a.id,date,a.height);
     a.date= parseTime(date);
     return a;
