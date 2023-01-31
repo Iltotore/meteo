@@ -1,5 +1,6 @@
 #define _GNU_SOURCE 1
 #include <stdio.h>
+#include <stdbool.h>
 #include <time.h>
 #include <math.h>
 #include "io.h"
@@ -70,7 +71,13 @@ DoubleLinkedList *readLinesList(FILE *file, Reader reader, Comparator comparator
  * @param avl the entries to write
  * @param writer the writing logic
  */
-void writeLinesAVL(FILE *file, AVL *avl, Writer writer) {}
+void writeLinesAVL(FILE *file, AVL *avl, Writer writer, bool reversed) {
+    if(avl != NULL) {
+        writeLinesAVL(file, reversed ? avl->right : avl->left, writer, reversed);
+        writer(file, avl->value);
+        writeLinesAVL(file, reversed ? avl->left : avl->right, writer, reversed);
+    }
+}
 
 /**
  * Write all entries to a file.
@@ -79,7 +86,20 @@ void writeLinesAVL(FILE *file, AVL *avl, Writer writer) {}
  * @param tree the entries to write
  * @param writer the writing logic
  */
-void writeLinesBST(FILE *file, Tree *tree, Writer writer) {}
+void writeLinesBST(FILE *file, Tree *tree, Writer writer, bool reversed) {
+    if(tree != NULL) {
+        writeLinesBST(file, reversed ? tree->right : tree->left, writer, reversed);
+        writer(file, tree->value);
+        writeLinesBST(file, reversed ? tree->left : tree->right, writer, reversed);
+    }
+}
+
+void writeLinesCell(FILE *file, Cell *cell, Writer writer, bool reversed) {
+    if(cell != NULL) {
+        writer(file, cell->value);
+        writeLinesCell(file, reversed ? cell->parent : cell->tail, writer, reversed);
+    }
+}
 
 /**
  * Write all entries to a file.
@@ -88,7 +108,9 @@ void writeLinesBST(FILE *file, Tree *tree, Writer writer) {}
  * @param list the entries to write
  * @param writer the writing logic
  */
-void writeLinesList(FILE *file, DoubleLinkedList *list, Writer writer) {}
+void writeLinesList(FILE *file, DoubleLinkedList *list, Writer writer, bool reversed) {
+    writeLinesCell(file, reversed ? list->last : list->head, writer, reversed);
+}
 
 struct tm *parseTime(char* c){
     struct tm *date = safeMalloc(sizeof(struct tm));
@@ -152,11 +174,11 @@ void writeTemperature1(FILE *file, WeatherRow row) { //TODO Order ?
 }
 
 void writeTemperature2(FILE *file, WeatherRow row) {
-    fprintf(file, "%d;%lld;%f\n", row.id, mktime(row.date), *row.temperature);
+    fprintf(file, "%d;%ld;%f\n", row.id, mktime(row.date), *row.temperature);
 }
 
 void writeTemperature3(FILE *file, int id, struct tm *date, int hours[24]) {
-    fprintf(file, "%d;%lld", id, mktime(date));
+    fprintf(file, "%d;%ld", id, mktime(date));
 
     //TODO hours
     for(int h = 0; h < 23; h++) fprintf(file, ";%d", hours[h]);
@@ -167,7 +189,7 @@ void writePressure1(FILE *file, WeatherRow row) {
 }
 
 void writePressure2(FILE *file, WeatherRow row) {
-    fprintf(file, "%d;%lld;%d\n", row.id, mktime(row.date), *row.stationPressure);
+    fprintf(file, "%d;%ld;%d\n", row.id, mktime(row.date), *row.stationPressure);
 }
 
 void writePressure3(FILE *file, WeatherRow row) {}

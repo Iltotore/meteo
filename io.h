@@ -57,7 +57,7 @@ DoubleLinkedList *readLinesList(FILE *file, Reader reader, Comparator comparator
  * @param avl the entries to write
  * @param writer the writing logic
  */
-void writeLinesAVL(FILE *file, AVL *avl, Writer writer);
+void writeLinesAVL(FILE *file, AVL *avl, Writer writer, bool reversed);
 
 /**
  * Write all entries to a file.
@@ -66,7 +66,7 @@ void writeLinesAVL(FILE *file, AVL *avl, Writer writer);
  * @param bst the enties to write
  * @param writer the writing logic
  */
-void writeLinesBST(FILE *file, Tree *tree, Writer writer);
+void writeLinesBST(FILE *file, Tree *tree, Writer writer, bool reversed);
 
 /**
  * Write all entries to a file.
@@ -75,7 +75,7 @@ void writeLinesBST(FILE *file, Tree *tree, Writer writer);
  * @param list the entries to write
  * @param writer the writing logic
  */
-void writeLinesList(FILE *file, DoubleLinkedList *list, Writer writer);
+void writeLinesList(FILE *file, DoubleLinkedList *list, Writer writer, bool reversed);
 
 WeatherRow readTemperature(FILE *file);
 
