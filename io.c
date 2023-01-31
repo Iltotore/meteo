@@ -152,19 +152,23 @@ void writeTemperature1(FILE *file, WeatherRow row) { //TODO Order ?
 }
 
 void writeTemperature2(FILE *file, WeatherRow row) {
-    fprintf(file, "%d;%ld;%f\n", row.id, mktime(row.date), *row.temperature);
+    fprintf(file, "%d;%lld;%f\n", row.id, mktime(row.date), *row.temperature);
 }
 
 void writeTemperature3(FILE *file, int id, struct tm *date, int hours[24]) {
-    fprintf(file, "%d;%ld", id, mktime(date));
+    fprintf(file, "%d;%lld", id, mktime(date));
 
     //TODO hours
     for(int h = 0; h < 23; h++) fprintf(file, ";%d", hours[h]);
 }
 
-void writePressure1(FILE *file, WeatherRow row) {}
+void writePressure1(FILE *file, WeatherRow row) {
+    fprintf(file, "%d;%d;%d;%d\n", row.id, *row.stationPressure, *row.stationPressureMin, *row.stationPressureMax);
+}
 
-void writePressure2(FILE *file, WeatherRow row) {}
+void writePressure2(FILE *file, WeatherRow row) {
+    fprintf(file, "%d;%lld;%d\n", row.id, mktime(row.date), *row.stationPressure);
+}
 
 void writePressure3(FILE *file, WeatherRow row) {}
 
