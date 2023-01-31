@@ -37,7 +37,7 @@ int main(int argc, char **argv) {
         error("It's absolutely impossible to open the file !", INPUT_FILE_ERROR);
     }
     char *nout = argv[2];
-    FILE *out = fopen(nout, "r");
+    FILE *out = fopen(nout, "w");
     if(out == NULL) {
         error("It's absolutely impossible to open the file !", OUTPUT_FILE_ERROR);
     }
@@ -52,6 +52,7 @@ int main(int argc, char **argv) {
     if(strcmp(argv[4], "t1") == 0) {
         switch(mode) {
             case AVL_MODE: {
+                printf("Tri par t1\n");
                 AVL *avl = readLinesAVL(file, readTemperature, compareStationID, reduceTemperature1);
                 writeLinesAVL(file, avl, writeTemperature1, reversed);
             }
