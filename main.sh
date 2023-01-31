@@ -379,6 +379,6 @@ if [[ -v height ]]
 then
   filtered_file="$(filtered_file_for 'height')"
   sorted_file="$(sorted_file_for 'height')"
-  "$filtered" | filter_columns '1,2,14,10' > "$filtered_file"
+  "$filtered" | filter_columns '1,14,10' > "$filtered_file"
   sort_file "$filtered_file" "$sorted_file" "h"
 fi
