@@ -30,7 +30,7 @@ typedef void (*Writer)(FILE *file, WeatherRow row);
  * @param comparator the ordering used to sort values.
  * @param reducer the reduction policy applied to duplicates (when the comparator returns Equal).
  */
-AVL *readLinesAVL(FILE *file, Reader reader, Comparator comparator, Reducer reducer);
+AVL *readLinesAVL(FILE *file, Reader reader, Comparator comparator, Reducer reducer, int lines);
 
 /**
  * Read all lines and add them to an BST.
@@ -39,7 +39,7 @@ AVL *readLinesAVL(FILE *file, Reader reader, Comparator comparator, Reducer redu
  * @param comparator the ordering used to sort values.
  * @param reducer the reduction policy applied to duplicates (when the comparator returns Equal).
  */
-Tree *readLinesBST(FILE *file, Reader reader, Comparator comparator, Reducer reducer);
+Tree *readLinesBST(FILE *file, Reader reader, Comparator comparator, Reducer reducer, int lines);
 
 /**
  * Read all lines and add them to a DoubleLinkedList.
@@ -48,7 +48,7 @@ Tree *readLinesBST(FILE *file, Reader reader, Comparator comparator, Reducer red
  * @param comparator the ordering used to sort values.
  * @param reducer the reduction policy applied to duplicates (when the comparator returns Equal).
  */
-DoubleLinkedList *readLinesList(FILE *file, Reader reader, Comparator comparator, Reducer reducer);
+DoubleLinkedList *readLinesList(FILE *file, Reader reader, Comparator comparator, Reducer reducer, int lines);
 
 /**
  * Write all entries to a file.
@@ -91,7 +91,7 @@ void writeTemperature1(FILE *file, WeatherRow row);
 
 void writeTemperature2(FILE *file, WeatherRow row);
 
-void writeTemperature3(FILE *file, int id, struct tm *date, int hours[24]);
+void writeTemperature3AVL(FILE *file, AVL *avl);
 
 void writePressure1(FILE *file, WeatherRow row);
 

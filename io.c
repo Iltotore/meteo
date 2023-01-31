@@ -1,4 +1,5 @@
 #define _GNU_SOURCE 1
+
 #include <stdio.h>
 #include <stdbool.h>
 #include <time.h>
@@ -26,10 +27,10 @@ WeatherRow readLine(FILE *file) {
  * @param comparator the ordering used to sort values.
  * @param reducer the reduction policy applied to duplicates (when the comparator returns Equal).
  */
-AVL *readLinesAVL(FILE *file, Reader reader, Comparator comparator, Reducer reducer) {
+AVL *readLinesAVL(FILE *file, Reader reader, Comparator comparator, Reducer reducer, int lines) {
     AVL *avl = NULL;
 
-    while(!feof(file)) avl = insertAVL(avl, reader(file), comparator, reducer);
+    for(int i = 0; i < lines; i++) avl = insertAVL(avl, reader(file), comparator, reducer);
 
     return avl;
 }
@@ -41,10 +42,10 @@ AVL *readLinesAVL(FILE *file, Reader reader, Comparator comparator, Reducer redu
  * @param comparator the ordering used to sort values.
  * @param reducer the reduction policy applied to duplicates (when the comparator returns Equal).
  */
-Tree *readLinesBST(FILE *file, Reader reader, Comparator comparator, Reducer reducer) {
+Tree *readLinesBST(FILE *file, Reader reader, Comparator comparator, Reducer reducer, int lines) {
     Tree *tree = NULL;
 
-    while(!feof(file)) tree = insertBST(tree, reader(file), comparator, reducer);
+    for(int i = 0; i < lines; i++) tree = insertBST(tree, reader(file), comparator, reducer);
 
     return tree;
 }
@@ -56,10 +57,10 @@ Tree *readLinesBST(FILE *file, Reader reader, Comparator comparator, Reducer red
  * @param comparator the ordering used to sort values.
  * @param reducer the reduction policy applied to duplicates (when the comparator returns Equal).
  */
-DoubleLinkedList *readLinesList(FILE *file, Reader reader, Comparator comparator, Reducer reducer) {
+DoubleLinkedList *readLinesList(FILE *file, Reader reader, Comparator comparator, Reducer reducer, int lines) {
     DoubleLinkedList *list = emptyList();
 
-    while(!feof(file)) list = insertOrd(list, reader(file), comparator, reducer);
+    for(int i = 0; i < lines; i++) list = insertOrd(list, reader(file), comparator, reducer);
 
     return list;
 }
@@ -112,71 +113,75 @@ void writeLinesList(FILE *file, DoubleLinkedList *list, Writer writer, bool reve
     writeLinesCell(file, reversed ? list->last : list->head, writer, reversed);
 }
 
-struct tm *parseTime(char* c){
+struct tm *parseTime(char *c) {
     struct tm *date = safeMalloc(sizeof(struct tm));
     strptime(c, "%FT%T%z", date);
     return date;
 }
 
-WeatherRow readTemperature(FILE *file){
-    WeatherRow a=emptyRow();
+WeatherRow readTemperature(FILE *file) {
+    printf("Reading temperature %d\n", feof(file));
+    WeatherRow a = emptyRow();
     char date[26];
-    a.temperatureMax=safeMalloc(sizeof(float));
-    a.temperatureMin=safeMalloc(sizeof(float));
-    a.temperature=safeMalloc(sizeof(float));
-    fscanf(file, "%d;%25c;%f;%f;%f\n",&a.id,date,a.temperature,a.temperatureMax,a.temperatureMin);
-    a.date= parseTime(date);
+    a.temperatureMax = safeMalloc(sizeof(float));
+    a.temperatureMin = safeMalloc(sizeof(float));
+    a.temperature = safeMalloc(sizeof(float));
+    fscanf(file, "%d;%25c;%f;%f;%f\n", &a.id, date, a.temperature, a.temperatureMax, a.temperatureMin);
+    a.date = parseTime(date);
     return a;
 }
 
-WeatherRow readPressure(FILE *file){
-    WeatherRow a=emptyRow();
+WeatherRow readPressure(FILE *file) {
+    WeatherRow a = emptyRow();
     char date[26];
-    a.seaPressure=safeMalloc(sizeof(int));
-    a.seaPressureMax=safeMalloc(sizeof(int));
-    a.seaPressureMin=safeMalloc(sizeof(int));
-    a.stationPressure=safeMalloc(sizeof(int));
-    fscanf(file, "%d;%25c;%d;%d\n",&a.id,date,a.seaPressure,a.stationPressure);
+    a.seaPressure = safeMalloc(sizeof(int));
+    a.seaPressureMax = safeMalloc(sizeof(int));
+    a.seaPressureMin = safeMalloc(sizeof(int));
+    a.stationPressure = safeMalloc(sizeof(int));
+    fscanf(file, "%d;%25c;%d;%d\n", &a.id, date, a.seaPressure, a.stationPressure);
     *a.seaPressureMin = *a.seaPressure;
     *a.seaPressureMax = *a.seaPressure;
     *a.stationPressureMin = *a.stationPressure;
     *a.stationPressureMax = *a.stationPressure;
-    a.date= parseTime(date);
+    a.date = parseTime(date);
     return a;
 }
 
-WeatherRow readWind(FILE *file){
-    WeatherRow a=emptyRow();
+WeatherRow readWind(FILE *file) {
+    WeatherRow a = emptyRow();
     char date[26];
     int windDir;
     float windSpeed;
     float pi = acosf(-1);
 
-    fscanf(file, "%d;%25c;%d;%f\n",&a.id,date,&windDir,&windSpeed);
+    a.windX = safeMalloc(sizeof(float));
+    a.windY = safeMalloc(sizeof(float));
+    a.coordX = safeMalloc(sizeof(float));
+    a.coordY = safeMalloc(sizeof(float));
+
+    fscanf(file, "%d;%25c;%d;%f;%f,%f\n", &a.id, date, &windDir, &windSpeed, a.coordX, a.coordY);
     a.date = parseTime(date);
-    a.windX=safeMalloc(sizeof(float));
-    a.windY=safeMalloc(sizeof(float));
-    *a.windX = cosf(windDir*pi/180)*windSpeed;
-    *a.windY = sinf(windDir*pi/180)*windSpeed;
+    *a.windX = cosf(windDir * pi / 180) * windSpeed;
+    *a.windY = sinf(windDir * pi / 180) * windSpeed;
 
     return a;
 }
 
-WeatherRow readMoisture(FILE *file){
-    WeatherRow a=emptyRow();
+WeatherRow readMoisture(FILE *file) {
+    WeatherRow a = emptyRow();
     char date[26];
-    a.moisture=safeMalloc(sizeof(int));
-    fscanf(file, "%d;%25c;%d\n",&a.id,date,a.moisture);
-    a.date= parseTime(date);
+    a.moisture = safeMalloc(sizeof(int));
+    fscanf(file, "%d;%25c;%d\n", &a.id, date, a.moisture);
+    a.date = parseTime(date);
     return a;
 }
 
-WeatherRow readHeight(FILE *file){
-    WeatherRow a=emptyRow();
+WeatherRow readHeight(FILE *file) {
+    WeatherRow a = emptyRow();
     char date[26];
-    a.height=safeMalloc(sizeof(int));
-    fscanf(file, "%d;%25c;%d\n",&a.id,date,a.height);
-    a.date= parseTime(date);
+    a.height = safeMalloc(sizeof(int));
+    fscanf(file, "%d;%25c;%d\n", &a.id, date, a.height);
+    a.date = parseTime(date);
     return a;
 }
 
@@ -188,11 +193,13 @@ void writeTemperature2(FILE *file, WeatherRow row) {
     fprintf(file, "%d;%ld;%f\n", row.id, mktime(row.date), *row.temperature);
 }
 
-void writeTemperature3(FILE *file, int id, struct tm *date, int hours[24]) {
-    fprintf(file, "%d;%ld", id, mktime(date));
-
-    //TODO hours
-    for(int h = 0; h < 23; h++) fprintf(file, ";%d", hours[h]);
+void writeTemperature3AVL(FILE *file, AVL *avl) {
+//
+//
+//    fprintf(file, "%d;%ld", id, mktime(date));
+//
+//    //TODO hours
+//    for(int h = 0; h < 23; h++) fprintf(file, ";%d", hours[h]);
 }
 
 void writePressure1(FILE *file, WeatherRow row) {
@@ -206,7 +213,7 @@ void writePressure2(FILE *file, WeatherRow row) {
 void writePressure3(FILE *file, WeatherRow row) {}
 
 void writeWind(FILE *file, WeatherRow row) {
-    printf("%d;%f;%f;%f;%f\n", row.id, *row.coordX, *row.coordY, *row.windX, *row.windY);
+    fprintf(file, "%d;%f;%f;%f;%f\n", row.id, *row.coordX, *row.coordY, *row.windX, *row.windY);
 }
 
 void writeMoisture(FILE *file, WeatherRow row) {
