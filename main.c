@@ -22,6 +22,9 @@ WeatherRow maxMoisture(WeatherRow a, WeatherRow b) {
 
 
 int main(int argc, char **argv) {
+
+    int lines = atoi(argv[6]);
+
     bool reversed;
 
     if(strcmp(argv[5], "true") == 0)reversed = true;
@@ -53,18 +56,21 @@ int main(int argc, char **argv) {
         switch(mode) {
             case AVL_MODE: {
                 printf("Tri par t1\n");
-                AVL *avl = readLinesAVL(file, readTemperature, compareStationID, reduceTemperature1);
-                writeLinesAVL(file, avl, writeTemperature1, reversed);
+                AVL *avl = readLinesAVL(file, readTemperature, compareStationID, reduceTemperature1, lines);
+                mapCountInfixAVL(avl, averageTemperature);
+                writeLinesAVL(out, avl, writeTemperature1, reversed);
             }
                 break;
             case BST_MODE: {
-                Tree *bst = readLinesBST(file, readTemperature, compareStationID, reduceTemperature1);
-                writeLinesBST(file, bst, writeTemperature1, reversed);
+                Tree *bst = readLinesBST(file, readTemperature, compareStationID, reduceTemperature1, lines);
+                mapCountInfix(bst, averageTemperature);
+                writeLinesBST(out, bst, writeTemperature1, reversed);
             }
                 break;
             case LIST_MODE: {
-                DoubleLinkedList *list = readLinesList(file, readTemperature, compareStationID, reduceTemperature1);
-                writeLinesList(file, list, writeTemperature1, reversed);
+                DoubleLinkedList *list = readLinesList(file, readTemperature, compareStationID, reduceTemperature1, lines);
+                mapCount(list, averageTemperature);
+                writeLinesList(out, list, writeTemperature1, reversed);
             }
                 break;
 
@@ -72,21 +78,21 @@ int main(int argc, char **argv) {
     } else if(strcmp(argv[4], "t2") == 0) {
         switch(mode) {
             case AVL_MODE: {
-                AVL *avl = readLinesAVL(file, readTemperature, compareDate, sumTemperature);
+                AVL *avl = readLinesAVL(file, readTemperature, compareDate, sumTemperature, lines);
                 mapCountInfixAVL(avl, averageTemperature);
-                writeLinesAVL(file, avl, writeTemperature2, reversed);
+                writeLinesAVL(out, avl, writeTemperature2, reversed);
             }
                 break;
             case BST_MODE: {
-                Tree *bst = readLinesBST(file, readTemperature, compareDate, sumTemperature);
+                Tree *bst = readLinesBST(file, readTemperature, compareDate, sumTemperature, lines);
                 mapCountInfix(bst, averageTemperature);
-                writeLinesBST(file, bst, writeTemperature2, reversed);
+                writeLinesBST(out, bst, writeTemperature2, reversed);
             }
                 break;
             case LIST_MODE: {
-                DoubleLinkedList *list = readLinesList(file, readTemperature, compareDate, sumTemperature);
+                DoubleLinkedList *list = readLinesList(file, readTemperature, compareDate, sumTemperature, lines);
                 mapCount(list, averageTemperature);
-                writeLinesList(file, list, writeTemperature2, reversed);
+                writeLinesList(out, list, writeTemperature2, reversed);
             }
                 break;
 
@@ -96,17 +102,17 @@ int main(int argc, char **argv) {
         switch(mode) {
             case AVL_MODE: {
 //            AVL *avl = readLinesAVL(file, readTemperature, compareDateThenStation, minTemperatureMin);
-//            writeLinesAVL(file, avl, writeTemperature3);
+//            writeLinesAVL(out, avl, writeTemperature3);
             }
                 break;
             case BST_MODE: {
 //            Tree *bst = readLinesBST(file, readTemperature, compareDateThenStation, minTemperatureMin);
-//            writeLinesBST(file, bst, writeTemperature3);
+//            writeLinesBST(out, bst, writeTemperature3);
             }
                 break;
             case LIST_MODE: {
 //            DoubleLinkedList *list = readLinesList(file, readTemperature, compareDateThenStation, minTemperatureMin);
-//            writeLinesList(file, list, writeTemperature3);
+//            writeLinesList(out, list, writeTemperature3);
             }
                 break;
 
@@ -115,42 +121,42 @@ int main(int argc, char **argv) {
     } else if(strcmp(argv[4], "p1") == 0) {
         switch(mode) {
             case AVL_MODE: {
-                AVL *avl = readLinesAVL(file, readPressure, compareStationID, reducePressure1);
+                AVL *avl = readLinesAVL(file, readPressure, compareStationID, reducePressure1, lines);
                 mapCountInfixAVL(avl, averageStationPressure);
-                writeLinesAVL(file, avl, writePressure1, reversed);
+                writeLinesAVL(out, avl, writePressure1, reversed);
             }
                 break;
             case BST_MODE: {
-                Tree *bst = readLinesBST(file, readPressure, compareStationID, reducePressure1);
+                Tree *bst = readLinesBST(file, readPressure, compareStationID, reducePressure1, lines);
                 mapCountInfix(bst, averageStationPressure);
-                writeLinesBST(file, bst, writePressure1, reversed);
+                writeLinesBST(out, bst, writePressure1, reversed);
             }
                 break;
             case LIST_MODE: {
-                DoubleLinkedList *list = readLinesList(file, readPressure, compareStationID, reducePressure1);
+                DoubleLinkedList *list = readLinesList(file, readPressure, compareStationID, reducePressure1, lines);
                 mapCount(list, averageStationPressure);
-                writeLinesList(file, list, writePressure1, reversed);
+                writeLinesList(out, list, writePressure1, reversed);
             }
                 break;
         }
     } else if(strcmp(argv[4], "p2") == 0) {
         switch(mode) {
             case AVL_MODE: {
-                AVL *avl = readLinesAVL(file, readPressure, compareDate, sumStationPressure);
+                AVL *avl = readLinesAVL(file, readPressure, compareDate, sumStationPressure, lines);
                 mapCountInfixAVL(avl, averageStationPressure);
-                writeLinesAVL(file, avl, writePressure2, reversed);
+                writeLinesAVL(out, avl, writePressure2, reversed);
             }
                 break;
             case BST_MODE: {
-                Tree *bst = readLinesBST(file, readPressure, compareDate, sumStationPressure);
+                Tree *bst = readLinesBST(file, readPressure, compareDate, sumStationPressure, lines);
                 mapCountInfix(bst, averageStationPressure);
-                writeLinesBST(file, bst, writePressure2, reversed);
+                writeLinesBST(out, bst, writePressure2, reversed);
             }
                 break;
             case LIST_MODE: {
-                DoubleLinkedList *list = readLinesList(file, readPressure, compareDate, sumStationPressure);
+                DoubleLinkedList *list = readLinesList(file, readPressure, compareDate, sumStationPressure, lines);
                 mapCount(list, averageStationPressure);
-                writeLinesList(file, list, writePressure2, reversed);
+                writeLinesList(out, list, writePressure2, reversed);
             }
                 break;
         }
@@ -158,79 +164,83 @@ int main(int argc, char **argv) {
         switch(mode) {
             case AVL_MODE: {
 //            AVL *avl = readLinesAVL(file, readPressure, compareDateThenStation, minStationPressure);
-//            writeLinesAVL(file, avl, writePressure3);
+//            writeLinesAVL(out, avl, writePressure3);
             }
                 break;
             case BST_MODE: {
 //            Tree *bst = readLinesBST(file, readPressure, compareDateThenStation, minStationPressure);
-//            writeLinesBST(file, bst, writePressure3);
+//            writeLinesBST(out, bst, writePressure3);
             }
                 break;
             case LIST_MODE: {
 //            DoubleLinkedList *list = readLinesList(file, readPressure, compareDateThenStation, minStationPressure);
-//            writeLinesList(file, list, writePressure3);
+//            writeLinesList(out, list, writePressure3);
             }
                 break;
         }
     } else if(strcmp(argv[4], "w") == 0) {
         switch(mode) {
             case AVL_MODE: {
-                AVL *avl = readLinesAVL(file, readWind, compareStationID, sumWind);
+                AVL *avl = readLinesAVL(file, readWind, compareStationID, sumWind, lines);
+                printf("avg\n");
                 mapCountInfixAVL(avl, averageWind);
-                writeLinesAVL(file, avl, writeWind, reversed);
+                writeLinesAVL(out, avl, writeWind, reversed);
             }
                 break;
             case BST_MODE: {
-                Tree *bst = readLinesBST(file, readWind, compareStationID, sumWind);
+                Tree *bst = readLinesBST(file, readWind, compareStationID, sumWind, lines);
                 mapCountInfix(bst, averageWind);
-                writeLinesBST(file, bst, writeWind, reversed);
+                writeLinesBST(out, bst, writeWind, reversed);
             }
                 break;
             case LIST_MODE: {
-                DoubleLinkedList *list = readLinesList(file, readWind, compareStationID, sumWind);
+                DoubleLinkedList *list = readLinesList(file, readWind, compareStationID, sumWind, lines);
                 mapCount(list, averageWind);
-                writeLinesList(file, list, writeWind, reversed);
+                writeLinesList(out, list, writeWind, reversed);
             }
                 break;
         }
     } else if(strcmp(argv[4], "h") == 0) {
         switch(mode) {
             case AVL_MODE: {
-                AVL *avl = readLinesAVL(file, readHeight, compareHeight, ignore);
-                writeLinesAVL(file, avl, writeHeight, reversed);
+                AVL *avl = readLinesAVL(file, readHeight, compareHeight, ignore, lines);
+                writeLinesAVL(out, avl, writeHeight, reversed);
             }
                 break;
             case BST_MODE: {
-                Tree *bst = readLinesBST(file, readHeight, compareHeight, ignore);
-                writeLinesBST(file, bst, writeHeight, reversed);
+                Tree *bst = readLinesBST(file, readHeight, compareHeight, ignore, lines);
+                writeLinesBST(out, bst, writeHeight, reversed);
             }
                 break;
             case LIST_MODE: {
-                DoubleLinkedList *list = readLinesList(file, readHeight, compareHeight, ignore);
-                writeLinesList(file, list, writeHeight, reversed);
+                DoubleLinkedList *list = readLinesList(file, readHeight, compareHeight, ignore, lines);
+                writeLinesList(out, list, writeHeight, reversed);
             }
                 break;
         }
     } else if(strcmp(argv[4], "m") == 0) {
         switch(mode) {
             case AVL_MODE: {
-                AVL *avl = readLinesAVL(file, readMoisture, compareStationIDDesc, maxMoisture);
-                writeLinesAVL(file, avl, writeMoisture, reversed);
+                AVL *avl = readLinesAVL(file, readMoisture, compareStationIDDesc, maxMoisture, lines);
+                writeLinesAVL(out, avl, writeMoisture, reversed);
             }
                 break;
             case BST_MODE: {
-                Tree *bst = readLinesBST(file, readMoisture, compareStationIDDesc, maxMoisture);
-                writeLinesBST(file, bst, writeMoisture, reversed);
+                Tree *bst = readLinesBST(file, readMoisture, compareStationIDDesc, maxMoisture, lines);
+                writeLinesBST(out, bst, writeMoisture, reversed);
             }
                 break;
             case LIST_MODE: {
-                DoubleLinkedList *list = readLinesList(file, readMoisture, compareStationIDDesc, maxMoisture);
-                writeLinesList(file, list, writeMoisture, reversed);
+                DoubleLinkedList *list = readLinesList(file, readMoisture, compareStationIDDesc, maxMoisture, lines);
+                writeLinesList(out, list, writeMoisture, reversed);
             }
                 break;
         }
 
-    } else error("Invalid argument !", WRONG_ARGUMENTS);
+    } else {
+        printf("arg: %s\n", argv[4]);
+        error("Invalid argument !", WRONG_ARGUMENTS);
+    }
 
 
     return 0;
