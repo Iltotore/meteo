@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 executed="$0"
-run_cmd=$(./app.out)
+run_cmd="./app.out"
 compile_cmd=$(make)
 
 filtered_file_for() {
@@ -122,7 +122,8 @@ set_sorting_mode() {
 }
 
 sort_file() {
-  "$run_cmd $1 $sorting_mode $2 $reverse"
+  echo "$run_cmd $1 $2 $sorting_mode $3 $reverse 10"
+  "$run_cmd" "$1" "$2" "$sorting_mode" "$3" "$reverse" 10
 }
 
 check_var() {
@@ -331,53 +332,53 @@ then
   reverse="false"
 fi
 
-compilation=$(make 2>&1)
-
-if [[ "$?" ]]
-then
-  echo -e "\e[31mCannot compile C program:\e[0m"
-  echo -e "\e[31m${compilation}\e[0m"
-  exit 4
-fi
+#compilation=$(make 2>&1)
+#
+#if [[ "$?" ]]
+#then
+#  echo -e "\e[31mCannot compile C program:\e[0m"
+#  echo -e "\e[31m${compilation}\e[0m"
+#  exit 4
+#fi
 
 filtered=filter_coords
 
 if [[ -v temperature ]]
 then
-  filtered_file="$(filtered_file_for 'temperature')"
-  sorted_file="$(sorted_file_for 'temperature')"
-  "$filtered" | filter_columns '1,2,11,12,13' > "filtered_file"
-  sort_file "$filtered_file" "-t$temperature" > "$sorted_file"
+  filtered_file="$(filtered_file_for "temperature_$temperature")"
+  sorted_file="$(sorted_file_for "temperature_$temperature")"
+  "$filtered" | filter_columns '1,2,11,12,13' > "$filtered_file"
+  sort_file "$filtered_file" "$sorted_file" "t$temperature"
 fi
 
 if [[ -v pressure ]]
 then
   filtered_file="$(filtered_file_for 'pressure')"
   sorted_file="$(sorted_file_for 'pressure')"
-  "$filtered" | filter_columns '1,2,3,7' > "$(filtered_file_for 'pressure')"
-  sort_file "$filtered_file" "-p$pressure" > "$sorted_file"
+  "$filtered" | filter_columns '1,2,3,7' > "$filtered_file"
+  sort_file "$filtered_file" "$sorted_file" "p$pressure"
 fi
 
 if [[ -v wind ]]
 then
   filtered_file="$(filtered_file_for 'wind')"
   sorted_file="$(sorted_file_for 'wind')"
-  "$filtered" | filter_columns '1,2,4,5,10' > "$(filtered_file_for 'wind')"
-  sort_file "$filtered_file" "-w" > "$sorted_file"
+  "$filtered" | filter_columns '1,2,4,5,10' > "$filtered_file"
+  sort_file "$filtered_file" "$sorted_file" "w"
 fi
 
 if [[ -v moisture ]]
 then
   filtered_file="$(filtered_file_for 'moisture')"
   sorted_file="$(sorted_file_for 'moisture')"
-  "$filtered" | filter_columns '1,2,6' > "$(filtered_file_for 'moisture')"
-  sort_file "$filtered_file" "-m" > "$sorted_file"
+  "$filtered" | filter_columns '1,2,6,10' > "$filtered_file"
+  sort_file "$filtered_file" "$sorted_file" "m"
 fi
 
 if [[ -v height ]]
 then
   filtered_file="$(filtered_file_for 'height')"
   sorted_file="$(sorted_file_for 'height')"
-  "$filtered" | filter_columns '1,2,14' > "$(filtered_file_for 'height')"
-  sort_file "$filtered_file" "-h" > "$sorted_file"
+  "$filtered" | filter_columns '1,2,14,10' > "$filtered_file"
+  sort_file "$filtered_file" "$sorted_file" "h"
 fi
