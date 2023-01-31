@@ -371,7 +371,7 @@ if [[ -v moisture ]]
 then
   filtered_file="$(filtered_file_for 'moisture')"
   sorted_file="$(sorted_file_for 'moisture')"
-  "$filtered" | filter_columns '1,2,6,10' > "$filtered_file"
+  "$filtered" | filter_columns '1,6,10' > "$filtered_file"
   sort_file "$filtered_file" "$sorted_file" "m"
 fi
 

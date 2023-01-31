@@ -169,10 +169,10 @@ WeatherRow readWind(FILE *file) {
 
 WeatherRow readMoisture(FILE *file) {
     WeatherRow a = emptyRow();
-    char date[26];
     a.moisture = safeMalloc(sizeof(int));
-    fscanf(file, "%d;%25c;%d\n", &a.id, date, a.moisture);
-    a.date = parseTime(date);
+    a.coordX = safeMalloc(sizeof(float));
+    a.coordY = safeMalloc(sizeof(float));
+    fscanf(file, "%d;%d;%f,%f\n", &a.id, a.moisture, a.coordX, a.coordY);
     return a;
 }
 
@@ -217,7 +217,7 @@ void writeWind(FILE *file, WeatherRow row) {
 }
 
 void writeMoisture(FILE *file, WeatherRow row) {
-    fprintf(file, "%f;%f;%d\n", *row.coordX, *row.coordY, *row.moisture);
+    fprintf(file, "%d;%f;%f;%d\n", row.id, *row.coordX, *row.coordY, *row.moisture);
 }
 
 void writeHeight(FILE *file, WeatherRow row) {
