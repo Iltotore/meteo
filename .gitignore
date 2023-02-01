@@ -12,6 +12,7 @@ scala-cli.json
 
 # Resources
 *.csv
+*.png
 
 # Prerequisites
 *.d
