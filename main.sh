@@ -11,6 +11,10 @@ sorted_file_for() {
   echo "sorted_$1_$output"
 }
 
+plot_file_for() {
+  echo "plot_$1_$output.png"
+}
+
 filter_columns() {
   cut -d ";" -f "$1"
 }
@@ -131,6 +135,11 @@ set_sorting_mode() {
 sort_file() {
   echo "Sorting $1 with mode '$3'..."
   "$run_cmd" "$1" "$2" "$sorting_mode" "$3" "$reverse" "$(cat "$1" | wc -l)"
+}
+
+plot_file() {
+  echo "Plotting $2..."
+  gnuplot -c "$@"
 }
 
 check_var() {
@@ -358,16 +367,18 @@ then
   sorted_file="$(sorted_file_for "temperature_$temperature")"
   echo "$filtered" | filter_columns '1,2,11,12,13' > "$filtered_file"
   sort_file "$filtered_file" "$sorted_file" "t$temperature"
+  plot_file "plot/mode_$temperature.gnu" "$sorted_file" "$(plot_file_for "temperature_$temperature")"
 fi
 
 if [[ -v pressure ]]
 then
   cols=("1" "2" "3" "7")
   filtered="$(filter_coords "${cols[@]}")"
-  filtered_file="$(filtered_file_for 'pressure')"
-  sorted_file="$(sorted_file_for 'pressure')"
+  filtered_file="$(filtered_file_for "pressure_$pressure")"
+  sorted_file="$(sorted_file_for "pressure_$pressure")"
   echo "$filtered" | filter_columns '1,2,3,7' > "$filtered_file"
   sort_file "$filtered_file" "$sorted_file" "p$pressure"
+  plot_file "plot/mode_$pressure.gnu" "$sorted_file" "$(plot_file_for "pressure_$pressure")"
 fi
 
 if [[ -v wind ]]
@@ -378,6 +389,7 @@ then
   sorted_file="$(sorted_file_for 'wind')"
   echo "$filtered" | filter_columns '1,2,4,5,10' > "$filtered_file"
   sort_file "$filtered_file" "$sorted_file" "w"
+  plot_file "plot/wind.gnu" "$sorted_file" "$(plot_file_for 'wind')"
 fi
 
 if [[ -v moisture ]]
@@ -388,6 +400,7 @@ then
   sorted_file="$(sorted_file_for 'moisture')"
   echo "$filtered" | filter_columns '1,6,10' > "$filtered_file"
   sort_file "$filtered_file" "$sorted_file" "m"
+  plot_file "plot/moisture.gnu" "$sorted_file" "$(plot_file_for 'moisture')"
 fi
 
 if [[ -v height ]]
@@ -398,4 +411,5 @@ then
   sorted_file="$(sorted_file_for 'height')"
   echo "$filtered" | filter_columns '1,14,10' > "$filtered_file"
   sort_file "$filtered_file" "$sorted_file" "h"
+  plot_file "plot/height.gnu" "$sorted_file" "$(plot_file_for 'height')"
 fi

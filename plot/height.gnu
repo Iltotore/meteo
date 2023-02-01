@@ -2,6 +2,9 @@
 
 set pm3d implicit at b
 
+set term png
+set output ARG2
+
 set datafile separator ";"
 set title "Height by station"
 set border 4095 front lt black linewidth 1.000 dashtype solid

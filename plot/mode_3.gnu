@@ -1,13 +1,16 @@
 #!/usr/bin/gnuplot -persist
 
+set term png
+set output ARG2
+
 set datafile separator ";"
-set title ARG2." by day"
+set title ARG3." by day"
 
 set border 4095 front lt black linewidth 1.000 dashtype solid
 set palette maxcolors ARG3
 
 set xlabel "Day"
-set ylabel ARG2." per station per hour"
+set ylabel ARG3." per station per hour"
 set cblabel "Station ID"
 
 set xdata time
