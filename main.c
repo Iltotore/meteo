@@ -23,6 +23,9 @@ WeatherRow maxMoisture(WeatherRow a, WeatherRow b) {
 
 int main(int argc, char **argv) {
 
+    if(argc < 7) error("Not enough arguments!", WRONG_ARGUMENTS);
+    else if(argc > 7) error("Too much arguments!", WRONG_ARGUMENTS);
+
     int lines = atoi(argv[6]);
 
     bool reversed;
