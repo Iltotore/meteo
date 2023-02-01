@@ -33,7 +33,7 @@ filter_coords() {
     non_empty_filter="$non_empty_filter && \$$column != \"\""
   done
 
-  result=$(tail -n +2 "$input" |  head -n 10 | awk "$coord_filter$non_empty_filter" FS='[;,]')
+  result=$(tail -n +2 "$input" | awk "$coord_filter$non_empty_filter" FS='[;,]')
   echo "$result"
 }
 
@@ -129,8 +129,8 @@ set_sorting_mode() {
 }
 
 sort_file() {
-  echo "$run_cmd $1 $2 $sorting_mode $3 $reverse 10"
-  "$run_cmd" "$1" "$2" "$sorting_mode" "$3" "$reverse" 10
+  echo "Sorting $1 with mode '$3'..."
+  "$run_cmd" "$1" "$2" "$sorting_mode" "$3" "$reverse" "$(cat "$1" | wc -l)"
 }
 
 check_var() {
