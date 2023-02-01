@@ -15,8 +15,8 @@ Comparison compareHeight(WeatherRow a, WeatherRow b) {
 }
 
 Comparison compareMoisture(WeatherRow a, WeatherRow b) {
-    if(*a.height == *b.height) return Equal;
-    else if(*a.height > *b.height) return Less;
+    if(*a.moisture == *b.moisture) return Equal;
+    else if(*a.moisture > *b.moisture) return Less;
     return Greater;
 }
 
