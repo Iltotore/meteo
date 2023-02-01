@@ -120,7 +120,6 @@ struct tm *parseTime(char *c) {
 }
 
 WeatherRow readTemperature(FILE *file) {
-    printf("Reading temperature %d\n", feof(file));
     WeatherRow a = emptyRow();
     char date[26];
     a.temperatureMax = safeMalloc(sizeof(float));
