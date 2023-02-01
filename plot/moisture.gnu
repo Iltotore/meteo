@@ -16,5 +16,5 @@ set dgrid3d 50,50
 
 set palette color positive
 
-stats ARG1 using 1:2
-splot [STATS_min_x:STATS_max_x][STATS_min_y:STATS_max_y] ARG1 with lines
+stats ARG1 using 2:3
+splot [STATS_min_x:STATS_max_x][STATS_min_y:STATS_max_y] ARG1 using 2:3:4 with lines
