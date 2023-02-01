@@ -16,17 +16,24 @@ filter_columns() {
 }
 
 filter_coords() {
-  filter='1'
+  coord_filter='1'
   if [[ -v latitude ]]
   then
-    filter="$filter && \$10 >= ${latitude[0]} && \$10 <= ${latitude[1]}"
+    coord_filter="$coord_filter && \$10 >= ${latitude[0]} && \$10 <= ${latitude[1]}"
   fi
   if [[ -v longitude ]]
   then
-    filter="$filter && \$11 >= ${longitude[0]} && \$11 <= ${longitude[1]}"
+    coord_filter="$coord_filter && \$11 >= ${longitude[0]} && \$11 <= ${longitude[1]}"
   fi
 
-  result=$(tail -n +2 "$input" | head -n 10 | awk "$filter" FS='[;,]')
+  non_empty_filter=''
+
+  for column in "$@"
+  do
+    non_empty_filter="$non_empty_filter && \$$column != \"\""
+  done
+
+  result=$(tail -n +2 "$input" |  head -n 10 | awk "$coord_filter$non_empty_filter" FS='[;,]')
   echo "$result"
 }
 
@@ -341,44 +348,54 @@ fi
 #  exit 4
 #fi
 
-filtered=filter_coords
+#filtered=filter_coords
 
 if [[ -v temperature ]]
 then
+  cols=("1" "2" "11" "12" "13")
+  filtered="$(filter_coords "${cols[@]}")"
   filtered_file="$(filtered_file_for "temperature_$temperature")"
   sorted_file="$(sorted_file_for "temperature_$temperature")"
-  "$filtered" | filter_columns '1,2,11,12,13' > "$filtered_file"
+  echo "$filtered" | filter_columns '1,2,11,12,13' > "$filtered_file"
   sort_file "$filtered_file" "$sorted_file" "t$temperature"
 fi
 
 if [[ -v pressure ]]
 then
+  cols=("1" "2" "3" "7")
+  filtered="$(filter_coords "${cols[@]}")"
   filtered_file="$(filtered_file_for 'pressure')"
   sorted_file="$(sorted_file_for 'pressure')"
-  "$filtered" | filter_columns '1,2,3,7' > "$filtered_file"
+  echo "$filtered" | filter_columns '1,2,3,7' > "$filtered_file"
   sort_file "$filtered_file" "$sorted_file" "p$pressure"
 fi
 
 if [[ -v wind ]]
 then
+  cols=("1" "2" "4" "5" "10")
+  filtered="$(filter_coords "${cols[@]}")"
   filtered_file="$(filtered_file_for 'wind')"
   sorted_file="$(sorted_file_for 'wind')"
-  "$filtered" | filter_columns '1,2,4,5,10' > "$filtered_file"
+  echo "$filtered" | filter_columns '1,2,4,5,10' > "$filtered_file"
   sort_file "$filtered_file" "$sorted_file" "w"
 fi
 
 if [[ -v moisture ]]
 then
+  cols=("1" "6" "10")
+  filtered="$(filter_coords "${cols[@]}")"
   filtered_file="$(filtered_file_for 'moisture')"
   sorted_file="$(sorted_file_for 'moisture')"
-  "$filtered" | filter_columns '1,6,10' > "$filtered_file"
+  echo "$filtered" | filter_columns '1,6,10' > "$filtered_file"
   sort_file "$filtered_file" "$sorted_file" "m"
 fi
 
 if [[ -v height ]]
 then
+  cols=("1" "14" "10")
+  filtered="$(filter_coords "${cols[@]}")"
   filtered_file="$(filtered_file_for 'height')"
   sorted_file="$(sorted_file_for 'height')"
-  "$filtered" | filter_columns '1,14,10' > "$filtered_file"
+  echo "$filtered" | filter_columns '1,14,10' > "$filtered_file"
   sort_file "$filtered_file" "$sorted_file" "h"
 fi
