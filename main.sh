@@ -258,7 +258,7 @@ do
       ;;
 
     # Regions
-    -F)
+    -F)$FILE exists
     
       set_region '43.347901' '50.589122' '-1.846217' '3.913466'
       ;;
@@ -327,6 +327,12 @@ if [[ ! -v input ]]
 then
   wrong_usage "Missing argument -f"
 fi
+
+if [ ! -f "$input" ]; then
+    echo -e "\e[31m$input doesn't exist!\e[0m"
+    exit 2
+fi
+
 
 if [[ ! -v output ]]
 then
