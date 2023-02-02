@@ -48,8 +48,9 @@ Comparison compareDateThenStation(WeatherRow a, WeatherRow b) {
  * Compares the measure date of two WeatherRow 
  */
 Comparison compareDate(WeatherRow a, WeatherRow b) {
-    if(a.date == b.date) return Equal;
-    else if(a.date > b.date) return Greater;
+    int comp = difftime(mktime(a.date), mktime(b.date));
+    if(comp == 0) return Equal;
+    else if(comp > 0) return Greater;
     return Less;
 }
 /**
