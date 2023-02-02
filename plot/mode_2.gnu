@@ -12,4 +12,4 @@ set ylabel "Average ".ARG3
 set xdata time
 set timefmt "%s"
 
-plot ARG1 using 1:2 with li title ARG2
+plot ARG1 using 1:2 with li title ARG3
