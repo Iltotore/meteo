@@ -48,7 +48,7 @@ Miscellaneous:
 Example:
 ```sh
 ./main.sh -f météo.csv --avl -t 1 -r -o wind.csv
-./main.sh -f météo.csv --avl -t 1 -w -o w&t.csv
+./main.sh -f météo.csv --avl -t 1 -w -o wandt.csv
 ```
 **⚠️ The Makefile only works under Linux**
 
