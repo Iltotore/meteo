@@ -72,6 +72,11 @@ typedef Comparison (*Comparator)(WeatherRow, WeatherRow);
 Comparison compareStationID(WeatherRow a, WeatherRow b);
 
 /**
+ * Compares the station's ID of two WeatherRow in descending order
+ */
+Comparison compareStationIDDesc(WeatherRow a, WeatherRow b);
+
+/**
  * Compares the height of two WeatherRow
  */
 

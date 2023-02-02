@@ -9,6 +9,16 @@ Comparison compareStationID(WeatherRow a, WeatherRow b) {
     else if(a.id > b.id) return Greater;
     else return Less;
 }
+
+/**
+ * Compares the station's ID of two WeatherRow in descending order
+ */
+Comparison compareStationIDDesc(WeatherRow a, WeatherRow b) {
+    if(a.id == b.id) return Equal;
+    else if(a.id > b.id) return Less;
+    else return Greater;
+}
+
 /**
  * Compares the height of two WeatherRow
  */
@@ -25,6 +35,7 @@ Comparison compareMoisture(WeatherRow a, WeatherRow b) {
     else if(*a.moisture > *b.moisture) return Less;
     return Greater;
 }
+
 /**
  * Compares the measure date and station ID of two WeatherRow
  */
@@ -53,6 +64,14 @@ WeatherRow maxStationPressure(WeatherRow a, WeatherRow b){
 WeatherRow minStationPressure(WeatherRow a, WeatherRow b){
     return *a.stationPressure < *b.stationPressure ? a : b ;
 }
+
+/**
+ * Compares two moistures and returns the greater
+ */
+WeatherRow maxMoisture(WeatherRow a, WeatherRow b) {
+    return *a.moisture >= *b.moisture ? a : b;
+}
+
 /**
  * Sums two wind speed and direction
  */
