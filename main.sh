@@ -37,7 +37,7 @@ filter_coords() {
     non_empty_filter="$non_empty_filter && \$$column != \"\""
   done
 
-  result=$(tail -n +2 "$input" | awk "$coord_filter$non_empty_filter" FS='[;,]')
+  result=$(tail -n +2 "$input" | awk "$coord_filter$non_empty_filter" FS='[;,]' OFS=';')
   echo "$result"
 }
 
@@ -361,7 +361,7 @@ fi
 
 if [[ -v temperature ]]
 then
-  cols=("1" "2" "11" "12" "13")
+  cols=("1" "2" "12" "13" "14")
   filtered="$(filter_coords "${cols[@]}")"
   filtered_file="$(filtered_file_for "temperature_$temperature")"
   sorted_file="$(sorted_file_for "temperature_$temperature")"
@@ -405,7 +405,7 @@ fi
 
 if [[ -v height ]]
 then
-  cols=("1" "14" "10")
+  cols=("1" "15" "10")
   filtered="$(filter_coords "${cols[@]}")"
   filtered_file="$(filtered_file_for 'height')"
   sorted_file="$(sorted_file_for 'height')"
