@@ -1,6 +1,6 @@
 # Météo
 
-This is the Pre ING 2 computer science project at CYTech, done by Raphaël FROMENTIN and Rachel EMESSIENE.
+This is the Pre ING 2 computer science project of semester at CYTech, done by Raphaël FROMENTIN and Rachel EMESSIENE.
 
 ## Lancement
 
