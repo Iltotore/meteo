@@ -348,16 +348,15 @@ then
   reverse="false"
 fi
 
-#compilation=$(make 2>&1)
-#
-#if [[ "$?" ]]
-#then
-#  echo -e "\e[31mCannot compile C program:\e[0m"
-#  echo -e "\e[31m${compilation}\e[0m"
-#  exit 4
-#fi
+compilation=$(make 2>&1)
 
-#filtered=filter_coords
+res="$?"
+if [[ ! "$res" ]]
+then
+  echo -e "\e[31mCannot compile C program ($res):\e[0m"
+  echo -e "\e[31m${compilation}\e[0m"
+  exit 4
+fi
 
 if [[ -v temperature ]]
 then
