@@ -10,15 +10,6 @@
 #include "util.h"
 #include "io.h"
 
-Comparison compareStationIDDesc(WeatherRow a, WeatherRow b) {
-    if(a.id == b.id) return Equal;
-    else if(a.id > b.id) return Less;
-    else return Greater;
-}
-
-WeatherRow maxMoisture(WeatherRow a, WeatherRow b) {
-    return *a.moisture >= *b.moisture ? a : b;
-}
 
 
 int main(int argc, char **argv) {

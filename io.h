@@ -77,32 +77,61 @@ void writeLinesBST(FILE *file, Tree *tree, Writer writer, bool reversed);
  */
 void writeLinesList(FILE *file, DoubleLinkedList *list, Writer writer, bool reversed);
 
+/**
+*Reads temperature's column 
+*/
 WeatherRow readTemperature(FILE *file);
-
+/**
+*Reads pressure's column 
+*/
 WeatherRow readPressure(FILE *file);
-
+/**
+*Reads wind's column 
+*/
 WeatherRow readWind(FILE *file);
-
+/**
+*Reads moisture's column 
+*/
 WeatherRow readMoisture(FILE *file);
-
+/**
+*Reads height's column 
+*/
 WeatherRow readHeight(FILE *file);
-
+/**
+*Writes temperature's column in the file according to mode 1
+*/
 void writeTemperature1(FILE *file, WeatherRow row);
-
+/**
+*Writes temperature's column in the file according to mode 2
+*/
 void writeTemperature2(FILE *file, WeatherRow row);
-
+/**
+*
+*/
 void writeTemperature3AVL(FILE *file, AVL *avl);
-
+/**
+*Writes pressure's column in the file according to mode 1
+*/
 void writePressure1(FILE *file, WeatherRow row);
-
+/**
+*Writes pressure's column in the file according to mode 2
+*/
 void writePressure2(FILE *file, WeatherRow row);
-
+/**
+*Writes pressure's column in the file according to mode 3
+*/
 void writePressure3(FILE *file, WeatherRow row);
-
+/**
+*Writes wind's column in the file
+*/
 void writeWind(FILE *file, WeatherRow row);
-
+/**
+*Writes moisture's column in the file 
+*/
 void writeMoisture(FILE *file, WeatherRow row);
-
+/**
+*Writes height's column in the file
+*/
 void writeHeight(FILE *file, WeatherRow row);
 
 #endif

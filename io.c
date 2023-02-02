@@ -118,7 +118,9 @@ struct tm *parseTime(char *c) {
     strptime(c, "%FT%T%z", date);
     return date;
 }
-
+/**
+*Reads temperature's column 
+*/
 WeatherRow readTemperature(FILE *file) {
     WeatherRow a = emptyRow();
     char date[26];
@@ -129,7 +131,9 @@ WeatherRow readTemperature(FILE *file) {
     a.date = parseTime(date);
     return a;
 }
-
+/**
+*Reads pressure's column 
+*/
 WeatherRow readPressure(FILE *file) {
     WeatherRow a = emptyRow();
     char date[26];
@@ -145,7 +149,9 @@ WeatherRow readPressure(FILE *file) {
     a.date = parseTime(date);
     return a;
 }
-
+/**
+*Reads wind's column 
+*/
 WeatherRow readWind(FILE *file) {
     WeatherRow a = emptyRow();
     char date[26];
@@ -165,7 +171,9 @@ WeatherRow readWind(FILE *file) {
 
     return a;
 }
-
+/**
+*Reads moisture's column 
+*/
 WeatherRow readMoisture(FILE *file) {
     WeatherRow a = emptyRow();
     a.moisture = safeMalloc(sizeof(int));
@@ -174,7 +182,9 @@ WeatherRow readMoisture(FILE *file) {
     fscanf(file, "%d;%d;%f,%f\n", &a.id, a.moisture, a.coordX, a.coordY);
     return a;
 }
-
+/**
+*Reads height's column 
+*/
 WeatherRow readHeight(FILE *file) {
     WeatherRow a = emptyRow();
     a.height = safeMalloc(sizeof(int));
@@ -183,15 +193,21 @@ WeatherRow readHeight(FILE *file) {
     fscanf(file, "%d;%f,%f;%d\n", &a.id, a.coordX, a.coordY, a.height);
     return a;
 }
-
+/**
+*Writes temperature's column in the file according to mode 1
+*/
 void writeTemperature1(FILE *file, WeatherRow row) { //TODO Order ?
     fprintf(file, "%d;%f;%f;%f\n", row.id, *row.temperature, *row.temperatureMin, *row.temperatureMax);
 }
-
+/**
+*Writes temperature's column in the file according to mode 2
+*/
 void writeTemperature2(FILE *file, WeatherRow row) {
     fprintf(file, "%d;%ld;%f\n", row.id, mktime(row.date), *row.temperature);
 }
-
+/**
+*
+*/
 void writeTemperature3AVL(FILE *file, AVL *avl) {
 //
 //
@@ -200,25 +216,37 @@ void writeTemperature3AVL(FILE *file, AVL *avl) {
 //    //TODO hours
 //    for(int h = 0; h < 23; h++) fprintf(file, ";%d", hours[h]);
 }
-
+/**
+*Writes pressure's column in the file according to mode 1
+*/
 void writePressure1(FILE *file, WeatherRow row) {
     fprintf(file, "%d;%d;%d;%d\n", row.id, *row.stationPressure, *row.stationPressureMin, *row.stationPressureMax);
 }
-
+/**
+*Writes pressure's column in the file according to mode 2
+*/
 void writePressure2(FILE *file, WeatherRow row) {
     fprintf(file, "%d;%ld;%d\n", row.id, mktime(row.date), *row.stationPressure);
 }
-
+/**
+*Writes pressure's column in the file according to mode 3
+*/
 void writePressure3(FILE *file, WeatherRow row) {}
-
+/**
+*Writes wind's column in the file
+*/
 void writeWind(FILE *file, WeatherRow row) {
     fprintf(file, "%d;%f;%f;%f;%f\n", row.id, *row.coordX, *row.coordY, *row.windX, *row.windY);
 }
-
+/**
+*Writes moisture's column in the file 
+*/
 void writeMoisture(FILE *file, WeatherRow row) {
     fprintf(file, "%d;%f;%f;%d\n", row.id, *row.coordX, *row.coordY, *row.moisture);
 }
-
+/**
+*Writes height's column in the file
+*/
 void writeHeight(FILE *file, WeatherRow row) {
     fprintf(file, "%d;%f;%f;%d\n", row.id, *row.coordX, *row.coordY, *row.height);
 }
