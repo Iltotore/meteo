@@ -49,7 +49,6 @@ int main(int argc, char **argv) {
     if(strcmp(argv[4], "t1") == 0) {
         switch(mode) {
             case AVL_MODE: {
-                printf("Tri par t1\n");
                 AVL *avl = readLinesAVL(file, readTemperature, compareStationID, reduceTemperature1, lines);
                 mapCountInfixAVL(avl, averageTemperature);
                 writeLinesAVL(out, avl, writeTemperature1, reversed);

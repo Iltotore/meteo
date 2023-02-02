@@ -27,15 +27,15 @@
 typedef struct {
     int id;
     struct tm *date;
-    int *seaPressure; //Pointer represent optional values (aka can be NULL)
-    int *seaPressureMin;
-    int *seaPressureMax;
+    float *seaPressure; //Pointer represent optional values (aka can be NULL)
+    float *seaPressureMin;
+    float *seaPressureMax;
     float *windX;
     float *windY;
     int *moisture;
-    int *stationPressure;
-    int *stationPressureMin;
-    int *stationPressureMax;
+    float *stationPressure;
+    float *stationPressureMin;
+    float *stationPressureMax;
     float *pressureVariation;
     int *precipitation;
     float *coordX;

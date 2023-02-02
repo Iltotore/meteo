@@ -133,6 +133,8 @@ WeatherRow emptyRow(){
     a.windY=NULL;
     a.moisture=NULL;
     a.stationPressure=NULL;
+    a.stationPressureMin=NULL;
+    a.stationPressureMax=NULL;
     a.pressureVariation=NULL;
     a.precipitation=NULL;
     a.coordX=NULL;

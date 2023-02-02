@@ -127,7 +127,7 @@ WeatherRow readTemperature(FILE *file) {
     a.temperatureMax = safeMalloc(sizeof(float));
     a.temperatureMin = safeMalloc(sizeof(float));
     a.temperature = safeMalloc(sizeof(float));
-    fscanf(file, "%d;%25c;%f;%f;%f\n", &a.id, date, a.temperature, a.temperatureMax, a.temperatureMin);
+    fscanf(file, "%d;%25c;%f;%f;%f\n", &a.id, date, a.temperature, a.temperatureMin, a.temperatureMax);
     a.date = parseTime(date);
     return a;
 }
@@ -137,11 +137,13 @@ WeatherRow readTemperature(FILE *file) {
 WeatherRow readPressure(FILE *file) {
     WeatherRow a = emptyRow();
     char date[26];
-    a.seaPressure = safeMalloc(sizeof(int));
-    a.seaPressureMax = safeMalloc(sizeof(int));
-    a.seaPressureMin = safeMalloc(sizeof(int));
-    a.stationPressure = safeMalloc(sizeof(int));
-    fscanf(file, "%d;%25c;%d;%d\n", &a.id, date, a.seaPressure, a.stationPressure);
+    a.seaPressure = safeMalloc(sizeof(float));
+    a.seaPressureMax = safeMalloc(sizeof(float));
+    a.seaPressureMin = safeMalloc(sizeof(float));
+    a.stationPressure = safeMalloc(sizeof(float));
+    a.stationPressureMin = safeMalloc(sizeof(float));
+    a.stationPressureMax = safeMalloc(sizeof(float));
+    fscanf(file, "%d;%25c;%f;%f\n", &a.id, date, a.seaPressure, a.stationPressure);
     *a.seaPressureMin = *a.seaPressure;
     *a.seaPressureMax = *a.seaPressure;
     *a.stationPressureMin = *a.stationPressure;
@@ -203,7 +205,7 @@ void writeTemperature1(FILE *file, WeatherRow row) { //TODO Order ?
 *Writes temperature's column in the file according to mode 2
 */
 void writeTemperature2(FILE *file, WeatherRow row) {
-    fprintf(file, "%d;%ld;%f\n", row.id, mktime(row.date), *row.temperature);
+    fprintf(file, "%ld;%f\n", mktime(row.date), *row.temperature);
 }
 /**
 *
@@ -220,13 +222,13 @@ void writeTemperature3AVL(FILE *file, AVL *avl) {
 *Writes pressure's column in the file according to mode 1
 */
 void writePressure1(FILE *file, WeatherRow row) {
-    fprintf(file, "%d;%d;%d;%d\n", row.id, *row.stationPressure, *row.stationPressureMin, *row.stationPressureMax);
+    fprintf(file, "%d;%f;%f;%f\n", row.id, *row.stationPressure, *row.stationPressureMin, *row.stationPressureMax);
 }
 /**
 *Writes pressure's column in the file according to mode 2
 */
 void writePressure2(FILE *file, WeatherRow row) {
-    fprintf(file, "%d;%ld;%d\n", row.id, mktime(row.date), *row.stationPressure);
+    fprintf(file, "%d;%ld;%f\n", row.id, mktime(row.date), *row.stationPressure);
 }
 /**
 *Writes pressure's column in the file according to mode 3
