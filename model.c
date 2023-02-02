@@ -9,7 +9,7 @@ Comparison compareStationID(WeatherRow a, WeatherRow b) {
 }
 
 Comparison compareHeight(WeatherRow a, WeatherRow b) {
-    if(*a.height == *b.height) return Equal;
+    if(*a.height == *b.height) return compareStationID(a, b);
     else if(*a.height > *b.height) return Less;
     return Greater;
 }
