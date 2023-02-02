@@ -156,6 +156,7 @@ Usage: $0 <arguments>
 
 Mandatory arguments:
   -f: The file path to read.
+  -o: The file path to write at.
 
   Sorting:
     --avl: Using AVL
@@ -183,7 +184,7 @@ Regions (optional, up to one):
   -Q: Antarctica
 
   -g <min> <max>: Min and max longitudes.
-  -d <min> <max>: Min and max longitudes.
+  -a <min> <max>: Min and max longitudes.
 
 Date and time:
   -d <min> <max>: Min and max dates using the format \`YYYY-MM-DD\`.
