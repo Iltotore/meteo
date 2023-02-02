@@ -185,7 +185,6 @@ int main(int argc, char **argv) {
         switch(mode) {
             case AVL_MODE: {
                 AVL *avl = readLinesAVL(file, readWind, compareStationID, sumWind, lines);
-                printf("avg\n");
                 mapCountInfixAVL(avl, averageWind);
                 writeLinesAVL(out, avl, writeWind, reversed);
             }
