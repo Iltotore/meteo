@@ -88,9 +88,15 @@ WeatherRow readTemperature(FILE *file);
 WeatherRow readTemperature3(FILE *file);
 
 /**
-*Reads pressure's column 
+*Reads pressure min/max/current columns 
 */
 WeatherRow readPressure(FILE *file);
+
+/**
+*Reads pressure column 
+*/
+WeatherRow readPressure3(FILE *file);
+
 /**
 *Reads wind's column 
 */
@@ -129,6 +135,7 @@ void writePressure2(FILE *file, WeatherRow row);
 *Writes pressure's column in the file according to mode 3
 */
 void writePressure3(FILE *file, WeatherRow row);
+
 /**
 *Writes wind's column in the file
 */

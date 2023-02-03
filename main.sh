@@ -388,13 +388,24 @@ fi
 
 if [[ -v pressure ]]
 then
-  cols=("1" "2" "3" "7")
-  filtered="$(filter_coords "${cols[@]}")"
-  filtered_file="$(filtered_file_for "pressure_$pressure")"
-  sorted_file="$(sorted_file_for "pressure_$pressure")"
-  echo "$filtered" | filter_columns '1,2,3,7' > "$filtered_file"
-  sort_file "$filtered_file" "$sorted_file" "p$pressure"
-  plot_file "plot/mode_$pressure.gnu" "$sorted_file" "$(plot_file_for "pressure_$pressure")" "Pressure"
+  if [[ "$pressure" -eq 3 ]]
+  then
+    cols=("1" "2" "7")
+    filtered="$(filter_coords "${cols[@]}")"
+    filtered_file="$(filtered_file_for "pressure_$pressure")"
+    sorted_file="$(sorted_file_for "pressure_$pressure")"
+    echo "$filtered" | filter_columns '1,2,7' > "$filtered_file"
+    sort_file "$filtered_file" "$sorted_file" "p$pressure"
+    plot_file "plot/mode_$pressure.gnu" "$sorted_file" "$(plot_file_for "pressure_$pressure")" "Pressure"
+  else
+    cols=("1" "2" "3" "7")
+    filtered="$(filter_coords "${cols[@]}")"
+    filtered_file="$(filtered_file_for "pressure_$pressure")"
+    sorted_file="$(sorted_file_for "pressure_$pressure")"
+    echo "$filtered" | filter_columns '1,2,3,7' > "$filtered_file"
+    sort_file "$filtered_file" "$sorted_file" "p$pressure"
+    plot_file "plot/mode_$pressure.gnu" "$sorted_file" "$(plot_file_for "pressure_$pressure")" "Pressure"
+  fi
 fi
 
 if [[ -v wind ]]

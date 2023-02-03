@@ -154,18 +154,18 @@ int main(int argc, char **argv) {
     } else if(strcmp(argv[4], "p3") == 0) {
         switch(mode) {
             case AVL_MODE: {
-//            AVL *avl = readLinesAVL(file, readPressure, compareDateThenStation, minStationPressure);
-//            writeLinesAVL(out, avl, writePressure3);
+            AVL *avl = readLinesAVL(file, readPressure3, compareDateThenStation, ignore, lines);
+            writeLinesAVL(out, avl, writePressure3, reversed);
             }
                 break;
             case BST_MODE: {
-//            Tree *bst = readLinesBST(file, readPressure, compareDateThenStation, minStationPressure);
-//            writeLinesBST(out, bst, writePressure3);
+            Tree *bst = readLinesBST(file, readPressure3, compareDateThenStation, ignore, lines);
+            writeLinesBST(out, bst, writePressure3, reversed);
             }
                 break;
             case LIST_MODE: {
-//            DoubleLinkedList *list = readLinesList(file, readPressure, compareDateThenStation, minStationPressure);
-//            writeLinesList(out, list, writePressure3);
+            DoubleLinkedList *list = readLinesList(file, readPressure3, compareDateThenStation, ignore, lines);
+            writeLinesList(out, list, writePressure3, reversed);
             }
                 break;
         }

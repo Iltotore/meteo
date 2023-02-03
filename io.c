@@ -164,6 +164,19 @@ WeatherRow readPressure(FILE *file) {
     a.date = parseTime(date);
     return a;
 }
+
+/**
+*Reads pressure column 
+*/
+WeatherRow readPressure3(FILE *file) {
+    WeatherRow a = emptyRow();
+    char date[26];
+    a.stationPressure = safeMalloc(sizeof(float));
+    fscanf(file, "%d;%25c;%f\n", &a.id, date, a.stationPressure);
+    a.date = parseTime(date);
+    return a;
+}
+
 /**
 *Reads wind's column 
 */
@@ -245,16 +258,21 @@ void writeTemperature3AVL(FILE *file, AVL *avl) {
 void writePressure1(FILE *file, WeatherRow row) {
     fprintf(file, "%d;%f;%f;%f\n", row.id, *row.stationPressure, *row.stationPressureMin, *row.stationPressureMax);
 }
+
 /**
 *Writes pressure's column in the file according to mode 2
 */
 void writePressure2(FILE *file, WeatherRow row) {
     fprintf(file, "%d;%ld;%f\n", row.id, mktime(row.date), *row.stationPressure);
 }
+
 /**
 *Writes pressure's column in the file according to mode 3
 */
-void writePressure3(FILE *file, WeatherRow row) {}
+void writePressure3(FILE *file, WeatherRow row) {
+    fprintf(file, "%ld;%d;%f\n", mktime(row.date), row.id, *row.stationPressure);
+}
+
 /**
 *Writes wind's column in the file
 */
