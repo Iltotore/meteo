@@ -163,7 +163,6 @@ Usage: $0 <arguments>
 
 Mandatory arguments:
   -f: The file path to read.
-  -o: The file path to write at.
 
   Sorting:
     --avl: Using AVL
@@ -197,6 +196,7 @@ Date and time:
   -d <min> <max>: Min and max dates using the format \`YYYY-MM-DD\`.
 
 Miscellaneous:
+  -o: The file path to write at.
   --help: Show this message.
 
 EOM
