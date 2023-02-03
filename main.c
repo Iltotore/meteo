@@ -92,18 +92,18 @@ int main(int argc, char **argv) {
     } else if(strcmp(argv[4], "t3") == 0) {
         switch(mode) {
             case AVL_MODE: {
-//            AVL *avl = readLinesAVL(file, readTemperature, compareDateThenStation, minTemperatureMin);
-//            writeLinesAVL(out, avl, writeTemperature3);
+            AVL *avl = readLinesAVL(file, readTemperature3, compareDateThenStation, ignore, lines);
+            writeLinesAVL(out, avl, writeTemperature3, reversed);
             }
                 break;
             case BST_MODE: {
-//            Tree *bst = readLinesBST(file, readTemperature, compareDateThenStation, minTemperatureMin);
-//            writeLinesBST(out, bst, writeTemperature3);
+            Tree *bst = readLinesBST(file, readTemperature3, compareDateThenStation, ignore, lines);
+            writeLinesBST(out, bst, writeTemperature3, reversed);
             }
                 break;
             case LIST_MODE: {
-//            DoubleLinkedList *list = readLinesList(file, readTemperature, compareDateThenStation, minTemperatureMin);
-//            writeLinesList(out, list, writeTemperature3);
+            DoubleLinkedList *list = readLinesList(file, readTemperature3, compareDateThenStation, ignore, lines);
+            writeLinesList(out, list, writeTemperature3, reversed);
             }
                 break;
 

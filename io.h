@@ -78,9 +78,15 @@ void writeLinesBST(FILE *file, Tree *tree, Writer writer, bool reversed);
 void writeLinesList(FILE *file, DoubleLinkedList *list, Writer writer, bool reversed);
 
 /**
-*Reads temperature's column 
+*Reads temperature min/max/current column 
 */
 WeatherRow readTemperature(FILE *file);
+
+/**
+ * Reads temperature column
+*/
+WeatherRow readTemperature3(FILE *file);
+
 /**
 *Reads pressure's column 
 */
@@ -105,10 +111,12 @@ void writeTemperature1(FILE *file, WeatherRow row);
 *Writes temperature's column in the file according to mode 2
 */
 void writeTemperature2(FILE *file, WeatherRow row);
+
 /**
-*
+ * Writes temperature's column in the file according to mode 3
 */
-void writeTemperature3AVL(FILE *file, AVL *avl);
+void writeTemperature3(FILE *file, WeatherRow row);
+
 /**
 *Writes pressure's column in the file according to mode 1
 */

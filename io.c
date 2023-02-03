@@ -119,7 +119,7 @@ struct tm *parseTime(char *c) {
     return date;
 }
 /**
-*Reads temperature's column 
+*Reads temperature min/max/current columns
 */
 WeatherRow readTemperature(FILE *file) {
     WeatherRow a = emptyRow();
@@ -131,6 +131,19 @@ WeatherRow readTemperature(FILE *file) {
     a.date = parseTime(date);
     return a;
 }
+
+/**
+ * Reads temperature column
+*/
+WeatherRow readTemperature3(FILE *file) {
+    WeatherRow a = emptyRow();
+    char date[26];
+    a.temperature = safeMalloc(sizeof(float));
+    fscanf(file, "%d;%25c;%f\n", &a.id, date, a.temperature);
+    a.date = parseTime(date);
+    return a;
+}
+
 /**
 *Reads pressure's column 
 */
@@ -207,6 +220,14 @@ void writeTemperature1(FILE *file, WeatherRow row) { //TODO Order ?
 void writeTemperature2(FILE *file, WeatherRow row) {
     fprintf(file, "%ld;%f\n", mktime(row.date), *row.temperature);
 }
+
+/**
+ * Writes temperature's column in the file according to mode 3
+*/
+void writeTemperature3(FILE *file, WeatherRow row) {
+    fprintf(file, "%ld;%d;%f\n", mktime(row.date), row.id, *row.temperature);
+}
+
 /**
 *
 */

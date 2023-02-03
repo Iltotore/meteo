@@ -366,13 +366,24 @@ fi
 
 if [[ -v temperature ]]
 then
-  cols=("1" "2" "12" "13" "14")
-  filtered="$(filter_coords "${cols[@]}")"
-  filtered_file="$(filtered_file_for "temperature_$temperature")"
-  sorted_file="$(sorted_file_for "temperature_$temperature")"
-  echo "$filtered" | filter_columns '1,2,11,12,13' > "$filtered_file"
-  sort_file "$filtered_file" "$sorted_file" "t$temperature"
-  plot_file "plot/mode_$temperature.gnu" "$sorted_file" "$(plot_file_for "temperature_$temperature")" "Temperature"
+  if [[ "$temperature" -eq 3 ]]
+  then
+    cols=("1" "2" "12")
+    filtered="$(filter_coords "${cols[@]}")"
+    filtered_file="$(filtered_file_for "temperature_$temperature")"
+    sorted_file="$(sorted_file_for "temperature_$temperature")"
+    echo "$filtered" | filter_columns '1,2,11' > "$filtered_file"
+    sort_file "$filtered_file" "$sorted_file" "t$temperature"
+    plot_file "plot/mode_$temperature.gnu" "$sorted_file" "$(plot_file_for "temperature_$temperature")" "Temperature"
+  else
+    cols=("1" "2" "12" "13" "14")
+    filtered="$(filter_coords "${cols[@]}")"
+    filtered_file="$(filtered_file_for "temperature_$temperature")"
+    sorted_file="$(sorted_file_for "temperature_$temperature")"
+    echo "$filtered" | filter_columns '1,2,11,12,13' > "$filtered_file"
+    sort_file "$filtered_file" "$sorted_file" "t$temperature"
+    plot_file "plot/mode_$temperature.gnu" "$sorted_file" "$(plot_file_for "temperature_$temperature")" "Temperature"
+  fi
 fi
 
 if [[ -v pressure ]]
