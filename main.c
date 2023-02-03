@@ -1,11 +1,10 @@
 #include <stdbool.h>
-#include "stdio.h"
+#include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "doublelinkedlist.h"
 #include "tree.h"
 #include "avl.h"
-#include "stdlib.h"
-#include "time.h"
 #include "model.h"
 #include "util.h"
 #include "io.h"
@@ -19,9 +18,9 @@ int main(int argc, char **argv) {
 
     bool reversed;
 
-    if(strcmp(argv[5], "true") == 0)reversed = true;
+    if(strcmp(argv[5], "true") == 0) reversed = true;
 
-    else if(strcmp(argv[5], "false") == 0)reversed = false;
+    else if(strcmp(argv[5], "false") == 0) reversed = false;
 
     else error("Reverse must be either true or false !", WRONG_ARGUMENTS);
 
@@ -59,7 +58,8 @@ int main(int argc, char **argv) {
             }
                 break;
             case LIST_MODE: {
-                DoubleLinkedList *list = readLinesList(file, readTemperature, compareStationID, reduceTemperature1, lines);
+                DoubleLinkedList *list = readLinesList(file, readTemperature, compareStationID, reduceTemperature1,
+                                                       lines);
                 mapCount(list, averageTemperature);
                 writeLinesList(out, list, writeTemperature1, reversed);
             }
@@ -90,7 +90,7 @@ int main(int argc, char **argv) {
         }
 
     } else if(strcmp(argv[4], "t3") == 0) {
-        char* plotOutName = safeMalloc(sizeof(char)*(strlen(nout)+6));
+        char *plotOutName = safeMalloc(sizeof(char) * (strlen(nout) + 6));
 
         strcpy(plotOutName, "plot_");
         strcat(plotOutName, nout);
@@ -101,36 +101,37 @@ int main(int argc, char **argv) {
 
         switch(mode) {
             case AVL_MODE: {
-            AVL *avl = readLinesAVL(file, readTemperature3, compareDateThenStation, ignore, lines);
-            writeLinesAVL(out, avl, writeTemperature3, reversed);
-            
-            fclose(out);
-            rewind(file);
+                AVL *avl = readLinesAVL(file, readTemperature3, compareDateThenStation, ignore, lines);
+                writeLinesAVL(out, avl, writeTemperature3, reversed);
 
-            AVL *plotAVL = readLinesAVL(file, readTemperature3, compareDayThenID, reduceTemperature3, lines);
-            writeLinesAVL(plotOut, plotAVL, writeMode3Plot, reversed);
+                fclose(out);
+                rewind(file);
+
+                AVL *plotAVL = readLinesAVL(file, readTemperature3, compareDayThenID, reduceTemperature3, lines);
+                writeLinesAVL(plotOut, plotAVL, writeMode3Plot, reversed);
             }
                 break;
             case BST_MODE: {
-            Tree *tree = readLinesBST(file, readTemperature3, compareDateThenStation, ignore, lines);
-            writeLinesBST(out, tree, writeTemperature3, reversed);
-            
-            fclose(out);
-            rewind(file);
+                Tree *tree = readLinesBST(file, readTemperature3, compareDateThenStation, ignore, lines);
+                writeLinesBST(out, tree, writeTemperature3, reversed);
 
-            Tree *plotTree = readLinesBST(file, readTemperature3, compareDayThenID, reducePressure3, lines);
-            writeLinesBST(plotOut, plotTree, writeMode3Plot, reversed);
+                fclose(out);
+                rewind(file);
+
+                Tree *plotTree = readLinesBST(file, readTemperature3, compareDayThenID, reducePressure3, lines);
+                writeLinesBST(plotOut, plotTree, writeMode3Plot, reversed);
             }
                 break;
             case LIST_MODE: {
-            DoubleLinkedList *list = readLinesList(file, readTemperature3, compareDateThenStation, ignore, lines);
-            writeLinesList(out, list, writeTemperature3, reversed);
-            
-            fclose(out);
-            rewind(file);
+                DoubleLinkedList *list = readLinesList(file, readTemperature3, compareDateThenStation, ignore, lines);
+                writeLinesList(out, list, writeTemperature3, reversed);
 
-            DoubleLinkedList *plotList = readLinesList(file, readTemperature3, compareDayThenID, reduceTemperature3, lines);
-            writeLinesList(plotOut, plotList, writeMode3Plot, reversed);
+                fclose(out);
+                rewind(file);
+
+                DoubleLinkedList *plotList = readLinesList(file, readTemperature3, compareDayThenID, reduceTemperature3,
+                                                           lines);
+                writeLinesList(plotOut, plotList, writeMode3Plot, reversed);
             }
                 break;
         }
@@ -179,7 +180,7 @@ int main(int argc, char **argv) {
         }
     } else if(strcmp(argv[4], "p3") == 0) {
 
-        char* plotOutName = safeMalloc(sizeof(char)*(strlen(nout)+6));
+        char *plotOutName = safeMalloc(sizeof(char) * (strlen(nout) + 6));
 
         strcpy(plotOutName, "plot_");
         strcat(plotOutName, nout);
@@ -190,36 +191,37 @@ int main(int argc, char **argv) {
 
         switch(mode) {
             case AVL_MODE: {
-            AVL *avl = readLinesAVL(file, readPressure3, compareDateThenStation, ignore, lines);
-            writeLinesAVL(out, avl, writePressure3, reversed);
-            
-            fclose(out);
-            rewind(file);
+                AVL *avl = readLinesAVL(file, readPressure3, compareDateThenStation, ignore, lines);
+                writeLinesAVL(out, avl, writePressure3, reversed);
 
-            AVL *plotAVL = readLinesAVL(file, readPressure3, compareDayThenID, reducePressure3, lines);
-            writeLinesAVL(plotOut, plotAVL, writeMode3Plot, reversed);
+                fclose(out);
+                rewind(file);
+
+                AVL *plotAVL = readLinesAVL(file, readPressure3, compareDayThenID, reducePressure3, lines);
+                writeLinesAVL(plotOut, plotAVL, writeMode3Plot, reversed);
             }
                 break;
             case BST_MODE: {
-            Tree *tree = readLinesBST(file, readPressure3, compareDateThenStation, ignore, lines);
-            writeLinesBST(out, tree, writePressure3, reversed);
-            
-            fclose(out);
-            rewind(file);
+                Tree *tree = readLinesBST(file, readPressure3, compareDateThenStation, ignore, lines);
+                writeLinesBST(out, tree, writePressure3, reversed);
 
-            Tree *plotTree = readLinesBST(file, readPressure3, compareDayThenID, reducePressure3, lines);
-            writeLinesBST(plotOut, plotTree, writeMode3Plot, reversed);
+                fclose(out);
+                rewind(file);
+
+                Tree *plotTree = readLinesBST(file, readPressure3, compareDayThenID, reducePressure3, lines);
+                writeLinesBST(plotOut, plotTree, writeMode3Plot, reversed);
             }
                 break;
             case LIST_MODE: {
-            DoubleLinkedList *list = readLinesList(file, readPressure3, compareDateThenStation, ignore, lines);
-            writeLinesList(out, list, writePressure3, reversed);
-            
-            fclose(out);
-            rewind(file);
+                DoubleLinkedList *list = readLinesList(file, readPressure3, compareDateThenStation, ignore, lines);
+                writeLinesList(out, list, writePressure3, reversed);
 
-            DoubleLinkedList *plotList = readLinesList(file, readPressure3, compareDayThenID, reducePressure3, lines);
-            writeLinesList(plotOut, plotList, writeMode3Plot, reversed);
+                fclose(out);
+                rewind(file);
+
+                DoubleLinkedList *plotList = readLinesList(file, readPressure3, compareDayThenID, reducePressure3,
+                                                           lines);
+                writeLinesList(plotOut, plotList, writeMode3Plot, reversed);
             }
                 break;
         }

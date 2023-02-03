@@ -168,6 +168,7 @@ WeatherRow averageStationPressure(int count, WeatherRow value);
  * Ignores the second row
 */
 WeatherRow ignore(WeatherRow a, WeatherRow b);
+
 /**
 *Creates an empty row
 */

@@ -28,6 +28,7 @@ Comparison compareHeight(WeatherRow a, WeatherRow b) {
     else if(*a.height > *b.height) return Less;
     return Greater;
 }
+
 /**
  * Compares the moisture of two WeatherRow
  */
@@ -88,14 +89,15 @@ Comparison compareDayThenID(WeatherRow a, WeatherRow b) {
 /**
  * Compares the station's pressure  of two WeatherRow and takes the maximum
  */
-WeatherRow maxStationPressure(WeatherRow a, WeatherRow b){
-    return *a.stationPressure > *b.stationPressure ? a : b ;
+WeatherRow maxStationPressure(WeatherRow a, WeatherRow b) {
+    return *a.stationPressure > *b.stationPressure ? a : b;
 }
+
 /**
  * Compares the station's pressure  of two WeatherRow and takes the minimum
  */
-WeatherRow minStationPressure(WeatherRow a, WeatherRow b){
-    return *a.stationPressure < *b.stationPressure ? a : b ;
+WeatherRow minStationPressure(WeatherRow a, WeatherRow b) {
+    return *a.stationPressure < *b.stationPressure ? a : b;
 }
 
 /**
@@ -108,19 +110,21 @@ WeatherRow maxMoisture(WeatherRow a, WeatherRow b) {
 /**
  * Sums two wind speed and direction
  */
-WeatherRow sumWind(WeatherRow a, WeatherRow b){
+WeatherRow sumWind(WeatherRow a, WeatherRow b) {
     *a.windX += *b.windX;
     *a.windY += *b.windY;
     return a;
 }
+
 /**
  * Calculates the average of two wind speed and direction
  */
-WeatherRow averageWind(int count, WeatherRow value){
+WeatherRow averageWind(int count, WeatherRow value) {
     *value.windX /= count;
     *value.windY /= count;
     return value;
 }
+
 /**
  * Returns min, max and sum (for average) of temperatures
  */
@@ -137,8 +141,8 @@ WeatherRow reduceTemperature1(WeatherRow a, WeatherRow b) {
 WeatherRow reduceTemperature3(WeatherRow a, WeatherRow b) {
     int aHour = a.date->tm_hour;
     int lastHour = b.date->tm_hour;
-    
-    for(int i = aHour+1; i <= lastHour; i++) {
+
+    for(int i = aHour + 1; i <= lastHour; i++) {
         a.hours[i] = *a.temperature;
     }
 
@@ -153,8 +157,8 @@ WeatherRow reduceTemperature3(WeatherRow a, WeatherRow b) {
 WeatherRow reducePressure3(WeatherRow a, WeatherRow b) {
     int aHour = a.date->tm_hour;
     int lastHour = b.date->tm_hour;
-    
-    for(int i = aHour+1; i <= lastHour; i++) {
+
+    for(int i = aHour + 1; i <= lastHour; i++) {
         a.hours[i] = *a.stationPressure;
     }
 
@@ -170,67 +174,75 @@ WeatherRow sumTemperature(WeatherRow a, WeatherRow b) {
     *a.temperature += *b.temperature;
     return a;
 }
+
 /**
  *Calculates the average of two temperature
  */
-WeatherRow averageTemperature(int count, WeatherRow value){
+WeatherRow averageTemperature(int count, WeatherRow value) {
     *value.temperature /= count;
     return value;
 }
+
 /**
  * Returns min, max and sum (for average) of pressures
  */
 WeatherRow reducePressure1(WeatherRow a, WeatherRow b) {
-    *a.stationPressureMin = *a.stationPressureMin <= *b.stationPressureMin ? *a.stationPressureMin : *b.stationPressureMin;
-    *a.stationPressureMax = *a.stationPressureMax >= *b.stationPressureMax ? *a.stationPressureMax : *b.stationPressureMax;
+    *a.stationPressureMin =
+            *a.stationPressureMin <= *b.stationPressureMin ? *a.stationPressureMin : *b.stationPressureMin;
+    *a.stationPressureMax =
+            *a.stationPressureMax >= *b.stationPressureMax ? *a.stationPressureMax : *b.stationPressureMax;
     *a.stationPressure += *b.stationPressure;
     return a;
 }
+
 /**
  * Sums two stationPressure
  */
-WeatherRow sumStationPressure(WeatherRow a, WeatherRow b){
+WeatherRow sumStationPressure(WeatherRow a, WeatherRow b) {
     *a.stationPressure += *b.stationPressure;
     return a;
 }
+
 /**
  *Calculates the average of two stationPressure
  */
-WeatherRow averageStationPressure(int count, WeatherRow value){
+WeatherRow averageStationPressure(int count, WeatherRow value) {
     *value.stationPressure /= count;
     return value;
 }
+
 /**
  * Ignores the second row
 */
-WeatherRow ignore(WeatherRow a, WeatherRow b){
+WeatherRow ignore(WeatherRow a, WeatherRow b) {
     return a;
 }
+
 /**
 *Creates an empty row
 */
-WeatherRow emptyRow(){
+WeatherRow emptyRow() {
     WeatherRow a;
-    a.id=-1;
-    a.date= NULL;
-    a.seaPressure=NULL;
-    a.seaPressureMin=NULL;
-    a.seaPressureMax=NULL;
-    a.windX=NULL;
-    a.windY=NULL;
-    a.moisture=NULL;
-    a.stationPressure=NULL;
-    a.stationPressureMin=NULL;
-    a.stationPressureMax=NULL;
-    a.pressureVariation=NULL;
-    a.precipitation=NULL;
-    a.coordX=NULL;
-    a.coordY=NULL;
-    a.temperature=NULL;
-    a.temperatureMin=NULL;
-    a.height=NULL;
-    a.townCode=NULL;
-    a.hours=safeMalloc(sizeof(float)*24);
+    a.id = -1;
+    a.date = NULL;
+    a.seaPressure = NULL;
+    a.seaPressureMin = NULL;
+    a.seaPressureMax = NULL;
+    a.windX = NULL;
+    a.windY = NULL;
+    a.moisture = NULL;
+    a.stationPressure = NULL;
+    a.stationPressureMin = NULL;
+    a.stationPressureMax = NULL;
+    a.pressureVariation = NULL;
+    a.precipitation = NULL;
+    a.coordX = NULL;
+    a.coordY = NULL;
+    a.temperature = NULL;
+    a.temperatureMin = NULL;
+    a.height = NULL;
+    a.townCode = NULL;
+    a.hours = safeMalloc(sizeof(float) * 24);
     for(int i = 0; i < 24; i++) a.hours[i] = 0;
     return a;
 }

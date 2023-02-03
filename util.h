@@ -3,7 +3,7 @@
 #include <stdbool.h>
 
 #ifndef util
-#define SUCCESS 0 
+#define SUCCESS 0
 #define WRONG_ARGUMENTS 1
 #define INPUT_FILE_ERROR 2
 #define OUTPUT_FILE_ERROR 3
@@ -24,15 +24,5 @@ void safeFree(void *ptr);
 *Print the given error message then exit with the given code
 */
 void error(char *message, int code);
-
-/**
-*Return the textual length of the given integer.
-*/
-int lengthOfInt(int n);
-
-/**
-*Clear/Flush the given stream.
-*/
-void clear(FILE *stream);
 
 #endif

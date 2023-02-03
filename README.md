@@ -48,11 +48,12 @@ Miscellaneous:
 ```
 
 Example:
+
 ```sh
 ./main.sh -f météo.csv --avl -h -r -o wind.csv
 ./main.sh -f météo.csv --avl -t 1 -w -o wandt.csv
 ```
-**⚠️ The Makefile only works under Linux**
 
+**⚠️ The Makefile only works under Linux**
 
 **⚠️ Requiers `Make` et `GCC`**

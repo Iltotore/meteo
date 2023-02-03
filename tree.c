@@ -155,7 +155,7 @@ bool hasRight(Tree *tree) {
  * @see addRight, removeLeft
  */
 void addLeft(Tree *tree, WeatherRow value) {
-    if(tree->left != NULL) error("This tree already has a left child",4);
+    if(tree->left != NULL) error("This tree already has a left child", 4);
     tree->left = createNode(value);
 }
 
@@ -168,7 +168,7 @@ void addLeft(Tree *tree, WeatherRow value) {
  * @see addLeft, removeRight
  */
 void addRight(Tree *tree, WeatherRow value) {
-    if(tree->right != NULL) error("This tree already has a right child",4);
+    if(tree->right != NULL) error("This tree already has a right child", 4);
     tree->right = createNode(value);
 }
 
@@ -308,7 +308,8 @@ Tree *insertBST(Tree *tree, WeatherRow value, Comparator comparator, Reducer red
     if(tree == NULL) return createNode(value);
     else {
         if(comparator(value, tree->value) == Less) tree->left = insertBST(tree->left, value, comparator, reducer);
-        else if(comparator(value, tree->value) == Greater) tree->right = insertBST(tree->right, value, comparator, reducer);
+        else if(comparator(value, tree->value) == Greater)
+            tree->right = insertBST(tree->right, value, comparator, reducer);
         else {
             tree->value = reducer(tree->value, value);
             tree->occurrences += 1;

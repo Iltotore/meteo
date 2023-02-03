@@ -118,6 +118,7 @@ struct tm *parseTime(char *c) {
     strptime(c, "%FT%T%z", date);
     return date;
 }
+
 /**
 *Reads temperature min/max/current columns
 */
@@ -199,6 +200,7 @@ WeatherRow readWind(FILE *file) {
 
     return a;
 }
+
 /**
 *Reads moisture's column 
 */
@@ -210,6 +212,7 @@ WeatherRow readMoisture(FILE *file) {
     fscanf(file, "%d;%d;%f,%f\n", &a.id, a.moisture, a.coordX, a.coordY);
     return a;
 }
+
 /**
 *Reads height's column 
 */
@@ -221,12 +224,14 @@ WeatherRow readHeight(FILE *file) {
     fscanf(file, "%d;%f,%f;%d\n", &a.id, a.coordX, a.coordY, a.height);
     return a;
 }
+
 /**
 *Writes temperature's column in the file according to mode 1
 */
 void writeTemperature1(FILE *file, WeatherRow row) { //TODO Order ?
     fprintf(file, "%d;%f;%f;%f\n", row.id, *row.temperature, *row.temperatureMin, *row.temperatureMax);
 }
+
 /**
 *Writes temperature's column in the file according to mode 2
 */
@@ -284,12 +289,14 @@ void writeMode3Plot(FILE *file, WeatherRow row) {
 void writeWind(FILE *file, WeatherRow row) {
     fprintf(file, "%d;%f;%f;%f;%f\n", row.id, *row.coordX, *row.coordY, *row.windX, *row.windY);
 }
+
 /**
 *Writes moisture's column in the file 
 */
 void writeMoisture(FILE *file, WeatherRow row) {
     fprintf(file, "%d;%f;%f;%d\n", row.id, *row.coordX, *row.coordY, *row.moisture);
 }
+
 /**
 *Writes height's column in the file
 */

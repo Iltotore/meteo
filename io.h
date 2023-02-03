@@ -101,18 +101,22 @@ WeatherRow readPressure3(FILE *file);
 *Reads wind's column 
 */
 WeatherRow readWind(FILE *file);
+
 /**
 *Reads moisture's column 
 */
 WeatherRow readMoisture(FILE *file);
+
 /**
 *Reads height's column 
 */
 WeatherRow readHeight(FILE *file);
+
 /**
 *Writes temperature's column in the file according to mode 1
 */
 void writeTemperature1(FILE *file, WeatherRow row);
+
 /**
 *Writes temperature's column in the file according to mode 2
 */
@@ -127,10 +131,12 @@ void writeTemperature3(FILE *file, WeatherRow row);
 *Writes pressure's column in the file according to mode 1
 */
 void writePressure1(FILE *file, WeatherRow row);
+
 /**
 *Writes pressure's column in the file according to mode 2
 */
 void writePressure2(FILE *file, WeatherRow row);
+
 /**
 *Writes pressure's column in the file according to mode 3
 */
@@ -146,10 +152,12 @@ void writeMode3Plot(FILE *file, WeatherRow row);
 *Writes wind's column in the file
 */
 void writeWind(FILE *file, WeatherRow row);
+
 /**
 *Writes moisture's column in the file 
 */
 void writeMoisture(FILE *file, WeatherRow row);
+
 /**
 *Writes height's column in the file
 */
