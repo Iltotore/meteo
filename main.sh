@@ -80,7 +80,7 @@ set_latitude() {
     wrong_usage "Cannot use region and -g/-a together"
   fi
 
-  if [[ -v longitude ]]
+  if [[ -v latitude ]]
   then
     wrong_usage "Latitude cannot be set multiple times"
   fi
