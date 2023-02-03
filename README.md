@@ -1,6 +1,6 @@
 # Météo
 
-This is the Pre ING 2 computer science project of semester 1 at CYTech, done by Raphaël FROMENTIN and Rachel EMESSIENE.
+This is the Pre ING 2 computer science project for semester 1 at CYTech, made by Raphaël FROMENTIN and Rachel EMESSIENE.
 
 ## Lancement
 
@@ -56,4 +56,4 @@ Example:
 
 **⚠️ The Makefile only works under Linux**
 
-**⚠️ Requiers `Make` et `GCC`**
+**⚠️ Requires `Make` et `GCC`**
