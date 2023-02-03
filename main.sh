@@ -357,30 +357,30 @@ fi
 compilation=$(make 2>&1)
 
 res="$?"
-if [[ ! "$res" ]]
+if [[ "$res" -ne 0 ]]
 then
   echo -e "\e[31mCannot compile C program ($res):\e[0m"
   echo -e "\e[31m${compilation}\e[0m"
   exit 4
 fi
 
+echo "Filtering..."
+
 if [[ -v temperature ]]
 then
   if [[ "$temperature" -eq 3 ]]
   then
     cols=("1" "2" "12")
-    filtered="$(filter_coords "${cols[@]}")"
     filtered_file="$(filtered_file_for "temperature_$temperature")"
     sorted_file="$(sorted_file_for "temperature_$temperature")"
-    echo "$filtered" | filter_columns '1,2,11' > "$filtered_file"
+    filter_coords "${cols[@]}" | filter_columns '1,2,11' > "$filtered_file"
     sort_file "$filtered_file" "$sorted_file" "t$temperature"
     plot_file "plot/mode_$temperature.gnu" "plot_$sorted_file" "$(plot_file_for "temperature_$temperature")" "Temperature"
   else
     cols=("1" "2" "12" "13" "14")
-    filtered="$(filter_coords "${cols[@]}")"
     filtered_file="$(filtered_file_for "temperature_$temperature")"
     sorted_file="$(sorted_file_for "temperature_$temperature")"
-    echo "$filtered" | filter_columns '1,2,11,12,13' > "$filtered_file"
+    filter_coords "${cols[@]}" | filter_columns '1,2,11,12,13' > "$filtered_file"
     sort_file "$filtered_file" "$sorted_file" "t$temperature"
     plot_file "plot/mode_$temperature.gnu" "$sorted_file" "$(plot_file_for "temperature_$temperature")" "Temperature"
   fi
@@ -391,18 +391,16 @@ then
   if [[ "$pressure" -eq 3 ]]
   then
     cols=("1" "2" "7")
-    filtered="$(filter_coords "${cols[@]}")"
     filtered_file="$(filtered_file_for "pressure_$pressure")"
     sorted_file="$(sorted_file_for "pressure_$pressure")"
-    echo "$filtered" | filter_columns '1,2,7' > "$filtered_file"
+    filter_coords "${cols[@]}" | filter_columns '1,2,7' > "$filtered_file"
     sort_file "$filtered_file" "$sorted_file" "p$pressure"
     plot_file "plot/mode_$pressure.gnu" "plot_$sorted_file" "$(plot_file_for "pressure_$pressure")" "Pressure"
   else
     cols=("1" "2" "3" "7")
-    filtered="$(filter_coords "${cols[@]}")"
     filtered_file="$(filtered_file_for "pressure_$pressure")"
     sorted_file="$(sorted_file_for "pressure_$pressure")"
-    echo "$filtered" | filter_columns '1,2,3,7' > "$filtered_file"
+    filter_coords "${cols[@]}" | filter_columns '1,2,3,7' > "$filtered_file"
     sort_file "$filtered_file" "$sorted_file" "p$pressure"
     plot_file "plot/mode_$pressure.gnu" "$sorted_file" "$(plot_file_for "pressure_$pressure")" "Pressure"
   fi
@@ -411,10 +409,9 @@ fi
 if [[ -v wind ]]
 then
   cols=("1" "2" "4" "5" "10")
-  filtered="$(filter_coords "${cols[@]}")"
   filtered_file="$(filtered_file_for 'wind')"
   sorted_file="$(sorted_file_for 'wind')"
-  echo "$filtered" | filter_columns '1,2,4,5,10' > "$filtered_file"
+  filter_coords "${cols[@]}" | filter_columns '1,2,4,5,10' > "$filtered_file"
   sort_file "$filtered_file" "$sorted_file" "w"
   plot_file "plot/wind.gnu" "$sorted_file" "$(plot_file_for 'wind')"
 fi
@@ -422,10 +419,9 @@ fi
 if [[ -v moisture ]]
 then
   cols=("1" "6" "10")
-  filtered="$(filter_coords "${cols[@]}")"
   filtered_file="$(filtered_file_for 'moisture')"
   sorted_file="$(sorted_file_for 'moisture')"
-  echo "$filtered" | filter_columns '1,6,10' > "$filtered_file"
+  filter_coords "${cols[@]}" | filter_columns '1,6,10' > "$filtered_file"
   sort_file "$filtered_file" "$sorted_file" "m"
   plot_file "plot/moisture.gnu" "$sorted_file" "$(plot_file_for 'moisture')"
 fi
@@ -433,10 +429,9 @@ fi
 if [[ -v height ]]
 then
   cols=("1" "15" "10")
-  filtered="$(filter_coords "${cols[@]}")"
   filtered_file="$(filtered_file_for 'height')"
   sorted_file="$(sorted_file_for 'height')"
-  echo "$filtered" | filter_columns '1,14,10' > "$filtered_file"
+  filter_coords "${cols[@]}" | filter_columns '1,14,10' > "$filtered_file"
   sort_file "$filtered_file" "$sorted_file" "h"
   plot_file "plot/height.gnu" "$sorted_file" "$(plot_file_for 'height')"
 fi
