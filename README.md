@@ -45,6 +45,7 @@ Date and time:
 
 Miscellaneous:
   --help: Show this message.
+```
 
 Example:
 ```sh
