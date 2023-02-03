@@ -37,7 +37,14 @@ filter_coords() {
     non_empty_filter="$non_empty_filter && \$$column != \"\""
   done
 
-  result=$(tail -n +2 "$input" | awk "$coord_filter$non_empty_filter" FS='[;,]' OFS=';')
+  date_filter=''
+
+  if [[ -v timestamp ]]
+  then
+    date_filter=" && \$2 >= \"${timestamp[0]}\" && \$2 <= \"${timestamp[1]}\""
+  fi
+
+  result=$(tail -n +2 "$input" | awk "$coord_filter$non_empty_filter$date_filter" FS='[;,]' OFS=';')
   echo "$result"
 }
 
@@ -178,7 +185,7 @@ Columns (at least one must be passed):
 Regions (optional, up to one):
   -F: France
   -G: French Guiana
-  -S: Saint-Pierre and Miquelon
+  -S: Saint-Pierre-et-Miquelon
   -A: Antilles
   -O: Indian Ocean
   -Q: Antarctica
@@ -295,6 +302,15 @@ do
       not_empty "-a" "$2"
       not_empty "-a" "$3"
       set_latitude "$2" "$3"
+      shift
+      shift
+      ;;
+
+    -d)
+      not_empty "-d" "$2"
+      not_empty "-d" "$3"
+      check_var "-d" "timestamp"
+      timestamp=("$2" "$3")
       shift
       shift
       ;;
