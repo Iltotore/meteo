@@ -41,7 +41,7 @@ int main(int argc, char **argv) {
 
     if(strcmp(argv[3], "avl") == 0)mode = AVL_MODE;
     else if(strcmp(argv[3], "abr") == 0)mode = BST_MODE;
-    else if(strcmp(argv[3], "array") == 0)mode = LIST_MODE;
+    else if(strcmp(argv[3], "tab") == 0)mode = LIST_MODE;
     else error("Invalid sorting mode", WRONG_ARGUMENTS);
 
     if(strcmp(argv[4], "t1") == 0) {
