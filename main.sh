@@ -336,7 +336,7 @@ fi
 
 if [[ ! -v output ]]
 then
-  wrong_usage "Missing argument -o"
+  output="out_$input"
 fi
 
 if [[ ! -v temperature && ! -v pressure && ! -v wind && ! -v height && ! -v moisture ]]
