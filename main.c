@@ -90,23 +90,49 @@ int main(int argc, char **argv) {
         }
 
     } else if(strcmp(argv[4], "t3") == 0) {
+        char* plotOutName = safeMalloc(sizeof(char)*(strlen(nout)+6));
+
+        strcpy(plotOutName, "plot_");
+        strcat(plotOutName, nout);
+
+        FILE *plotOut = fopen(plotOutName, "w");
+
+        if(plotOut == NULL) error("Unable to open plotting file", OUTPUT_FILE_ERROR);
+
         switch(mode) {
             case AVL_MODE: {
             AVL *avl = readLinesAVL(file, readTemperature3, compareDateThenStation, ignore, lines);
             writeLinesAVL(out, avl, writeTemperature3, reversed);
+            
+            fclose(out);
+            rewind(file);
+
+            AVL *plotAVL = readLinesAVL(file, readTemperature3, compareDayThenID, reduceTemperature3, lines);
+            writeLinesAVL(plotOut, plotAVL, writeMode3Plot, reversed);
             }
                 break;
             case BST_MODE: {
-            Tree *bst = readLinesBST(file, readTemperature3, compareDateThenStation, ignore, lines);
-            writeLinesBST(out, bst, writeTemperature3, reversed);
+            Tree *tree = readLinesBST(file, readTemperature3, compareDateThenStation, ignore, lines);
+            writeLinesBST(out, tree, writeTemperature3, reversed);
+            
+            fclose(out);
+            rewind(file);
+
+            Tree *plotTree = readLinesBST(file, readTemperature3, compareDayThenID, reducePressure3, lines);
+            writeLinesBST(plotOut, plotTree, writeMode3Plot, reversed);
             }
                 break;
             case LIST_MODE: {
             DoubleLinkedList *list = readLinesList(file, readTemperature3, compareDateThenStation, ignore, lines);
             writeLinesList(out, list, writeTemperature3, reversed);
+            
+            fclose(out);
+            rewind(file);
+
+            DoubleLinkedList *plotList = readLinesList(file, readTemperature3, compareDayThenID, reduceTemperature3, lines);
+            writeLinesList(plotOut, plotList, writeMode3Plot, reversed);
             }
                 break;
-
         }
 
     } else if(strcmp(argv[4], "p1") == 0) {
@@ -152,20 +178,48 @@ int main(int argc, char **argv) {
                 break;
         }
     } else if(strcmp(argv[4], "p3") == 0) {
+
+        char* plotOutName = safeMalloc(sizeof(char)*(strlen(nout)+6));
+
+        strcpy(plotOutName, "plot_");
+        strcat(plotOutName, nout);
+
+        FILE *plotOut = fopen(plotOutName, "w");
+
+        if(plotOut == NULL) error("Unable to open plotting file", OUTPUT_FILE_ERROR);
+
         switch(mode) {
             case AVL_MODE: {
             AVL *avl = readLinesAVL(file, readPressure3, compareDateThenStation, ignore, lines);
             writeLinesAVL(out, avl, writePressure3, reversed);
+            
+            fclose(out);
+            rewind(file);
+
+            AVL *plotAVL = readLinesAVL(file, readPressure3, compareDayThenID, reducePressure3, lines);
+            writeLinesAVL(plotOut, plotAVL, writeMode3Plot, reversed);
             }
                 break;
             case BST_MODE: {
-            Tree *bst = readLinesBST(file, readPressure3, compareDateThenStation, ignore, lines);
-            writeLinesBST(out, bst, writePressure3, reversed);
+            Tree *tree = readLinesBST(file, readPressure3, compareDateThenStation, ignore, lines);
+            writeLinesBST(out, tree, writePressure3, reversed);
+            
+            fclose(out);
+            rewind(file);
+
+            Tree *plotTree = readLinesBST(file, readPressure3, compareDayThenID, reducePressure3, lines);
+            writeLinesBST(plotOut, plotTree, writeMode3Plot, reversed);
             }
                 break;
             case LIST_MODE: {
             DoubleLinkedList *list = readLinesList(file, readPressure3, compareDateThenStation, ignore, lines);
             writeLinesList(out, list, writePressure3, reversed);
+            
+            fclose(out);
+            rewind(file);
+
+            DoubleLinkedList *plotList = readLinesList(file, readPressure3, compareDayThenID, reducePressure3, lines);
+            writeLinesList(plotOut, plotList, writeMode3Plot, reversed);
             }
                 break;
         }

@@ -137,6 +137,12 @@ void writePressure2(FILE *file, WeatherRow row);
 void writePressure3(FILE *file, WeatherRow row);
 
 /**
+*Writes pressure's column in the file in a gnuplot-friendly format
+*/
+void writeMode3Plot(FILE *file, WeatherRow row);
+
+
+/**
 *Writes wind's column in the file
 */
 void writeWind(FILE *file, WeatherRow row);

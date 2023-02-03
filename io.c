@@ -241,17 +241,7 @@ void writeTemperature3(FILE *file, WeatherRow row) {
     fprintf(file, "%ld;%d;%f\n", mktime(row.date), row.id, *row.temperature);
 }
 
-/**
-*
-*/
-void writeTemperature3AVL(FILE *file, AVL *avl) {
-//
-//
-//    fprintf(file, "%d;%ld", id, mktime(date));
-//
-//    //TODO hours
-//    for(int h = 0; h < 23; h++) fprintf(file, ";%d", hours[h]);
-}
+
 /**
 *Writes pressure's column in the file according to mode 1
 */
@@ -271,6 +261,21 @@ void writePressure2(FILE *file, WeatherRow row) {
 */
 void writePressure3(FILE *file, WeatherRow row) {
     fprintf(file, "%ld;%d;%f\n", mktime(row.date), row.id, *row.stationPressure);
+}
+
+/**
+*Writes pressure's column in the file in a gnuplot-friendly format
+*/
+void writeMode3Plot(FILE *file, WeatherRow row) {
+    row.date->tm_hour = 0;
+    row.date->tm_min = 0;
+    row.date->tm_sec = 0;
+
+    fprintf(file, "%d;%ld", row.id, mktime(row.date));
+
+    for(int i = 0; i < 24; i++) fprintf(file, ";%f", row.hours[i]);
+
+    fprintf(file, "\n");
 }
 
 /**

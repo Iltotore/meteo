@@ -374,7 +374,7 @@ then
     sorted_file="$(sorted_file_for "temperature_$temperature")"
     echo "$filtered" | filter_columns '1,2,11' > "$filtered_file"
     sort_file "$filtered_file" "$sorted_file" "t$temperature"
-    plot_file "plot/mode_$temperature.gnu" "$sorted_file" "$(plot_file_for "temperature_$temperature")" "Temperature"
+    plot_file "plot/mode_$temperature.gnu" "plot_$sorted_file" "$(plot_file_for "temperature_$temperature")" "Temperature"
   else
     cols=("1" "2" "12" "13" "14")
     filtered="$(filter_coords "${cols[@]}")"
@@ -396,7 +396,7 @@ then
     sorted_file="$(sorted_file_for "pressure_$pressure")"
     echo "$filtered" | filter_columns '1,2,7' > "$filtered_file"
     sort_file "$filtered_file" "$sorted_file" "p$pressure"
-    plot_file "plot/mode_$pressure.gnu" "$sorted_file" "$(plot_file_for "pressure_$pressure")" "Pressure"
+    plot_file "plot/mode_$pressure.gnu" "plot_$sorted_file" "$(plot_file_for "pressure_$pressure")" "Pressure"
   else
     cols=("1" "2" "3" "7")
     filtered="$(filter_coords "${cols[@]}")"

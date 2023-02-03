@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "model.h"
+#include "util.h"
 
 /**
  * Compares the station's ID of two WeatherRow
@@ -40,19 +41,50 @@ Comparison compareMoisture(WeatherRow a, WeatherRow b) {
  * Compares the measure date and station ID of two WeatherRow
  */
 Comparison compareDateThenStation(WeatherRow a, WeatherRow b) {
-    if(a.date == b.date) return compareStationID(a, b);
-    else if(a.date > b.date) return Greater;
-    return Less;
+    Comparison compDate = compareDate(a, b);
+    return compDate == Equal ? compareStationID(a, b) : compDate;
 }
+
+int compareInts(int a, int b) {
+    if(a == b) return Equal;
+    else if(a > b) return Greater;
+    else return Less;
+}
+
+Comparison compareTm(struct tm *a, struct tm *b) {
+    Comparison compYear = compareInts(a->tm_year, b->tm_year);
+    if(compYear == Equal) {
+        Comparison compDay = compareInts(a->tm_yday, b->tm_yday);
+        if(compDay == Equal) {
+            Comparison compHour = compareInts(a->tm_hour, b->tm_hour);
+            if(compHour == Equal) {
+                Comparison compMin = compareInts(a->tm_min, b->tm_min);
+                if(compMin == Equal) return compareInts(a->tm_sec, b->tm_sec);
+                else return compMin;
+            } else return compHour;
+        } else return compDay;
+    } else return compYear;
+}
+
 /**
  * Compares the measure date of two WeatherRow 
  */
 Comparison compareDate(WeatherRow a, WeatherRow b) {
-    int comp = difftime(mktime(a.date), mktime(b.date));
-    if(comp == 0) return Equal;
-    else if(comp > 0) return Greater;
+    return compareTm(a.date, b.date);
+}
+
+/**
+ * Compares the measure day of two WeatherRow
+*/
+Comparison compareDayThenID(WeatherRow a, WeatherRow b) {
+    if(a.date->tm_year == b.date->tm_year) {
+        if(a.date->tm_yday == b.date->tm_yday) return compareStationID(a, b);
+        else if(a.date->tm_yday > b.date->tm_yday) return Greater;
+        else return Less;
+    } else if(a.date->tm_year > b.date->tm_year) return Greater;
     return Less;
 }
+
 /**
  * Compares the station's pressure  of two WeatherRow and takes the maximum
  */
@@ -98,6 +130,39 @@ WeatherRow reduceTemperature1(WeatherRow a, WeatherRow b) {
     *a.temperature += *b.temperature;
     return a;
 }
+
+/**
+ * Concatenantes hours of two temperature of the same date
+*/
+WeatherRow reduceTemperature3(WeatherRow a, WeatherRow b) {
+    int aHour = a.date->tm_hour;
+    int lastHour = b.date->tm_hour;
+    
+    for(int i = aHour+1; i <= lastHour; i++) {
+        a.hours[i] = *a.temperature;
+    }
+
+    a.hours[lastHour] = *b.temperature;
+
+    return a;
+}
+
+/**
+ * Concatenantes hours of two pressures of the same date
+*/
+WeatherRow reducePressure3(WeatherRow a, WeatherRow b) {
+    int aHour = a.date->tm_hour;
+    int lastHour = b.date->tm_hour;
+    
+    for(int i = aHour+1; i <= lastHour; i++) {
+        a.hours[i] = *a.stationPressure;
+    }
+
+    a.hours[lastHour] = *b.stationPressure;
+
+    return a;
+}
+
 /**
  * Sums two temperatures
  */
@@ -149,6 +214,8 @@ WeatherRow emptyRow(){
     a.id=-1;
     a.date= NULL;
     a.seaPressure=NULL;
+    a.seaPressureMin=NULL;
+    a.seaPressureMax=NULL;
     a.windX=NULL;
     a.windY=NULL;
     a.moisture=NULL;
@@ -160,9 +227,10 @@ WeatherRow emptyRow(){
     a.coordX=NULL;
     a.coordY=NULL;
     a.temperature=NULL;
-    a.temperatureMin=0;
+    a.temperatureMin=NULL;
     a.height=NULL;
     a.townCode=NULL;
+    a.hours=safeMalloc(sizeof(float)*24);
+    for(int i = 0; i < 24; i++) a.hours[i] = 0;
     return a;
-
 }

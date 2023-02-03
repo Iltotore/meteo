@@ -45,6 +45,7 @@ typedef struct {
     float *temperatureMax;
     int *height;
     int *townCode;
+    float *hours; //Only used in mode 3
 } WeatherRow;
 
 /**
@@ -97,6 +98,10 @@ Comparison compareDate(WeatherRow a, WeatherRow b);
  */
 Comparison compareDateThenStation(WeatherRow a, WeatherRow b);
 
+/**
+ * Compares the measure day of two WeatherRow
+*/
+Comparison compareDayThenID(WeatherRow a, WeatherRow b);
 
 typedef void (*Callback)(WeatherRow);
 
@@ -140,6 +145,16 @@ WeatherRow averageTemperature(int count, WeatherRow value);
 WeatherRow reducePressure1(WeatherRow a, WeatherRow b);
 
 /**
+ * Concatenantes hours of two temperature of the same date
+*/
+WeatherRow reduceTemperature3(WeatherRow a, WeatherRow b);
+
+/**
+ * Concatenantes hours of two pressures of the same date
+*/
+WeatherRow reducePressure3(WeatherRow a, WeatherRow b);
+
+/**
  * Sums two stationPressure
  */
 WeatherRow sumStationPressure(WeatherRow a, WeatherRow b);
@@ -157,7 +172,5 @@ WeatherRow ignore(WeatherRow a, WeatherRow b);
 *Creates an empty row
 */
 WeatherRow emptyRow();
-
-
 
 #endif
