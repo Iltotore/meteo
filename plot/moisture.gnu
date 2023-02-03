@@ -8,8 +8,8 @@ set output ARG2
 set datafile separator ";"
 set title "Moisture by station"
 set border 4095 front lt black linewidth 1.000 dashtype solid
-set xlabel "Longitude" 
-set ylabel "Latitude" 
+set xlabel "Latitude"
+set ylabel "Longitude"
 set cblabel "Moisture"
 
 set view map
