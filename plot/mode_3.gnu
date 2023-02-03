@@ -11,10 +11,11 @@ set palette maxcolors ARG3
 
 set xlabel "Day"
 set ylabel ARG3." per station per hour"
-set cblabel "Station ID"
+set cblabel "Hour"
+set cbrange [0:23]
 
 set xdata time
 set timefmt "%s"
 set format x "%y-%m-%d"
 
-plot for [h=0:23] ARG1 using 2:(column(3+h)):1 with li palette notitle
+plot for [h=0:23] ARG1 using 2:(column(3+h)):(column(3+h)) with li palette notitle
