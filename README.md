@@ -56,4 +56,4 @@ Example:
 
 **⚠️ The Makefile only works under Linux**
 
-**⚠️ Requires `Make` et `GCC`**
+**⚠️ Requires `Make` and `GCC`**
